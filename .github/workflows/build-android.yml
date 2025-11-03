@@ -31,7 +31,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       # ✅ Use Java 21 — fully compatible with RN 0.82+
       - name: Setup Java
