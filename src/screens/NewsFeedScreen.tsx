@@ -11,7 +11,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
   faSearch,
-  faGear,
+  faEllipsisVertical,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface NewsFeedScreenProps {
@@ -81,7 +81,7 @@ export function NewsFeedScreen({ onNavigate }: NewsFeedScreenProps) {
             />
           </View>
           <TouchableOpacity style={styles.iconButton}>
-            <FontAwesomeIcon icon={faGear} size={20} color="black" />
+            <FontAwesomeIcon icon={faEllipsisVertical} size={20} color="black" />
           </TouchableOpacity>
         </View>
 
