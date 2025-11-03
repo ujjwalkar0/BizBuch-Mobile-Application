@@ -1,0 +1,54 @@
+name: Build iOS App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Allow manual runs
+
+jobs:
+  build-ios:
+    name: iOS Build
+    runs-on: macos-latest
+
+    steps:
+      # Checkout your repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Install dependencies
+      - name: Install npm dependencies
+        run: npm install --legacy-peer-deps
+
+      # Install CocoaPods dependencies
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install --repo-update
+
+      # Build iOS app (Release mode)
+      - name: Build iOS Release
+        run: |
+          cd ios
+          xcodebuild \
+            -workspace startup_overflow.xcworkspace \
+            -scheme startup_overflow \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build
+
+      # Optional: Upload .ipa as artifact
+      - name: Upload iOS build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-release-build
+          path: ios/build/Build/Products/Release-iphoneos/
