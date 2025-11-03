@@ -1,0 +1,79 @@
+name: 📱 Build iOS App
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "ios/**"
+      - "src/**"
+      - "App.tsx"
+      - "package.json"
+      - "package-lock.json"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Allow manual runs
+
+jobs:
+  build-ios:
+    name: Build iOS Release
+    runs-on: macos-latest
+
+    steps:
+      # 🧩 Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ⚙️ Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 🗂️ Cache node_modules to speed up builds
+      - name: Cache npm modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      # 📦 Install npm dependencies
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      # 🍎 Setup CocoaPods cache
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      # 🧱 Install iOS dependencies
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod repo update
+          pod install
+
+      # 🏗️ Build iOS app (Release)
+      - name: Build iOS Release
+        run: |
+          cd ios
+          xcodebuild \
+            -workspace startup_overflow.xcworkspace \
+            -scheme startup_overflow \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build
+
+      # 📤 Upload .ipa as artifact
+      - name: Upload iOS build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-release-build
+          path: ios/build/Build/Products/Release-iphoneos/
