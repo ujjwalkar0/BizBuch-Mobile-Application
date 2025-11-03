@@ -1,9 +1,15 @@
-name: Build iOS App
+name: 📱 Build iOS App
 
 on:
   push:
     branches:
       - main
+    paths:
+      - "ios/**"
+      - "src/**"
+      - "App.tsx"
+      - "package.json"
+      - "package-lock.json"
   pull_request:
     branches:
       - main
@@ -11,31 +17,50 @@ on:
 
 jobs:
   build-ios:
-    name: iOS Build
+    name: Build iOS Release
     runs-on: macos-latest
 
     steps:
-      # Checkout your repo
+      # 🧩 Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Setup Node.js
+      # ⚙️ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # Install dependencies
-      - name: Install npm dependencies
+      # 🗂️ Cache node_modules to speed up builds
+      - name: Cache npm modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      # 📦 Install npm dependencies
+      - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      # Install CocoaPods dependencies
+      # 🍎 Setup CocoaPods cache
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      # 🧱 Install iOS dependencies
       - name: Install CocoaPods
         run: |
           cd ios
-          pod install --repo-update
+          pod repo update
+          pod install
 
-      # Build iOS app (Release mode)
+      # 🏗️ Build iOS app (Release)
       - name: Build iOS Release
         run: |
           cd ios
@@ -46,7 +71,7 @@ jobs:
             -sdk iphoneos \
             -derivedDataPath build
 
-      # Optional: Upload .ipa as artifact
+      # 📤 Upload .ipa as artifact
       - name: Upload iOS build artifact
         uses: actions/upload-artifact@v4
         with:
