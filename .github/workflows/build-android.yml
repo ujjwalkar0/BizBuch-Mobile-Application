@@ -3,6 +3,13 @@ name: Build Android APK
 on:
   push:
     branches: [ main ]
+    paths:
+      - "android/**"
+      - "src/**"
+      - "App.tsx"
+      - "package.json"
+      - "package-lock.json"
+
   pull_request:
     branches: [ main ]
   workflow_dispatch:

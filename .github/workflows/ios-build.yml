@@ -53,12 +53,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
 
-      # 🔧 Fix known issues with dependencies
-      - name: Fix Reanimated dependency
-        run: |
-          cd $GITHUB_WORKSPACE
-          npm install react-native-worklets@0.4.0 --legacy-peer-deps
-
       # 🧱 Install iOS dependencies
       - name: Install CocoaPods
         run: |
