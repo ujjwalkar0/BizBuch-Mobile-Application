@@ -2,8 +2,7 @@ name: 📱 Build iOS App
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "*" ]
     paths:
       - "ios/**"
       - "src/**"
