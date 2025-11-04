@@ -1,0 +1,22 @@
+{
+  "name": "startup_overflow",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "yarn workspaces run build",
+    "lint": "yarn workspaces run lint",
+    "test": "yarn workspaces run test",
+    "start:mobile": "yarn workspace @myapp/mobile start",
+    "start:web": "yarn workspace @myapp/web start",
+    "clean": "rimraf node_modules && rimraf packages/**/node_modules && rimraf apps/**/node_modules"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.5",
+    "typescript": "^5.6.3"
+  },
+  "packageManager": "yarn@4.10.3"
+}

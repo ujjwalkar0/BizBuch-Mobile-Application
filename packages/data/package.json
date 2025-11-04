@@ -1,0 +1,22 @@
+{
+  "name": "@myapp/data",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "lint": "eslint 'src/**/*.ts'",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@myapp/domain": "1.0.0",
+    "axios": "^1.7.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.10.0",
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.6.3"
+  }
+}
