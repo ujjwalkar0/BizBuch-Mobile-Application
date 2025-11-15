@@ -5,10 +5,14 @@ import { faSearch, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons"
 import { PostRepository } from "../../data/repositories/PostRepository";
 import { GetNewsFeed } from "../../domain/post/usecases/queries/GetNewsFeed";
 import { PostCard } from "../components/PostCard";
+import { Post } from "../../domain/post/entities/Post";
+import { useNavigation } from "@react-navigation/native";
+import { FeedNavigationProp } from "../navigation/news-feed-navigation/NewsFeedScreenStackParamList";
 
 export const NewsFeedScreen = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const getNewsFeed = new GetNewsFeed(new PostRepository());
+  const navigation = useNavigation<FeedNavigationProp>();
 
   useEffect(() => {
     getNewsFeed.execute().then(setPosts);
@@ -36,7 +40,7 @@ export const NewsFeedScreen = () => {
       {/* Feed */}
       <ScrollView>
         {posts.map((post, index) => (
-          <PostCard key={index} post={post} />
+          <PostCard key={index} post={post} onPostOpen={() => navigation.navigate("ViewPost", { postId: post.id })} />
         ))}
       </ScrollView>
     </View>

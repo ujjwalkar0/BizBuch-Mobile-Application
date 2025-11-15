@@ -8,11 +8,14 @@ import { Connection } from "../../domain/user/entities/Connection";
 import { GetConnections } from "../../domain/user/usecases/GetConnections";
 import { ToggleConnectionStatus } from "../../domain/user/usecases/ToggleConnectionStatus";
 import { ConnectionCard } from "../components/ConnectionCard";
+import { useNavigation } from "@react-navigation/native";
+import { NetworkNavigationProp } from "../navigation/network-screen-navigation/NetworkScreenStackParamList";
 
 export const NetworkScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [connections, setConnections] = useState<Connection[]>([]);
   const [tab, setTab] = useState<"suggestions" | "connections">("suggestions");
+  const navigation = useNavigation<NetworkNavigationProp>();
 
   const repo = new ConnectionRepository();
   const getConnections = new GetConnections(repo);
@@ -79,6 +82,8 @@ export const NetworkScreen: React.FC = () => {
             item={item}
             isSuggestion={tab === "suggestions"}
             onToggle={handleToggle}
+            onClickViewProfile={() => navigation.navigate("ViewProfile", { userId: item.id })}
+            onClickChat={() => navigation.navigate("Chat", { userId: item.id })}
           />
         )}
       />

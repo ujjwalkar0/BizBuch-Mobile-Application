@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// presentation/screens/NotificationsScreen.tsx
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,68 +7,44 @@ import {
   ScrollView,
   Image,
   StyleSheet,
-} from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {
-  faBell,
-  faEnvelope,
-  faUser,
-  faCheckDouble,
-} from '@fortawesome/free-solid-svg-icons';
+} from "react-native";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faBell, faEnvelope, faUser, faCheckDouble } from "@fortawesome/free-solid-svg-icons";
+import { Notification } from "../../domain/notification/entities/Notification";
+import { GetNotificationsHandler } from "../../application/notification/handler/GetNotificationsHandler";
+import { MarkAllAsReadHandler } from "../../application/notification/handler/MarkAllAsReadHandler";
+import { NotificationRepository } from "../../data/repositories/NotificationRepository";
 
-export default function NotificationsScreen() {
-  const [activeTab, setActiveTab] = useState<'all' | 'unread' | 'mentions'>('all');
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      type: 'mention',
-      icon: faUser,
-      message: 'Alex mentioned you in a comment.',
-      time: '2h ago',
-      read: false,
-      avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-    },
-    {
-      id: 2,
-      type: 'message',
-      icon: faEnvelope,
-      message: 'Maria sent you a new message.',
-      time: '5h ago',
-      read: false,
-      avatar: 'https://randomuser.me/api/portraits/women/65.jpg',
-    },
-    {
-      id: 3,
-      type: 'follow',
-      icon: faUser,
-      message: 'David started following you.',
-      time: '1d ago',
-      read: true,
-      avatar: 'https://randomuser.me/api/portraits/men/76.jpg',
-    },
-    {
-      id: 4,
-      type: 'update',
-      icon: faBell,
-      message: 'New features have been added to your account.',
-      time: '2d ago',
-      read: true,
-      avatar: 'https://randomuser.me/api/portraits/women/43.jpg',
-    },
-  ]);
+export const NotificationsScreen: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<"all" | "unread" | "mentions">("all");
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const repo = new NotificationRepository();
+  const getHandler = new GetNotificationsHandler(repo);
+  const markHandler = new MarkAllAsReadHandler(repo);
 
-  const markAllAsRead = () => {
-    const updated = notifications.map(n => ({ ...n, read: true }));
-    setNotifications(updated);
+  const loadNotifications = async () => {
+    const data = await getHandler.handle();
+    setNotifications(data);
   };
 
-  const filteredNotifications = notifications.filter(n => {
-    if (activeTab === 'unread') return !n.read;
-    if (activeTab === 'mentions') return n.type === 'mention';
-    return true;
-  });
+  const markAllAsRead = async () => {
+    await markHandler.handle();
+    await loadNotifications();
+  };
+
+  useEffect(() => {
+    loadNotifications();
+  }, []);
+
+  const unreadCount = notifications.filter(n => !n.read).length;
+  const filtered = notifications.filter(n =>
+    activeTab === "unread"
+      ? !n.read
+      : activeTab === "mentions"
+      ? n.type === "mention"
+      : true
+  );
 
   return (
     <View style={styles.container}>
@@ -82,7 +59,7 @@ export default function NotificationsScreen() {
 
       {/* Tabs */}
       <View style={styles.tabsContainer}>
-        {['all', 'unread', 'mentions'].map(tab => (
+        {["all", "unread", "mentions"].map(tab => (
           <TouchableOpacity
             key={tab}
             onPress={() => setActiveTab(tab as any)}
@@ -97,7 +74,11 @@ export default function NotificationsScreen() {
                 activeTab === tab && styles.activeTabText,
               ]}
             >
-              {tab === 'all' ? 'All' : tab === 'unread' ? `Unread (${unreadCount})` : 'Mentions'}
+              {tab === "all"
+                ? "All"
+                : tab === "unread"
+                ? `Unread (${unreadCount})`
+                : "Mentions"}
             </Text>
           </TouchableOpacity>
         ))}
@@ -105,7 +86,7 @@ export default function NotificationsScreen() {
 
       {/* Notification List */}
       <ScrollView style={styles.scrollView}>
-        {filteredNotifications.map(item => (
+        {filtered.map(item => (
           <View
             key={item.id}
             style={[styles.notificationItem, !item.read && styles.unreadItem]}
@@ -116,23 +97,17 @@ export default function NotificationsScreen() {
               <Text style={styles.time}>{item.time}</Text>
             </View>
             <FontAwesomeIcon
-              icon={item.icon}
+              icon={faBell}
               size={18}
-              color={item.read ? '#999' : '#007bff'}
+              color={item.read ? "#999" : "#007bff"}
             />
           </View>
         ))}
-
-        {filteredNotifications.length === 0 && (
-          <View style={styles.emptyState}>
-            <FontAwesomeIcon icon={faBell} size={40} color="#ccc" />
-            <Text style={styles.emptyText}>No notifications</Text>
-          </View>
-        )}
       </ScrollView>
     </View>
   );
-}
+};
+
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f9f9f9' },

@@ -20,11 +20,12 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { PostRepository } from "../../data/repositories/PostRepository";
-import { CreatePost } from "../../domain/post/usecases/commands/CreatePost";
 import { NavigableScreenProps } from "../../domain/contracts/ScreenContracts";
-import { CreatePostHandler } from "../../application/handler/post/CreatePostHandler";
+import { CreatePostHandler } from "../../application/post/handler/CreatePostHandler";
 
-export const CreatePostScreen: React.FC<NavigableScreenProps> = ({ onNavigate }) => {
+export const CreatePostScreen: React.FC = (
+//  { onNavigate }
+) => {
   const [content, setContent] = useState("");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [audience, setAudience] = useState<"Public" | "Friends" | "Only Me">("Public");
@@ -32,10 +33,11 @@ export const CreatePostScreen: React.FC<NavigableScreenProps> = ({ onNavigate })
   const repo = new PostRepository();
   const handler = new CreatePostHandler(repo);
 
+  // Todo: Use IMediator pattern for handling commands
   const handlePost = async () => {
     try {
       await handler.handle(content, "123", audience, selectedImage || undefined);
-      onNavigate("feed");
+      // onNavigate("feed");
     } catch (error: any) {
       console.log("Error:", error.message);
     }
@@ -51,7 +53,9 @@ export const CreatePostScreen: React.FC<NavigableScreenProps> = ({ onNavigate })
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <TouchableOpacity onPress={() => onNavigate("feed")} style={styles.iconButton}>
+          <TouchableOpacity 
+          //onPress={() => onNavigate("feed")} 
+          style={styles.iconButton}>
             <FontAwesomeIcon icon={faArrowLeft} size={20} color="#000" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Create Post</Text>

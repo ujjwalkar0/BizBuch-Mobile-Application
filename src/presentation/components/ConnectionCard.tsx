@@ -1,15 +1,18 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Avatar, Button, Card } from "react-native-paper";
 import { Connection } from "../../domain/user/entities/Connection";
+import { Chat } from "../../domain/chat/entities/Chat";
 
 interface Props {
   item: Connection;
   isSuggestion: boolean;
   onToggle: (id: number) => void;
+  onClickViewProfile: (user: Connection) => void;
+  onClickChat: (chat: Connection) => void;
 }
 
-export const ConnectionCard: React.FC<Props> = ({ item, isSuggestion, onToggle }) => (
+export const ConnectionCard: React.FC<Props> = ({ item, isSuggestion, onToggle, onClickViewProfile, onClickChat }) => (
   <Card style={styles.card}>
     <Card.Content>
       <View style={styles.row}>
@@ -23,21 +26,14 @@ export const ConnectionCard: React.FC<Props> = ({ item, isSuggestion, onToggle }
             </Text>
           )}
           <View style={styles.actions}>
-            {isSuggestion ? (
-              <>
-                <Button mode="contained" onPress={() => onToggle(item.id)}>
-                  Connect
-                </Button>
-                <Button mode="outlined">View Profile</Button>
-              </>
-            ) : (
-              <>
-                <Button mode="outlined">Message</Button>
-                <Button mode="outlined" onPress={() => onToggle(item.id)}>
-                  Disconnect
-                </Button>
-              </>
-            )}
+            {isSuggestion ? <Button mode="contained" onPress={() => onToggle(item.id)}> Connect </Button>
+              :
+            <TouchableOpacity onPress={() => onClickChat(item)} activeOpacity={0.7}> 
+              <Button mode="outlined">Message</Button></TouchableOpacity>}
+            <TouchableOpacity onPress={() => onClickViewProfile(item)} activeOpacity={0.7}>
+              <Button mode="outlined">View Profile</Button>
+            </TouchableOpacity>
+
           </View>
         </View>
       </View>

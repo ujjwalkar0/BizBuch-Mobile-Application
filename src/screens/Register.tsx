@@ -11,7 +11,7 @@ import { TextInput, Button, Text, HelperText } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../navigation/AuthNavigator';
+import { RootStackParamList } from '../presentation/navigation/AuthNavigator';
 // import HOST from '../Hosts';
 
 type RegisterScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Register'>;

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Provider, BottomNavigation } from 'react-native-paper';
 import { TabIcon } from '../components/TabIcon';
-import { TAB_ROUTES } from '../../core/constants/tabRoutes';
+import { TAB_ROUTES } from '../navigation/TabRoutes';
 
 const HomeScreen: React.FC = () => {
   const [index, setIndex] = React.useState(0);
