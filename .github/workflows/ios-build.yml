@@ -2,7 +2,8 @@ name: 📱 Build iOS App
 
 on:
   push:
-    branches: [ "*" ]
+    branches:
+      - "**"
     paths:
       - "ios/**"
       - "src/**"
@@ -12,11 +13,11 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch: # Allow manual runs
+  workflow_dispatch:
 
 jobs:
   build-ios:
-    name: Build iOS Release
+    name: Build iOS Release (Simulator)
     runs-on: macos-latest
 
     steps:
@@ -30,7 +31,7 @@ jobs:
         with:
           node-version: 20
 
-      # 🗂️ Cache node_modules to speed up builds
+      # 📦 Cache npm dependencies
       - name: Cache npm modules
         uses: actions/cache@v4
         with:
@@ -39,11 +40,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
 
-      # 📦 Install npm dependencies
+      # 📦 Install dependencies
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      # 🍎 Setup CocoaPods cache
+      # 🍎 Cache CocoaPods
       - name: Cache CocoaPods
         uses: actions/cache@v4
         with:
@@ -56,23 +57,22 @@ jobs:
       - name: Install CocoaPods
         run: |
           cd ios
-          pod repo update
-          pod install
+          pod install --repo-update
 
-      # 🏗️ Build iOS app (Release)
-      - name: Build iOS Release
+      # 🏗️ Build iOS Release for Simulator (no signing)
+      - name: Build iOS Release (Simulator)
         run: |
           cd ios
           xcodebuild \
             -workspace startup_overflow.xcworkspace \
             -scheme startup_overflow \
             -configuration Release \
-            -sdk iphoneos \
+            -sdk iphonesimulator \
             -derivedDataPath build
 
-      # 📤 Upload .ipa as artifact
+      # 📤 Upload build artifact (.app)
       - name: Upload iOS build artifact
         uses: actions/upload-artifact@v4
         with:
           name: ios-release-build
-          path: ios/build/Build/Products/Release-iphoneos/
+          path: ios/build/Build/Products/Release-iphonesimulator/

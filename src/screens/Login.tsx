@@ -9,7 +9,7 @@ import {
 import { TextInput, Button, Text, HelperText } from 'react-native-paper';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../navigation/AuthNavigator';
+import { RootStackParamList } from '../presentation/navigation/AuthNavigator';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 type LoginScreenRouteProp = RouteProp<RootStackParamList, 'Login'>;

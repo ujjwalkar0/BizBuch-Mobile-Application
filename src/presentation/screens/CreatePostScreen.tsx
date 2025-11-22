@@ -1,3 +1,4 @@
+// src/presentation/screens/CreatePostScreen.tsx
 import React, { useState } from "react";
 import {
   View,
@@ -18,50 +19,61 @@ import {
   faMapMarkerAlt,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { PostRepository } from "../../data/repositories/PostRepository";
+import { NavigableScreenProps } from "../../domain/contracts/ScreenContracts";
+import { CreatePostHandler } from "../../application/post/handler/CreatePostHandler";
 
-interface CreatePostScreenProps {
-  onNavigate: (page: string) => void;
-}
-
-const CreatePostScreen: React.FC<CreatePostScreenProps> = ({ onNavigate }) => {
-  const [postContent, setPostContent] = useState("");
+export const CreatePostScreen: React.FC = (
+//  { onNavigate }
+) => {
+  const [content, setContent] = useState("");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [audience, setAudience] = useState("Public");
+  const [audience, setAudience] = useState<"Public" | "Friends" | "Only Me">("Public");
 
-  const handlePost = () => {
-    onNavigate("feed");
+  const repo = new PostRepository();
+  const handler = new CreatePostHandler(repo);
+
+  // Todo: Use IMediator pattern for handling commands
+  const handlePost = async () => {
+    try {
+      await handler.handle(content, "123", audience, selectedImage || undefined);
+      // onNavigate("feed");
+    } catch (error: any) {
+      console.log("Error:", error.message);
+    }
   };
 
-  const mockSelectImage = () => {
+  const mockSelectImage = () =>
     setSelectedImage(
       "https://images.unsplash.com/photo-1588856122867-363b0aa7f598?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
     );
-  };
 
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <TouchableOpacity onPress={() => onNavigate("feed")} style={styles.iconButton}>
+          <TouchableOpacity 
+          //onPress={() => onNavigate("feed")} 
+          style={styles.iconButton}>
             <FontAwesomeIcon icon={faArrowLeft} size={20} color="#000" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Create Post</Text>
         </View>
         <TouchableOpacity
           onPress={handlePost}
-          disabled={!postContent.trim() && !selectedImage}
+          disabled={!content.trim() && !selectedImage}
           style={[
             styles.postButton,
-            (!postContent.trim() && !selectedImage) && styles.disabledButton,
+            (!content.trim() && !selectedImage) && styles.disabledButton,
           ]}
         >
           <Text style={styles.postButtonText}>Post</Text>
         </TouchableOpacity>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* User Info */}
+      {/* Body */}
+      <ScrollView>
         <View style={styles.userSection}>
           <Image
             source={{
@@ -78,14 +90,13 @@ const CreatePostScreen: React.FC<CreatePostScreenProps> = ({ onNavigate }) => {
           </View>
         </View>
 
-        {/* Post Content */}
+        {/* Post content */}
         <TextInput
-          style={styles.textArea}
           placeholder="What's on your mind?"
-          placeholderTextColor="#999"
-          value={postContent}
-          onChangeText={setPostContent}
+          style={styles.textArea}
           multiline
+          value={content}
+          onChangeText={setContent}
         />
 
         {selectedImage && (
@@ -105,52 +116,27 @@ const CreatePostScreen: React.FC<CreatePostScreenProps> = ({ onNavigate }) => {
           <Text style={styles.sectionTitle}>Add to your post</Text>
           <View style={styles.addOptions}>
             <TouchableOpacity style={styles.addOption} onPress={mockSelectImage}>
-              <View style={[styles.optionIcon, { backgroundColor: "#D1FAE5" }]}>
-                <FontAwesomeIcon icon={faImage} size={18} color="#059669" />
-              </View>
+              <FontAwesomeIcon icon={faImage} size={18} color="#059669" />
               <Text style={styles.optionLabel}>Photo</Text>
             </TouchableOpacity>
-
             <TouchableOpacity style={styles.addOption}>
-              <View style={[styles.optionIcon, { backgroundColor: "#FECACA" }]}>
-                <FontAwesomeIcon icon={faVideo} size={18} color="#DC2626" />
-              </View>
+              <FontAwesomeIcon icon={faVideo} size={18} color="#DC2626" />
               <Text style={styles.optionLabel}>Video</Text>
             </TouchableOpacity>
-
             <TouchableOpacity style={styles.addOption}>
-              <View style={[styles.optionIcon, { backgroundColor: "#FEF3C7" }]}>
-                <FontAwesomeIcon icon={faSmile} size={18} color="#D97706" />
-              </View>
+              <FontAwesomeIcon icon={faSmile} size={18} color="#D97706" />
               <Text style={styles.optionLabel}>Feeling</Text>
             </TouchableOpacity>
-
             <TouchableOpacity style={styles.addOption}>
-              <View style={[styles.optionIcon, { backgroundColor: "#DBEAFE" }]}>
-                <FontAwesomeIcon icon={faMapMarkerAlt} size={18} color="#2563EB" />
-              </View>
+              <FontAwesomeIcon icon={faMapMarkerAlt} size={18} color="#2563EB" />
               <Text style={styles.optionLabel}>Location</Text>
             </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Suggested Hashtags */}
-        <View style={styles.hashtagSection}>
-          <Text style={styles.sectionTitle}>Suggested hashtags</Text>
-          <View style={styles.hashtagList}>
-            {["#Technology", "#Innovation", "#Startup", "#Business"].map((tag) => (
-              <TouchableOpacity key={tag} style={styles.badge}>
-                <Text style={styles.badgeText}>{tag}</Text>
-              </TouchableOpacity>
-            ))}
           </View>
         </View>
       </ScrollView>
     </View>
   );
 };
-
-export default CreatePostScreen;
 
 const styles = StyleSheet.create({
   container: {
