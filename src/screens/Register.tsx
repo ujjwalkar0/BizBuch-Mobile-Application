@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import React from 'react';
+import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button, Text, HelperText } from 'react-native-paper';
+import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../presentation/navigation/AuthNavigator';
-// import HOST from '../Hosts';
+import { RegisterPayload } from '../domain/auth/entities/Auth';
+import { useRegister } from '../ui/hooks/useRegister';
 
-type RegisterScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Register'>;
+type RegisterScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Register'
+>;
+
 type RegisterScreenRouteProp = RouteProp<RootStackParamList, 'Register'>;
 
 type Props = {
@@ -22,120 +21,194 @@ type Props = {
   route: RegisterScreenRouteProp;
 };
 
+type RegisterFormData = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  username: string;
+  password: string;
+  confirm_password: string;
+  recaptcha_token: string;
+};
+
 const Register: React.FC<Props> = ({ navigation }) => {
-  const [first_name, setFirstName] = useState('');
-  const [last_name, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirm_password, setConfirmPassword] = useState('');
-  const [msg, setMsg] = useState('');
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormData>({
+    defaultValues: {
+      first_name: '',
+      last_name: '',
+      email: '',
+      username: '',
+      password: '',
+      confirm_password: '',
+      recaptcha_token: '123',
+    },
+  });
 
-  // const submit = async () => {
-  //   if (!first_name || !last_name || !email || !username || !password || !confirm_password) {
-  //     setMsg('All fields are required');
-  //   } else if (password !== confirm_password) {
-  //     setMsg("Passwords don't match");
-  //   } else {
-  //     try {
-  //       const response = await fetch(`${HOST}/users/register/`, {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify({
-  //           username,
-  //           password,
-  //           confirm_password,
-  //           first_name,
-  //           last_name,
-  //           email,
-  //         }),
-  //       });
-
-  //       const content = await response.json();
-  //       if (content.token) {
-  //         await AsyncStorage.setItem('token', content.token);
-  //         navigation.navigate('HomeScreen');
-  //       } else {
-  //         setMsg(content.message || 'Registration failed');
-  //       }
-  //     } catch (error) {
-  //       console.error('Registration error:', error);
-  //       setMsg('Something went wrong. Please try again.');
-  //     }
-  //   }
-  // };
-
+  const passwordValue = watch('password');
+  const { mutateAsync, isPending, error } = useRegister();
+  const onSubmit = async (data: RegisterPayload) => {
+    try {
+      const response = await mutateAsync(data);
+      await AsyncStorage.setItem('token', response.token);
+      navigation.navigate('HomeScreen');
+    } catch (e) {
+      console.error(e);
+    }
+  };
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <View style={styles.center}>
-        {/* <Image source={require('../assets/images/azadi.png')} style={styles.logo} /> */}
         <Text style={styles.title}>Create Account</Text>
         <Text style={styles.subtitle}>Join us and start your journey</Text>
 
+        {/* First & Last Name */}
         <View style={styles.row}>
-          <TextInput
-            label="First Name"
-            mode="outlined"
-            style={styles.inputHalf}
-            value={first_name}
-            onChangeText={setFirstName}
+          <Controller
+            control={control}
+            name="first_name"
+            rules={{ required: 'First name is required' }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                label="First Name"
+                mode="outlined"
+                style={styles.inputHalf}
+                value={value}
+                onChangeText={onChange}
+                error={!!errors.first_name}
+              />
+            )}
           />
-          <TextInput
-            label="Last Name"
-            mode="outlined"
-            style={styles.inputHalf}
-            value={last_name}
-            onChangeText={setLastName}
+          <Controller
+            control={control}
+            name="last_name"
+            rules={{ required: 'Last name is required' }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                label="Last Name"
+                mode="outlined"
+                style={styles.inputHalf}
+                value={value}
+                onChangeText={onChange}
+                error={!!errors.last_name}
+              />
+            )}
           />
         </View>
 
-        <TextInput
-          label="Email"
-          mode="outlined"
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
+        {/* Email */}
+        <Controller
+          control={control}
+          name="email"
+          rules={{
+            required: 'Email is required',
+            pattern: {
+              value: /^\S+@\S+$/i,
+              message: 'Invalid email address',
+            },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              label="Email"
+              mode="outlined"
+              style={styles.input}
+              keyboardType="email-address"
+              value={value}
+              onChangeText={onChange}
+              error={!!errors.email}
+            />
+          )}
         />
-        <TextInput
-          label="Username"
-          mode="outlined"
-          style={styles.input}
-          value={username}
-          onChangeText={setUsername}
+        {errors.email && (
+          <HelperText type="error">{errors.email.message}</HelperText>
+        )}
+
+        {/* Username */}
+        <Controller
+          control={control}
+          name="username"
+          rules={{ required: 'Username is required' }}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              label="Username"
+              mode="outlined"
+              style={styles.input}
+              value={value}
+              onChangeText={onChange}
+              error={!!errors.username}
+            />
+          )}
         />
 
+        {/* Passwords */}
         <View style={styles.row}>
-          <TextInput
-            label="Password"
-            mode="outlined"
-            style={styles.inputHalf}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
+          <Controller
+            control={control}
+            name="password"
+            rules={{
+              required: 'Password is required',
+              minLength: {
+                value: 6,
+                message: 'Minimum 6 characters',
+              },
+            }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                label="Password"
+                mode="outlined"
+                style={styles.inputHalf}
+                secureTextEntry
+                value={value}
+                onChangeText={onChange}
+                error={!!errors.password}
+              />
+            )}
           />
-          <TextInput
-            label="Confirm Password"
-            mode="outlined"
-            style={styles.inputHalf}
-            value={confirm_password}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
+
+          <Controller
+            control={control}
+            name="confirm_password"
+            rules={{
+              required: 'Confirm your password',
+              validate: value =>
+                value === passwordValue || 'Passwords do not match',
+            }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                label="Confirm Password"
+                mode="outlined"
+                style={styles.inputHalf}
+                secureTextEntry
+                value={value}
+                onChangeText={onChange}
+                error={!!errors.confirm_password}
+              />
+            )}
           />
         </View>
 
-        {msg !== '' && <HelperText type="error" visible>{msg}</HelperText>}
+        {errors.confirm_password && (
+          <HelperText type="error">
+            {errors.confirm_password.message}
+          </HelperText>
+        )}
 
+        {/* Submit */}
         <Button
           mode="contained"
-          // onPress={submit}
+          onPress={handleSubmit(onSubmit)}
           style={styles.button}
           contentStyle={styles.buttonContent}
           buttonColor="#f29520"
           textColor="#fff"
+          loading={isSubmitting}
         >
           Register
         </Button>
@@ -148,8 +221,6 @@ const Register: React.FC<Props> = ({ navigation }) => {
         >
           Already have an account? Login
         </Button>
-
-        {/* <Image source={require('../assets/images/logo.png')} style={styles.footerLogo} /> */}
       </View>
     </KeyboardAvoidingView>
   );
@@ -167,16 +238,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 24,
-  },
-  scroll: {
-    padding: 24,
-    alignItems: 'center',
-  },
-  logo: {
-    width: 160,
-    height: 140,
-    marginBottom: 16,
-    resizeMode: 'contain',
   },
   title: {
     fontSize: 26,
@@ -201,7 +262,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     width: '100%',
-    justifyContent: 'space-between',
   },
   button: {
     marginTop: 8,
@@ -212,11 +272,5 @@ const styles = StyleSheet.create({
   },
   link: {
     marginTop: 12,
-  },
-  footerLogo: {
-    width: 280,
-    height: 100,
-    marginTop: 32,
-    resizeMode: 'contain',
   },
 });
