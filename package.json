@@ -9,6 +9,8 @@
     "start": "react-native start",
     "test": "jest"
   },
+  "author": "Ujjwal Kar <Ujjwal.Kar@Zohomail.in>",
+  "description": "A social media application for entrepreneurs.",
   "dependencies": {
     "@callstack/react-theme-provider": "^3.0.9",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -22,6 +24,7 @@
     "@react-navigation/native-stack": "^7.6.2",
     "@react-navigation/stack": "^7.6.2",
     "react": "19.1.1",
+    "react-hook-form": "^7.69.0",
     "react-native": "0.82.1",
     "react-native-gesture-handler": "^2.29.0",
     "react-native-paper": "^5.14.5",
