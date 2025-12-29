@@ -3,63 +3,32 @@ import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button, Text, HelperText } from 'react-native-paper';
 import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../presentation/navigation/AuthNavigator';
-import { RegisterPayload } from '../domain/auth/entities/Auth';
-import { useRegister } from '../ui/hooks/useRegister';
+import { useNavigation } from '@react-navigation/native';
+import { RegisterPayload } from '../../domain/auth/entities/Auth';
+import { useRegister } from '../../ui/hooks/useRegister';
+import { RegisterNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
+import { useRegisterForm } from '../../ui/form-hooks/useRegisterForm';
 
-type RegisterScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Register'
->;
-
-type RegisterScreenRouteProp = RouteProp<RootStackParamList, 'Register'>;
-
-type Props = {
-  navigation: RegisterScreenNavigationProp;
-  route: RegisterScreenRouteProp;
-};
-
-type RegisterFormData = {
-  first_name: string;
-  last_name: string;
-  email: string;
-  username: string;
-  password: string;
-  confirm_password: string;
-  recaptcha_token: string;
-};
-
-const Register: React.FC<Props> = ({ navigation }) => {
+const RegisterScreen: React.FC = () => {
+  const navigation = useNavigation<RegisterNavigationProp>();
   const {
     control,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterFormData>({
-    defaultValues: {
-      first_name: '',
-      last_name: '',
-      email: '',
-      username: '',
-      password: '',
-      confirm_password: '',
-      recaptcha_token: '123',
-    },
-  });
+    rules,
+  } = useRegisterForm();
 
-  const passwordValue = watch('password');
   const { mutateAsync, isPending, error } = useRegister();
-  const onSubmit = async (data: RegisterPayload) => {
+
+  const onSubmitHandler = async (data: RegisterPayload) => {
     try {
       const response = await mutateAsync(data);
-      await AsyncStorage.setItem('token', response.token);
-      navigation.navigate('HomeScreen');
+      navigation.navigate('OtpValidation', { email: data.email });
     } catch (e) {
       console.error(e);
     }
   };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -74,7 +43,7 @@ const Register: React.FC<Props> = ({ navigation }) => {
           <Controller
             control={control}
             name="first_name"
-            rules={{ required: 'First name is required' }}
+            rules={rules.first_name}
             render={({ field: { onChange, value } }) => (
               <TextInput
                 label="First Name"
@@ -89,7 +58,7 @@ const Register: React.FC<Props> = ({ navigation }) => {
           <Controller
             control={control}
             name="last_name"
-            rules={{ required: 'Last name is required' }}
+            rules={rules.last_name}
             render={({ field: { onChange, value } }) => (
               <TextInput
                 label="Last Name"
@@ -107,13 +76,7 @@ const Register: React.FC<Props> = ({ navigation }) => {
         <Controller
           control={control}
           name="email"
-          rules={{
-            required: 'Email is required',
-            pattern: {
-              value: /^\S+@\S+$/i,
-              message: 'Invalid email address',
-            },
-          }}
+          rules={rules.email}
           render={({ field: { onChange, value } }) => (
             <TextInput
               label="Email"
@@ -134,7 +97,7 @@ const Register: React.FC<Props> = ({ navigation }) => {
         <Controller
           control={control}
           name="username"
-          rules={{ required: 'Username is required' }}
+          rules={rules.username}
           render={({ field: { onChange, value } }) => (
             <TextInput
               label="Username"
@@ -152,13 +115,7 @@ const Register: React.FC<Props> = ({ navigation }) => {
           <Controller
             control={control}
             name="password"
-            rules={{
-              required: 'Password is required',
-              minLength: {
-                value: 6,
-                message: 'Minimum 6 characters',
-              },
-            }}
+            rules={rules.password}
             render={({ field: { onChange, value } }) => (
               <TextInput
                 label="Password"
@@ -175,11 +132,7 @@ const Register: React.FC<Props> = ({ navigation }) => {
           <Controller
             control={control}
             name="confirm_password"
-            rules={{
-              required: 'Confirm your password',
-              validate: value =>
-                value === passwordValue || 'Passwords do not match',
-            }}
+            rules={rules.confirm_password}
             render={({ field: { onChange, value } }) => (
               <TextInput
                 label="Confirm Password"
@@ -203,7 +156,7 @@ const Register: React.FC<Props> = ({ navigation }) => {
         {/* Submit */}
         <Button
           mode="contained"
-          onPress={handleSubmit(onSubmit)}
+          onPress={handleSubmit(onSubmitHandler)}
           style={styles.button}
           contentStyle={styles.buttonContent}
           buttonColor="#f29520"
@@ -226,7 +179,7 @@ const Register: React.FC<Props> = ({ navigation }) => {
   );
 };
 
-export default Register;
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   container: {

@@ -9,12 +9,17 @@ import {
   faBell,
   faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
-import NetworkScreen from './NetworkScreen';
-import CreatePostScreen from './CreatePostScreen';
-import NewsFeedScreen from './NewsFeedScreen';
-import NotificationsScreen from './NotificationsScreen';
-import ChatScreen from './ChatScreen';
-import MessagesScreen from './MessageScreen';
+import { CreatePostScreen } from './CreatePostScreen';
+import MessagesScreen from './MessagesScreen';
+import { NetworkScreen } from './NetworkScreen';
+import { NewsFeedScreen } from './NewsFeedScreen';
+import { NotificationsScreen } from './NotificationsScreen';
+// import NetworkScreen from './NetworkScreen';
+// import CreatePostScreen from './CreatePostScreen';
+// import NewsFeedScreen from './NewsFeedScreen';
+// import NotificationsScreen from './NotificationsScreen';
+// import ChatScreen from './ChatScreen';
+// import MessagesScreen from './MessageScreen';
 
 const Home: React.FC = () => {
   const [index, setIndex] = React.useState(0);
@@ -28,9 +33,9 @@ const Home: React.FC = () => {
   ];
 
   const renderScene = BottomNavigation.SceneMap({
-    home: () => <NewsFeedScreen onNavigate={() => setIndex(0)} />,
+    home: NewsFeedScreen, //() => <NewsFeedScreen onNavigate={() => setIndex(0)} />,
     connect: NetworkScreen,
-    add: () => <CreatePostScreen onNavigate={() => setIndex(0)} />,
+    add: CreatePostScreen, // () => <CreatePostScreen onNavigate={() => setIndex(0)} />,
     notifications: NotificationsScreen,
     messages: MessagesScreen,
   });

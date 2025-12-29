@@ -8,14 +8,15 @@ export const useAuthGate = () => {
   useEffect(() => {
     const checkToken = async () => {
       try {
+        // await AsyncStorage.removeItem('authToken');
         const token = await AsyncStorage.getItem('authToken');
         if (token) {
-          const res = await fetch('https://yourapi.com/validate', {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          if (res.ok) {
+        //   const res = await fetch('https://yourapi.com/validate', {
+        //     headers: { Authorization: `Bearer ${token}` },
+        //   });
+        //   if (res.ok) {
             setIsAuthenticated(true);
-          }
+        //   }
         }
       } catch (err) {
         console.error('Token check failed:', err);

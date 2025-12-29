@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { ActivityIndicator, View } from 'react-native';
 import { useAuthGate } from '../../hooks/useAuthGate';
 import AppNavigator from './AppNavigator';
-import AuthNavigator from './AuthNavigator';
+import AuthScreenNavigation from './auth-screen-navigation/AuthScreenNavigation';
 
 const RootNavigator: React.FC = () => {
   const { isLoading, isAuthenticated } = useAuthGate();
@@ -18,7 +18,7 @@ const RootNavigator: React.FC = () => {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
+      {isAuthenticated ? <AppNavigator /> : <AuthScreenNavigation />}
     </NavigationContainer>
   );
 };
