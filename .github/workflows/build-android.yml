@@ -3,7 +3,7 @@ name: Build Android APK
 on:
   push:
     branches:
-      - '**'
+      - main
     paths:
       - "android/**"
       - "src/**"
@@ -13,6 +13,7 @@ on:
 
   pull_request:
     branches: [ main ]
+
   workflow_dispatch:
 
 jobs:
@@ -24,6 +25,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # -----------------------------
+      # Node.js (RN 0.82 compatible)
+      # -----------------------------
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -33,23 +37,41 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      # ✅ Use Java 21 — fully compatible with RN 0.82+
-      - name: Setup Java
+      # -----------------------------
+      # Java 17 (MANDATORY for RN)
+      # -----------------------------
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version: 17
+          cache: gradle
 
+      # -----------------------------
+      # Android SDK
+      # -----------------------------
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Install Android SDK packages
+        run: |
+          sdkmanager "platforms;android-34" \
+                     "build-tools;34.0.0" \
+                     "platform-tools"
+
+      # -----------------------------
+      # Gradle
+      # -----------------------------
       - name: Make gradlew executable
         run: chmod +x android/gradlew
 
       - name: Build release APK
         working-directory: android
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease --no-daemon
 
+      # -----------------------------
+      # Upload artifact
+      # -----------------------------
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
