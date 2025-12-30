@@ -5,6 +5,8 @@ export type RootStackParamList = {
   HomeScreen: undefined;
   OtpValidation: { email: string };
   BizBuch: undefined;
+  WelcomeScreen: undefined;
+  SplashScreen: undefined;
 
   // Main App Screens
   NewsFeed: undefined;

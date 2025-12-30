@@ -5,7 +5,6 @@ export async function post<T>(
   body: unknown,
   headers: Record<string, string> = {}
 ): Promise<T> {
-  console.log('POST Request to:', `${Config.API_BASE_URL}${endpoint}`, 'with body:', body);
   const response = await fetch(`${Config.API_BASE_URL}${endpoint}`, {
     method: 'POST',
     headers: {

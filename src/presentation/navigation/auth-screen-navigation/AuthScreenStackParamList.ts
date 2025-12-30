@@ -16,3 +16,13 @@ export type OtpValidationNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   "OtpValidation"
 >;
+
+export type WelcomeNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "WelcomeScreen"
+>;
+
+export type SplashNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "SplashScreen"
+>;

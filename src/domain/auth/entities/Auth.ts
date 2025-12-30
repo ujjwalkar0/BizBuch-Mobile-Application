@@ -13,7 +13,25 @@ export type LoginPayload = {
   password: string;
 };
 
+export interface AuthUser {
+  id: number;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+}
+
 export type AuthResponse = {
   access: string;
   refresh: string;
+  user: AuthUser;
 };
+
+export type MessageResponse = {
+  detail: string;
+};
+
+export interface TokenValidationResponse {
+  valid: boolean;
+  user: AuthUser;
+}
