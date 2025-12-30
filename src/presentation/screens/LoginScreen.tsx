@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  View,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
@@ -11,9 +10,8 @@ import { Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 
 import { LoginNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
-import { useLoginForm } from '../../ui/hooks/useLoginForm';
+import { useLoginForm } from '../../ui/form-hooks/useLoginForm';
 import { useLogin } from '../../ui/hooks/useLogin';
-import { useAuthGate } from '../../hooks/useAuthGate';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen: React.FC = () => {
@@ -33,6 +31,7 @@ const LoginScreen: React.FC = () => {
       await mutateAsync(data, {
         onSuccess: (data) => {
           AsyncStorage.setItem('authToken', data.access);
+          AsyncStorage.setItem('refreshToken', data.refresh);
           navigation.navigate('BizBuch');
         },
       });

@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import { AuthRepository } from '../../data/repositories/AuthRepository';
-import { RegisterPayload, AuthResponse } from '../../domain/auth/entities/Auth';
+import {
+  RegisterPayload,
+  MessageResponse,
+} from '../../domain/auth/entities/Auth';
+import { authRepository } from '../di';
 
-const authRepository = new AuthRepository();
-
-export function useRegister() {
-  return useMutation<AuthResponse, Error, RegisterPayload>({
-    mutationFn: (payload) => authRepository.register(payload),
+export const useRegister = () =>
+  useMutation<MessageResponse, Error, RegisterPayload>({
+    mutationFn: payload => authRepository.register(payload),
   });
-}

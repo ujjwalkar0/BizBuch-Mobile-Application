@@ -1,0 +1,87 @@
+import React from 'react';
+import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import { Text, Button } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { WelcomeNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
+
+const WelcomeScreen: React.FC = () => {
+  const navigation = useNavigation<WelcomeNavigationProp>();
+
+  return (
+    <View style={styles.container}>
+      {/* Logo / Illustration */}
+      {/* <Image
+        source={require('../../assets/images/welcome.png')} // replace with your image
+        style={styles.image}
+        resizeMode="contain"
+      /> */}
+
+      {/* Title */}
+      <Text variant="headlineMedium" style={styles.title}>
+        Welcome to BizBuch
+      </Text>
+
+      {/* Subtitle */}
+      <Text variant="bodyMedium" style={styles.subtitle}>
+        Connect, share, and grow your professional network.
+      </Text>
+
+      {/* Buttons */}
+      <View style={styles.buttonContainer}>
+        <Button
+          mode="contained"
+          onPress={() => navigation.navigate('Login')}
+          style={styles.loginButton}
+        >
+          Login
+        </Button>
+
+        <Button
+          mode="outlined"
+          onPress={() => navigation.navigate('Register')}
+          style={styles.registerButton}
+        >
+          Create Account
+        </Button>
+      </View>
+    </View>
+  );
+};
+
+export default WelcomeScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  image: {
+    width: 220,
+    height: 220,
+    marginBottom: 32,
+  },
+  title: {
+    fontWeight: '700',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  subtitle: {
+    textAlign: 'center',
+    color: '#666',
+    marginBottom: 40,
+    paddingHorizontal: 16,
+  },
+  buttonContainer: {
+    width: '100%',
+  },
+  loginButton: {
+    marginBottom: 12,
+    borderRadius: 8,
+  },
+  registerButton: {
+    borderRadius: 8,
+  },
+});

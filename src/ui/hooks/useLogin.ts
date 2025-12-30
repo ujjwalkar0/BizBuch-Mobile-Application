@@ -1,8 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { AuthRepository } from '../../data/repositories/AuthRepository';
 import { LoginPayload, AuthResponse } from '../../domain/auth/entities/Auth';
-
-const authRepository = new AuthRepository();
+import { authRepository } from '../di';
 
 export function useLogin() {
   return useMutation<AuthResponse, Error, LoginPayload>({
