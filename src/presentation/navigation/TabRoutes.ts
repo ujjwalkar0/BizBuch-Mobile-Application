@@ -1,5 +1,4 @@
 import { faHome, faUser, faPlus, faBell, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { NetworkScreen } from '../screens/NetworkScreen';
 import { CreatePostScreen } from '../screens/CreatePostScreen';
 import { NotificationsScreen } from '../screens/NotificationsScreen';
 import { MessageScreenNavigator } from './messages-screen-navigation/MessageScreenNavigator';

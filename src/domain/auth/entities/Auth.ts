@@ -5,8 +5,15 @@ export type RegisterPayload = {
   username: string;
   password: string;
   confirm_password: string;
+  recaptcha_token: string;
+};
+
+export type LoginPayload = {
+  username: string;
+  password: string;
 };
 
 export type AuthResponse = {
-  token: string;
+  access: string;
+  refresh: string;
 };
