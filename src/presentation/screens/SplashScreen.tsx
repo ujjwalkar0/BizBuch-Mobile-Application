@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useVerifyToken } from '../../ui/hooks/useVerifyToken';
 import { WelcomeNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
-import Logo from '../../assets/images/logo.svg';
+import Logo from '../../assets/images/splash.svg';
 
 const { width } = Dimensions.get('window');
 const AnimatedLogo = Animated.createAnimatedComponent(Logo);
@@ -24,7 +24,7 @@ const SplashScreen: React.FC = () => {
 
   const navigation = useNavigation<WelcomeNavigationProp>();
 
-  const { mutateAsync, isPending } = useVerifyToken();
+  const { mutateAsync } = useVerifyToken();
 
   useEffect(() => {
     Animated.sequence([
@@ -56,6 +56,7 @@ const SplashScreen: React.FC = () => {
 
     const timer = setTimeout(() => {
       const verifyToken = async () => {
+        
         const token = await AsyncStorage.getItem('authToken');
 
         if (token) {
@@ -89,28 +90,17 @@ const SplashScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Animated.Image
-        source={require('../../assets/images/logo.png')}
-        style={[
-          styles.logo,
-          {
-            opacity: logoOpacity,
-            transform: [{ scale: logoScale }],
-          },
-        ]}
-        resizeMode="contain"
-      /> */}
       <Animated.View
         style={{
-          flex: 1,
+          flex: .5,
           justifyContent: 'center',
           opacity: logoOpacity,
           transform: [{ scale: logoScale }],
         }}
       >
         <AnimatedLogo
-          width={width * 0.6}
-          height={width * 0.6}
+          width={width * 0.8}
+          height={width * 0.8}
           preserveAspectRatio="xMidYMid meet"
           viewBox="0 0 500 500"
         />
@@ -123,11 +113,11 @@ const SplashScreen: React.FC = () => {
           transform: [{ translateY: textTranslate }],
         }}
       >
+      <ActivityIndicator color="#fff" style={{ margin: 30 }} />
         <Text style={styles.title}>BizBuch</Text>
         <Text style={styles.tagline}>Connecting Ideas & People</Text>
       </Animated.View>
 
-      <ActivityIndicator color="#fff" style={{ marginTop: 30 }} />
     </View>
   );
 };
@@ -137,13 +127,13 @@ export default SplashScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#E65100',
     justifyContent: 'center',
     alignItems: 'center',
   },
   logo: {
-    width: width * 0.6,
-    height: width * 0.6,
+    width: width * 0.8,
+    height: width * 0.8,
   },
   loader: {
     marginTop: 24,
