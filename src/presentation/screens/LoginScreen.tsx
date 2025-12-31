@@ -113,7 +113,8 @@ const LoginScreen: React.FC = () => {
       <Button
         mode="text"
         onPress={() => navigation.navigate('Register')}
-        textColor="#02a34e"
+        textColor="#666"
+        rippleColor="transparent"
       >
         Don&apos;t have an account? Register
       </Button>

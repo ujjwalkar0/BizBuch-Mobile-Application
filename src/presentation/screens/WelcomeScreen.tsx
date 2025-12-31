@@ -11,100 +11,29 @@ const AnimatedLogo = Animated.createAnimatedComponent(Logo);
 const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<WelcomeNavigationProp>();
 
-  // Animations
-  const logoScale = useRef(new Animated.Value(0.8)).current;
-  const logoOpacity = useRef(new Animated.Value(0)).current;
-
-  const contentTranslate = useRef(new Animated.Value(30)).current;
-  const contentOpacity = useRef(new Animated.Value(0)).current;
-
-  const buttonTranslate = useRef(new Animated.Value(30)).current;
-  const buttonOpacity = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    Animated.sequence([
-      Animated.parallel([
-        Animated.timing(logoScale, {
-          toValue: 1,
-          duration: 700,
-          useNativeDriver: true,
-        }),
-        Animated.timing(logoOpacity, {
-          toValue: 1,
-          duration: 700,
-          useNativeDriver: true,
-        }),
-      ]),
-      Animated.parallel([
-        Animated.timing(contentTranslate, {
-          toValue: 0,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-        Animated.timing(contentOpacity, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-      ]),
-      Animated.parallel([
-        Animated.timing(buttonTranslate, {
-          toValue: 0,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-        Animated.timing(buttonOpacity, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-      ]),
-    ]).start();
-  }, []);
-
   return (
     <View style={styles.container}>
       {/* Logo / Illustration */}
-      <Animated.View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          opacity: logoOpacity,
-          transform: [{ scale: logoScale }],
-        }}
-      >
-        <AnimatedLogo
-          width={width * 0.6}
-          height={width * 0.6}
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 500 500"
-        />
-      </Animated.View>
-      {/* Text */}
-      <Animated.View
-        style={{
-          opacity: contentOpacity,
-          transform: [{ translateY: contentTranslate }],
-        }}
-      >
-        <Text variant="headlineMedium" style={styles.title}>
-          Welcome to BizBuch
-        </Text>
+      {/* <Image
+        source={require('../../assets/images/welcome.png')} // replace with your image
+        style={styles.image}
+        resizeMode="contain"
+      /> */}
+      <View style={{ flex: 0.5 }}>
+        <Logo width={width * 0.6} height={width * 0.6} viewBox="0 0 500 500" />
+      </View>
+      {/* Title */}
+      <Text variant="headlineMedium" style={styles.title}>
+        Welcome to BizBuch
+      </Text>
 
-        <Text variant="bodyMedium" style={styles.subtitle}>
-          Connect, share, and grow your professional network.
-        </Text>
-      </Animated.View>
+      {/* Subtitle */}
+      <Text variant="bodyMedium" style={styles.subtitle}>
+        Connect, share, and grow your business network.
+      </Text>
+
       {/* Buttons */}
-      <Animated.View
-        style={[
-          styles.buttonContainer,
-          {
-            opacity: buttonOpacity,
-            transform: [{ translateY: buttonTranslate }],
-          },
-        ]}
-      >
+      <View style={styles.buttonContainer}>
         <Button
           mode="contained"
           onPress={() => navigation.navigate('Login')}
@@ -120,7 +49,7 @@ const WelcomeScreen: React.FC = () => {
         >
           <Text style={styles.buttonText}>Create Account</Text>
         </Button>
-      </Animated.View>
+      </View>
     </View>
   );
 };
@@ -134,11 +63,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-  },
-  image: {
-    width: 220,
-    height: 220,
-    marginBottom: 32,
   },
   title: {
     fontWeight: '700',
@@ -161,7 +85,7 @@ const styles = StyleSheet.create({
   },
   registerButton: {
     borderRadius: 8,
-    borderColor: '#E65100',
+    borderColor: '#FF9933',
   },
   buttonText: {
     color: '#E65100',
