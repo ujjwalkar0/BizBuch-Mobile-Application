@@ -1,33 +1,110 @@
-import React from 'react';
-import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, StyleSheet, Image, Animated, Dimensions } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { WelcomeNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
+import Logo from '../../assets/images/logo.svg';
+
+const { width } = Dimensions.get('window');
+const AnimatedLogo = Animated.createAnimatedComponent(Logo);
 
 const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<WelcomeNavigationProp>();
 
+  // Animations
+  const logoScale = useRef(new Animated.Value(0.8)).current;
+  const logoOpacity = useRef(new Animated.Value(0)).current;
+
+  const contentTranslate = useRef(new Animated.Value(30)).current;
+  const contentOpacity = useRef(new Animated.Value(0)).current;
+
+  const buttonTranslate = useRef(new Animated.Value(30)).current;
+  const buttonOpacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.sequence([
+      Animated.parallel([
+        Animated.timing(logoScale, {
+          toValue: 1,
+          duration: 700,
+          useNativeDriver: true,
+        }),
+        Animated.timing(logoOpacity, {
+          toValue: 1,
+          duration: 700,
+          useNativeDriver: true,
+        }),
+      ]),
+      Animated.parallel([
+        Animated.timing(contentTranslate, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(contentOpacity, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+      ]),
+      Animated.parallel([
+        Animated.timing(buttonTranslate, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(buttonOpacity, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+      ]),
+    ]).start();
+  }, []);
+
   return (
     <View style={styles.container}>
       {/* Logo / Illustration */}
-      {/* <Image
-        source={require('../../assets/images/welcome.png')} // replace with your image
-        style={styles.image}
-        resizeMode="contain"
-      /> */}
+      <Animated.View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          opacity: logoOpacity,
+          transform: [{ scale: logoScale }],
+        }}
+      >
+        <AnimatedLogo
+          width={width * 0.6}
+          height={width * 0.6}
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 500 500"
+        />
+      </Animated.View>
+      {/* Text */}
+      <Animated.View
+        style={{
+          opacity: contentOpacity,
+          transform: [{ translateY: contentTranslate }],
+        }}
+      >
+        <Text variant="headlineMedium" style={styles.title}>
+          Welcome to BizBuch
+        </Text>
 
-      {/* Title */}
-      <Text variant="headlineMedium" style={styles.title}>
-        Welcome to BizBuch
-      </Text>
-
-      {/* Subtitle */}
-      <Text variant="bodyMedium" style={styles.subtitle}>
-        Connect, share, and grow your professional network.
-      </Text>
-
+        <Text variant="bodyMedium" style={styles.subtitle}>
+          Connect, share, and grow your professional network.
+        </Text>
+      </Animated.View>
       {/* Buttons */}
-      <View style={styles.buttonContainer}>
+      <Animated.View
+        style={[
+          styles.buttonContainer,
+          {
+            opacity: buttonOpacity,
+            transform: [{ translateY: buttonTranslate }],
+          },
+        ]}
+      >
         <Button
           mode="contained"
           onPress={() => navigation.navigate('Login')}
@@ -41,9 +118,9 @@ const WelcomeScreen: React.FC = () => {
           onPress={() => navigation.navigate('Register')}
           style={styles.registerButton}
         >
-          Create Account
+          <Text style={styles.buttonText}>Create Account</Text>
         </Button>
-      </View>
+      </Animated.View>
     </View>
   );
 };
@@ -80,8 +157,13 @@ const styles = StyleSheet.create({
   loginButton: {
     marginBottom: 12,
     borderRadius: 8,
+    backgroundColor: '#FF9933',
   },
   registerButton: {
     borderRadius: 8,
+    borderColor: '#E65100',
+  },
+  buttonText: {
+    color: '#E65100',
   },
 });
