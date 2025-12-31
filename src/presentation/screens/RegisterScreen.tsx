@@ -170,7 +170,8 @@ const RegisterScreen: React.FC = () => {
           mode="text"
           onPress={() => navigation.goBack()}
           style={styles.link}
-          textColor="#02a34e"
+          textColor="#666"
+          rippleColor="transparent"
         >
           Already have an account? Login
         </Button>

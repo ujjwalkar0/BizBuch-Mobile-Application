@@ -56,7 +56,6 @@ const SplashScreen: React.FC = () => {
 
     const timer = setTimeout(() => {
       const verifyToken = async () => {
-        
         const token = await AsyncStorage.getItem('authToken');
 
         if (token) {
@@ -92,20 +91,20 @@ const SplashScreen: React.FC = () => {
     <View style={styles.container}>
       <Animated.View
         style={{
-          flex: .5,
+          flex: 0.9,
           justifyContent: 'center',
           opacity: logoOpacity,
           transform: [{ scale: logoScale }],
         }}
       >
-        <AnimatedLogo
-          width={width * 0.8}
-          height={width * 0.8}
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 500 500"
-        />
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <AnimatedLogo
+            width={width * 0.7}
+            height={width * 0.7}
+            viewBox="0 0 512 512"
+          />
+        </View>
       </Animated.View>
-
 
       <Animated.View
         style={{
@@ -113,11 +112,10 @@ const SplashScreen: React.FC = () => {
           transform: [{ translateY: textTranslate }],
         }}
       >
-      <ActivityIndicator color="#fff" style={{ margin: 30 }} />
+        <ActivityIndicator color="#fff" style={{ margin: 30 }} />
         <Text style={styles.title}>BizBuch</Text>
         <Text style={styles.tagline}>Connecting Ideas & People</Text>
       </Animated.View>
-
     </View>
   );
 };
@@ -134,9 +132,6 @@ const styles = StyleSheet.create({
   logo: {
     width: width * 0.8,
     height: width * 0.8,
-  },
-  loader: {
-    marginTop: 24,
   },
   title: {
     fontSize: 32,
