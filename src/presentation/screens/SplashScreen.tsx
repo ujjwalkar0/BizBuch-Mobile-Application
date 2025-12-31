@@ -11,33 +11,42 @@ const SplashScreen: React.FC = () => {
   const { mutateAsync, isPending } = useVerifyToken();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const verifyToken = async () => {
-        const token = await AsyncStorage.getItem('authToken');
+    const timer = setTimeout(async () => {
+      const token = await AsyncStorage.getItem('authToken');
 
-        if (token) {
-          try {
-            await mutateAsync(
-              { token },
-              {
-                onSuccess: () => {
-                  navigation.navigate('BizBuch');
-                },
-                onError: () => {
-                  navigation.navigate('WelcomeScreen');
-                },
-              },
-            );
-          } catch (e) {
-            navigation.navigate('WelcomeScreen');
-          }
-        } else {
-          navigation.navigate('WelcomeScreen');
-        }
-      };
+      if (!token) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'WelcomeScreen' }],
+        });
+        return;
+      }
 
-      verifyToken();
-    }, 5000);
+      try {
+        await mutateAsync(
+          { token },
+          {
+            onSuccess: () => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'BizBuch' }],
+              });
+            },
+            onError: () => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'WelcomeScreen' }],
+              });
+            },
+          },
+        );
+      } catch {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'WelcomeScreen' }],
+        });
+      }
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
