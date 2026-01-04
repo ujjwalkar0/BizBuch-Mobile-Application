@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ViewProfileScreen } from '../../screens/ViewProfileScreen';
-import { NetworkScreen } from '../../screens/NetworkScreen';
+import { ViewProfileScreen } from '../../screens/Profile/ViewProfileScreen';
 import { RootStackParamList } from '../RootStackParamList';
 import { ChatScreen } from '../../screens/shared/ChatScreen';
+import { NetworkScreen } from '../../screens/Network/NetworkScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

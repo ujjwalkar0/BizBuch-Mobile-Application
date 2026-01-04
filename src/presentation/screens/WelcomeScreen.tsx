@@ -49,6 +49,15 @@ const WelcomeScreen: React.FC = () => {
         >
           <Text style={styles.buttonText}>Create Account</Text>
         </Button>
+
+        <Button
+          mode="text"
+          // onPress={() => navigation.navigate('AdvancedSettings')}
+          style={styles.advancedButton}
+          labelStyle={styles.advancedText}
+        >
+          Advanced Settings
+        </Button>
       </View>
     </View>
   );
@@ -89,5 +98,13 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#E65100',
+  },
+  advancedButton: {
+    marginTop: 16,
+    alignSelf: 'center',
+  },
+  advancedText: {
+    color: '#999',
+    fontSize: 14,
   },
 });

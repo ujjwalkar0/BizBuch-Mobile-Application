@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUsers, faSearch, faUserPlus, faUserCheck } from "@fortawesome/free-solid-svg-icons";
-import { ConnectionRepository } from "../../data/repositories/ConnectionRepository";
-import { Connection } from "../../domain/user/entities/Connection";
-import { GetConnections } from "../../domain/user/usecases/GetConnections";
-import { ToggleConnectionStatus } from "../../domain/user/usecases/ToggleConnectionStatus";
-import { ConnectionCard } from "../components/ConnectionCard";
 import { useNavigation } from "@react-navigation/native";
-import { NetworkNavigationProp } from "../navigation/network-screen-navigation/NetworkScreenStackParamList";
+import { ConnectionRepository } from "../../../data/repositories/ConnectionRepository";
+import { Connection } from "../../../domain/user/entities/Connection";
+import { GetConnections } from "../../../domain/user/usecases/GetConnections";
+import { ToggleConnectionStatus } from "../../../domain/user/usecases/ToggleConnectionStatus";
+import { ConnectionCard } from "../../components/ConnectionCard";
+import { NetworkNavigationProp } from "../../navigation/network-screen-navigation/NetworkScreenStackParamList";
 
 export const NetworkScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");

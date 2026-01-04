@@ -1,29 +1,41 @@
-import { Post } from "../../../domain/post/entities/Post";
-import { IPostRepository } from "../../../domain/post/repositories/IPostRepository";
-import { CreatePost } from "../../../domain/post/usecases/commands/CreatePost";
+import { Poll, PostRequestBody } from '../../../domain/post/entities/Post';
+import { IPostRepository } from '../../../domain/post/repositories/IPostRepository';
 
 export class CreatePostHandler {
-  private createPostUseCase: CreatePost;
+  constructor(private readonly postRepository: IPostRepository) {}
 
-  constructor(private repository: IPostRepository) {
-    this.createPostUseCase = new CreatePost(repository);
+  async handle(post: PostRequestBody): Promise<boolean> {
+    // this.validatePost(post);
+    // post.poll && this.validatePoll(post.poll);
+    await this.postRepository.create(post);
+    return true;
   }
 
-  async handle(
-    content: string,
-    authorId: string,
-    audience: "Public" | "Friends" | "Only Me",
-    image?: string
-  ): Promise<Post> {
-    if (!content.trim() && !image) {
-      throw new Error("Post must have content or image.");
-    }
+  // private validatePost(post: PostRequestBody) {
+  //   if (
+  //     !post.content?.trim() &&
+  //     !post.imageUrl &&
+  //     !post.poll &&
+  //     !post.location &&
+  //     !post.feeling
+  //   ) {
+  //     throw new Error('Post must have content, image, or poll');
+  //   }
+  // }
 
-    return this.createPostUseCase.execute({
-      authorId,
-      content,
-      image,
-      audience,
-    });
-  }
+  // private validatePoll(poll: Poll) {
+  //   if (!poll.question.trim()) {
+  //     throw new Error('Poll question is required');
+  //   }
+
+  //   const validOptions = poll.options.filter(o => o.trim());
+
+  //   if (validOptions.length < 2) {
+  //     throw new Error('Poll must have at least 2 options');
+  //   }
+
+  //   if (validOptions.length > 5) {
+  //     throw new Error('Poll can have at most 5 options');
+  //   }
+  // }
 }
