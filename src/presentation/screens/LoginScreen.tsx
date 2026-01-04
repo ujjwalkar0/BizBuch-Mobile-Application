@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
   Image,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { TextInput, Button, Text, HelperText } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
+// import Icon from 'react-native-vector-icons/Ionicons';
 
 import { LoginNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
 import { useLoginForm } from '../../ui/form-hooks/useLoginForm';
 import { useLogin } from '../../ui/hooks/useLogin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { theme } from '../theme';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { usePasswordVisibility } from '../../ui/hooks/usePasswordVisibility';
 
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation<LoginNavigationProp>();
+  const password = usePasswordVisibility();
 
   const {
     control,
@@ -26,13 +34,16 @@ const LoginScreen: React.FC = () => {
 
   const { mutateAsync, isPending, error } = useLogin();
 
-  const onSubmitHandler = async (data: { username: string; password: string }) => {
+  const onSubmitHandler = async (data: {
+    username: string;
+    password: string;
+  }) => {
     try {
       await mutateAsync(data, {
-        onSuccess: (data) => {
+        onSuccess: data => {
           AsyncStorage.setItem('authToken', data.access);
           AsyncStorage.setItem('refreshToken', data.refresh);
-          navigation.navigate('BizBuch');
+          navigation.replace('BizBuch');
         },
       });
     } catch (e) {
@@ -45,11 +56,6 @@ const LoginScreen: React.FC = () => {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <Image
-        source={require('../../assets/images/azadi.png')}
-        style={styles.logo}
-      />
-
       <Text style={styles.title}>Welcome Back</Text>
       <Text style={styles.subtitle}>Sign in to continue</Text>
 
@@ -65,12 +71,10 @@ const LoginScreen: React.FC = () => {
             value={value}
             onChangeText={onChange}
             error={!!errors.username}
+            theme={theme}
           />
         )}
       />
-      {errors.username && (
-        <HelperText type="error">{errors.username.message}</HelperText>
-      )}
 
       <Controller
         control={control}
@@ -81,20 +85,23 @@ const LoginScreen: React.FC = () => {
             label="Password"
             mode="outlined"
             style={styles.input}
-            secureTextEntry
+            secureTextEntry={password.isHidden}
             value={value}
             onChangeText={onChange}
             error={!!errors.password}
+            theme={theme}
+            right={
+              <TextInput.Icon
+                icon={() => <FontAwesomeIcon icon={password.icon} />}
+                onPress={password.toggleVisibility}
+              />
+            }
           />
         )}
       />
-      {errors.password && (
-        <HelperText type="error">{errors.password.message}</HelperText>
-      )}
-
       {error && (
         <HelperText type="error">
-          Invalid username or password
+          {error.message || 'Login failed. Please try again.'}
         </HelperText>
       )}
 
@@ -152,6 +159,7 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     marginBottom: 16,
+    outlineColor: '#f29520',
   },
   loginButton: {
     width: '100%',

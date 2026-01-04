@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ViewPostScreen } from '../../screens/shared/ViewPostScreen';
-import { NewsFeedScreen } from '../../screens/NewsFeedScreen';
 import { RootStackParamList } from '../RootStackParamList';
+import { NewsFeedScreen } from '../../screens/NewsFeed/NewsFeedScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

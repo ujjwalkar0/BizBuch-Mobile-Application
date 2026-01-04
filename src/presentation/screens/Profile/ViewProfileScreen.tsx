@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { ConnectionRepository } from "../../data/repositories/ConnectionRepository";
-import { GetConnections } from "../../domain/user/usecases/GetConnections";
-import { Connection } from "../../domain/user/entities/Connection";
-import { ViewProfileScreenProps } from "../navigation/network-screen-navigation/NetworkScreenStackParamList";
+import { ConnectionRepository } from "../../../data/repositories/ConnectionRepository";
+import { GetConnections } from "../../../domain/user/usecases/GetConnections";
+import { Connection } from "../../../domain/user/entities/Connection";
+import { ViewProfileScreenProps } from "../../navigation/network-screen-navigation/NetworkScreenStackParamList";
 
 
 export const ViewProfileScreen: React.FC<ViewProfileScreenProps> = ({ route, navigation }) => {

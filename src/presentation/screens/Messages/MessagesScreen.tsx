@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, FlatList, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { ChatRepository } from "../../data/repositories/ChatRepository";
-import { Chat } from "../../domain/chat/entities/Chat";
 import { useNavigation } from "@react-navigation/native";
-import { MessagesNavigationProp } from "../navigation/messages-screen-navigation/MessageScreenStackParamList";
+import { ChatRepository } from "../../../data/repositories/ChatRepository";
+import { Chat } from "../../../domain/chat/entities/Chat";
+import { MessagesNavigationProp } from "../../navigation/messages-screen-navigation/MessageScreenStackParamList";
 
 const MessagesScreen: React.FC = () => {
   const [search, setSearch] = useState("");

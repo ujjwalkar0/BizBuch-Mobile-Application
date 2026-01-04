@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { View, ScrollView, StyleSheet, TextInput, Image, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import { PostRepository } from "../../data/repositories/PostRepository";
-import { GetNewsFeed } from "../../domain/post/usecases/queries/GetNewsFeed";
-import { PostCard } from "../components/PostCard";
-import { Post } from "../../domain/post/entities/Post";
 import { useNavigation } from "@react-navigation/native";
-import { FeedNavigationProp } from "../navigation/news-feed-navigation/NewsFeedScreenStackParamList";
+import { PostRepository } from "../../../data/repositories/PostRepository";
+import { Post } from "../../../domain/post/entities/Post";
+import { GetNewsFeed } from "../../../domain/post/usecases/queries/GetNewsFeed";
+import { PostCard } from "../../components/PostCard";
+import { FeedNavigationProp } from "../../navigation/news-feed-navigation/NewsFeedScreenStackParamList";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const NewsFeedScreen = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -19,7 +20,7 @@ export const NewsFeedScreen = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       {/* Header */}
       <View style={styles.header}>
         <Image
@@ -40,16 +41,17 @@ export const NewsFeedScreen = () => {
       {/* Feed */}
       <ScrollView>
         {posts.map((post, index) => (
-          <PostCard key={index} post={post} onPostOpen={() => navigation.navigate("ViewPost", { postId: post.id })} />
+          <PostCard key={index} post={post} onPostOpen={() => navigation.navigate("ViewPost", { postId: post.audience })} />
         ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f9fafb" },
   header: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
