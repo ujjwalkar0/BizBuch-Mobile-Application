@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import MessagesScreen from '../../screens/MessagesScreen';
 import { ChatScreen } from '../../screens/shared/ChatScreen';
 import { RootStackParamList } from '../RootStackParamList';
+import MessagesScreen from '../../screens/Messages/MessagesScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

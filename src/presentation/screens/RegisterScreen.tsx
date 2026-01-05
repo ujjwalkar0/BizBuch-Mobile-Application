@@ -1,16 +1,22 @@
 import React from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button, Text, HelperText } from 'react-native-paper';
-import { useForm, Controller } from 'react-hook-form';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { RegisterPayload } from '../../domain/auth/entities/Auth';
 import { useRegister } from '../../ui/hooks/useRegister';
 import { RegisterNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
 import { useRegisterForm } from '../../ui/form-hooks/useRegisterForm';
+import { theme } from '../theme';
+import { usePasswordVisibility } from '../../ui/hooks/usePasswordVisibility';
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation<RegisterNavigationProp>();
+  const password = usePasswordVisibility();
+  const confirmPassword = usePasswordVisibility();
+
   const {
     control,
     handleSubmit,
@@ -18,12 +24,15 @@ const RegisterScreen: React.FC = () => {
     rules,
   } = useRegisterForm();
 
-  const { mutateAsync, isPending, error } = useRegister();
+  const { mutateAsync } = useRegister();
 
   const onSubmitHandler = async (data: RegisterPayload) => {
     try {
-      const response = await mutateAsync(data);
-      navigation.navigate('OtpValidation', { email: data.email });
+      await mutateAsync(data, {
+        onSuccess: () => {
+          navigation.navigate('OtpValidation', { email: data.email });
+        },
+      });
     } catch (e) {
       console.error(e);
     }
@@ -38,7 +47,6 @@ const RegisterScreen: React.FC = () => {
         <Text style={styles.title}>Create Account</Text>
         <Text style={styles.subtitle}>Join us and start your journey</Text>
 
-        {/* First & Last Name */}
         <View style={styles.row}>
           <Controller
             control={control}
@@ -52,6 +60,7 @@ const RegisterScreen: React.FC = () => {
                 value={value}
                 onChangeText={onChange}
                 error={!!errors.first_name}
+                theme={theme}
               />
             )}
           />
@@ -67,12 +76,12 @@ const RegisterScreen: React.FC = () => {
                 value={value}
                 onChangeText={onChange}
                 error={!!errors.last_name}
+                theme={theme}
               />
             )}
           />
         </View>
 
-        {/* Email */}
         <Controller
           control={control}
           name="email"
@@ -86,14 +95,11 @@ const RegisterScreen: React.FC = () => {
               value={value}
               onChangeText={onChange}
               error={!!errors.email}
+              theme={theme}
             />
           )}
         />
-        {errors.email && (
-          <HelperText type="error">{errors.email.message}</HelperText>
-        )}
 
-        {/* Username */}
         <Controller
           control={control}
           name="username"
@@ -106,11 +112,11 @@ const RegisterScreen: React.FC = () => {
               value={value}
               onChangeText={onChange}
               error={!!errors.username}
+              theme={theme}
             />
           )}
         />
 
-        {/* Passwords */}
         <View style={styles.row}>
           <Controller
             control={control}
@@ -121,10 +127,17 @@ const RegisterScreen: React.FC = () => {
                 label="Password"
                 mode="outlined"
                 style={styles.inputHalf}
-                secureTextEntry
+                secureTextEntry={password.isHidden}
                 value={value}
                 onChangeText={onChange}
                 error={!!errors.password}
+                theme={theme}
+                right={
+                  <TextInput.Icon
+                    icon={() => <FontAwesomeIcon icon={password.icon} />}
+                    onPress={password.toggleVisibility}
+                  />
+                }
               />
             )}
           />
@@ -138,22 +151,22 @@ const RegisterScreen: React.FC = () => {
                 label="Confirm Password"
                 mode="outlined"
                 style={styles.inputHalf}
-                secureTextEntry
+                secureTextEntry={confirmPassword.isHidden}
                 value={value}
                 onChangeText={onChange}
                 error={!!errors.confirm_password}
+                theme={theme}
+                right={
+                  <TextInput.Icon
+                    icon={() => <FontAwesomeIcon icon={confirmPassword.icon} />}
+                    onPress={confirmPassword.toggleVisibility}
+                  />
+                }
               />
             )}
           />
         </View>
 
-        {errors.confirm_password && (
-          <HelperText type="error">
-            {errors.confirm_password.message}
-          </HelperText>
-        )}
-
-        {/* Submit */}
         <Button
           mode="contained"
           onPress={handleSubmit(onSubmitHandler)}
@@ -168,7 +181,7 @@ const RegisterScreen: React.FC = () => {
 
         <Button
           mode="text"
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.navigate('Login')}
           style={styles.link}
           textColor="#666"
           rippleColor="transparent"
@@ -210,12 +223,12 @@ const styles = StyleSheet.create({
   },
   inputHalf: {
     flex: 1,
-    marginHorizontal: 4,
     marginBottom: 16,
   },
   row: {
     flexDirection: 'row',
     width: '100%',
+    gap: 16,
   },
   button: {
     marginTop: 8,

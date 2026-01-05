@@ -27,6 +27,34 @@ const SplashScreen: React.FC = () => {
   const { mutateAsync } = useVerifyToken();
 
   useEffect(() => {
+    const verifyToken = async () => {
+      const token = await AsyncStorage.getItem('authToken');
+
+      if (token) {
+        try {
+          await mutateAsync(
+            { token },
+            {
+              onSuccess: () => {
+                navigation.replace('BizBuch');
+              },
+              onError: () => {
+                navigation.replace('WelcomeScreen');
+              },
+            },
+          );
+        } catch (e) {
+          navigation.replace('WelcomeScreen');
+        }
+      } else {
+        navigation.replace('WelcomeScreen');
+      }
+    };
+
+    verifyToken();
+  }, []);
+
+  useEffect(() => {
     Animated.sequence([
       Animated.parallel([
         Animated.timing(logoScale, {
@@ -53,36 +81,6 @@ const SplashScreen: React.FC = () => {
         }),
       ]),
     ]).start();
-
-    const timer = setTimeout(() => {
-      const verifyToken = async () => {
-        const token = await AsyncStorage.getItem('authToken');
-
-        if (token) {
-          try {
-            await mutateAsync(
-              { token },
-              {
-                onSuccess: () => {
-                  navigation.replace('BizBuch');
-                },
-                onError: () => {
-                  navigation.replace('WelcomeScreen');
-                },
-              },
-            );
-          } catch (e) {
-            navigation.replace('WelcomeScreen');
-          }
-        } else {
-          navigation.replace('WelcomeScreen');
-        }
-      };
-
-      verifyToken();
-    }, 5000);
-
-    return () => clearTimeout(timer);
   }, []);
 
   const { width } = Dimensions.get('window');
