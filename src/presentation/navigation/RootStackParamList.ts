@@ -12,7 +12,8 @@ export type RootStackParamList = {
   NewsFeed: undefined;
   ViewPost: { postId: string };
   Network: undefined;
-  ViewProfile: { userId: number };
+  ViewProfile: { userId?: number }; // userId is optional - if not provided, shows current user's profile
+  EditProfile: undefined;
   Messages: undefined;
   Chat: { userId: number };
 };

@@ -3,7 +3,12 @@ import { RootStackParamList } from "../RootStackParamList";
 
 export type NetworkNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  "ViewProfile"
+  "Network"
+>;
+
+export type NetworkScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Network"
 >;
 
 export type ViewProfileScreenProps = NativeStackScreenProps<

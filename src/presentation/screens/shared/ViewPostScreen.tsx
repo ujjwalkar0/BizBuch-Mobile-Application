@@ -10,16 +10,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { PostRepository } from "../../../data/repositories/PostRepository";
-import { Post } from "../../../domain/post/entities/Post";
 import { GetPostById } from "../../../domain/post/usecases/queries/GetPostById";
 import { ViewPostScreenProps } from "../../navigation/news-feed-navigation/NewsFeedScreenStackParamList";
+import { PostResponseBody } from "../../../domain/post/entities/Post";
 
 
 
 export const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route, navigation }) => {
   const { postId } = route.params;
 
-  const [post, setPost] = useState<Post | null>(null);
+  const [post, setPost] = useState<PostResponseBody | null>(null);
 
   const useCase = new GetPostById(new PostRepository());
 

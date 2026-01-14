@@ -1,9 +1,10 @@
+import { PostResponseBody } from "../../entities/Post";
 import { IPostRepository } from "../../repositories/IPostRepository";
 
 export class GetNewsFeed {
-  constructor(private repo: IPostRepository) {}
+  constructor(private readonly postRepository: IPostRepository) {}
 
-  async execute() {
-    return this.repo.getAllPosts();
+  execute(): Promise<PostResponseBody[]> {
+    return this.postRepository.getAllPosts();
   }
 }

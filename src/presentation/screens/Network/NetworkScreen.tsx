@@ -1,91 +1,135 @@
 // src/presentation/screens/NetworkScreen.tsx
-import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faUsers, faSearch, faUserPlus, faUserCheck } from "@fortawesome/free-solid-svg-icons";
-import { useNavigation } from "@react-navigation/native";
-import { ConnectionRepository } from "../../../data/repositories/ConnectionRepository";
+import React, { useState } from "react";
+import { View, Text, FlatList, StyleSheet, ActivityIndicator } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { faUsers, faUserPlus, faUserCheck } from "@fortawesome/free-solid-svg-icons";
 import { Connection } from "../../../domain/user/entities/Connection";
-import { GetConnections } from "../../../domain/user/usecases/GetConnections";
-import { ToggleConnectionStatus } from "../../../domain/user/usecases/ToggleConnectionStatus";
 import { ConnectionCard } from "../../components/ConnectionCard";
-import { NetworkNavigationProp } from "../../navigation/network-screen-navigation/NetworkScreenStackParamList";
+import { SearchInput } from "../../components/SearchInput";
+import { TabBar } from "../../components/TabBar";
+import { Badge } from "../../components/Badge";
+import { EmptyState } from "../../components/EmptyState";
+import { ScreenHeader } from "../../components/ScreenHeader";
+import { NetworkScreenProps } from "../../navigation/network-screen-navigation/NetworkScreenStackParamList";
+import { useProfiles, useMyConnections } from "../../../ui/hooks/useConnections";
+import { useSendConnectionRequest } from "../../../ui/hooks/useToggleConnection";
 
-export const NetworkScreen: React.FC = () => {
+const TABS = [
+  { key: "suggestions", label: "Suggestions", icon: faUserPlus },
+  { key: "connections", label: "My Network", icon: faUserCheck },
+];
+
+export const NetworkScreen: React.FC<NetworkScreenProps> = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [connections, setConnections] = useState<Connection[]>([]);
   const [tab, setTab] = useState<"suggestions" | "connections">("suggestions");
-  const navigation = useNavigation<NetworkNavigationProp>();
+  const [connectingUserId, setConnectingUserId] = useState<number | null>(null);
+  
+  const { data: profiles = [], isLoading: isLoadingProfiles, isError: isErrorProfiles, refetch: refetchProfiles, isRefetching: isRefetchingProfiles } = useProfiles();
+  const { data: myConnections = [], isLoading: isLoadingConnections, isError: isErrorConnections, refetch: refetchConnections, isRefetching: isRefetchingConnections } = useMyConnections();
+  const sendConnectionRequestMutation = useSendConnectionRequest();
 
-  const repo = new ConnectionRepository();
-  const getConnections = new GetConnections(repo);
-  const toggleConnection = new ToggleConnectionStatus(repo);
+  const isLoading = isLoadingProfiles || isLoadingConnections;
+  const isError = isErrorProfiles || isErrorConnections;
+  const isRefetching = isRefetchingProfiles || isRefetchingConnections;
 
-  useEffect(() => {
-    getConnections.execute().then(setConnections);
-  }, []);
-
-  const handleToggle = async (id: number) => {
-    const updated = await toggleConnection.execute(id);
-    setConnections([...updated]);
+  const handleRefetch = () => {
+    refetchProfiles();
+    refetchConnections();
   };
 
-  const filtered = connections.filter((c) =>
-    tab === "suggestions" ? !c.isConnected : c.isConnected
-  );
+  const handleConnect = async (userId: number) => {
+    setConnectingUserId(userId);
+    sendConnectionRequestMutation.mutate(userId, {
+      onSuccess: () => {
+        setConnectingUserId(null);
+      },
+      onError: () => {
+        setConnectingUserId(null);
+      },
+    });
+  };
+
+  // Filter suggestions (profiles not connected)
+  const suggestions = profiles.filter((p: Connection) => p.is_connected !== "true");
+  
+  // Use myConnections for the connections tab
+  const currentData = tab === "suggestions" ? suggestions : myConnections;
+  
+  const filtered = currentData.filter((c: Connection) => {
+    const matchesSearch = searchQuery
+      ? c.display_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (c.headline && c.headline.toLowerCase().includes(searchQuery.toLowerCase()))
+      : true;
+    return matchesSearch;
+  });
+
+  if (isLoading) {
+    return (
+      <SafeAreaView style={[styles.container, styles.centerContent]}>
+        <ActivityIndicator size="large" />
+      </SafeAreaView>
+    );
+  }
+
+  if (isError) {
+    return (
+      <SafeAreaView style={[styles.container, styles.centerContent]}>
+        <Text>Failed to load connections</Text>
+      </SafeAreaView>
+    );
+  }
+
+  const connectedCount = myConnections.length;
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.title}>Network</Text>
-        <View style={styles.badge}>
-          <FontAwesomeIcon icon={faUsers} size={14} color="#555" />
-          <Text style={styles.badgeText}>
-            {connections.filter((c) => c.isConnected).length} connections
-          </Text>
-        </View>
-        <View style={styles.searchBox}>
-          <FontAwesomeIcon icon={faSearch} size={16} color="#aaa" style={styles.searchIcon} />
-          <TextInput
-            placeholder="Search connections..."
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            style={styles.searchInput}
-          />
-        </View>
-        <View style={styles.tabs}>
-          <TouchableOpacity
-            style={[styles.tabButton, tab === "suggestions" && styles.activeTab]}
-            onPress={() => setTab("suggestions")}
-          >
-            <FontAwesomeIcon icon={faUserPlus} size={16} />
-            <Text style={styles.tabText}>Suggestions</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.tabButton, tab === "connections" && styles.activeTab]}
-            onPress={() => setTab("connections")}
-          >
-            <FontAwesomeIcon icon={faUserCheck} size={16} />
-            <Text style={styles.tabText}>My Network</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* List */}
+    <SafeAreaView style={styles.container} edges={["top"]}>
       <FlatList
         data={filtered}
         keyExtractor={(item) => item.id.toString()}
+        refreshing={isRefetching}
+        onRefresh={handleRefetch}
         contentContainerStyle={styles.list}
+        ListHeaderComponent={
+          <ScreenHeader title="Network">
+            <Badge 
+              icon={faUsers} 
+              text={`${connectedCount} connections`} 
+              style={styles.badge}
+            />
+            <SearchInput
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              placeholder="Search connections..."
+              style={styles.searchBox}
+            />
+            <TabBar
+              tabs={TABS}
+              activeTab={tab}
+              onTabChange={(key) => setTab(key as "suggestions" | "connections")}
+              style={styles.tabs}
+            />
+          </ScreenHeader>
+        }
+        stickyHeaderIndices={[0]}
         renderItem={({ item }) => (
           <ConnectionCard
             item={item}
             isSuggestion={tab === "suggestions"}
-            onToggle={handleToggle}
+            isConnecting={connectingUserId === item.id}
+            onToggle={handleConnect}
             onClickViewProfile={() => navigation.navigate("ViewProfile", { userId: item.id })}
             onClickChat={() => navigation.navigate("Chat", { userId: item.id })}
           />
         )}
+        ListEmptyComponent={
+          <EmptyState
+            message={
+              tab === "suggestions"
+                ? "No suggestions available"
+                : "You don't have any connections yet"
+            }
+          />
+        }
       />
     </SafeAreaView>
   );
@@ -93,29 +137,9 @@ export const NetworkScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f9f9f9" },
-  header: { padding: 16, backgroundColor: "#fff", elevation: 2 },
-  title: { fontSize: 20, fontWeight: "600", marginBottom: 8 },
-  badge: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 12 },
-  badgeText: { marginLeft: 6, fontSize: 12, color: "#555" },
-  searchBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#eee",
-    borderRadius: 20,
-    paddingHorizontal: 12,
-    marginBottom: 12,
-  },
-  searchIcon: { marginRight: 8 },
-  searchInput: { flex: 1, height: 40 },
-  tabs: { flexDirection: "row", justifyContent: "space-around", marginTop: 4 },
-  tabButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-  },
-  activeTab: { backgroundColor: "#ddd" },
-  tabText: { marginLeft: 6, fontSize: 14 },
+  centerContent: { justifyContent: "center", alignItems: "center" },
+  badge: { marginBottom: 12 },
+  searchBox: { marginBottom: 12 },
+  tabs: { marginTop: 4 },
   list: { padding: 16 },
 });

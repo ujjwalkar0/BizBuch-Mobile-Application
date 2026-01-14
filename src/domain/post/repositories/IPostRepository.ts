@@ -1,8 +1,7 @@
-import { PostRequestBody } from '../entities/Post';
+import { PostRequestBody, PostResponseBody } from '../entities/Post';
 
 export interface IPostRepository {
-  getAllPosts(): Promise<PostRequestBody[]>;
-  getPostById(id: string): Promise<PostRequestBody | null>;
-  // createPost(post: Omit<PostRequestBody, "id" | "createdAt">): Promise<PostRequestBody>;
+  getAllPosts(): Promise<PostResponseBody[]>;
+  getPostById(id: string): Promise<PostResponseBody | null>;
   create(postBody: PostRequestBody): Promise<void>;
 }

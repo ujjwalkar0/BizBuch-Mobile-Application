@@ -1,38 +1,20 @@
-// src/presentation/components/PostCard.tsx
-
-/*
-<PostCard
-  post={post}
-  isFollowing={false}
-  onFollow={() => console.log("Follow clicked")}
-  onMenuPress={() => console.log("Menu pressed")}
-  onLike={() => console.log("Liked")}
-  onComment={() => console.log("Comment")}
-  onShare={() => console.log("Share")}
-  onSend={() => console.log("Send")}
-/>
-*/
-import React from "react";
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+  faHeart as faHeartSolid,
+  faEllipsisVertical,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   faHeart,
   faComment,
-  faShare,
   faPaperPlane,
-  faEllipsisVertical,
-} from "@fortawesome/free-solid-svg-icons";
-
-import { Post } from "../../domain/post/entities/Post";
+} from '@fortawesome/free-regular-svg-icons';
+import { PostResponseBody } from '../../domain/post/entities/Post';
+import { theme } from '../theme';
 
 interface Props {
-  post: Post;
+  post: PostResponseBody;
   onPostOpen?: () => void;
   onLike?: () => void;
   onComment?: () => void;
@@ -53,118 +35,208 @@ export const PostCard: React.FC<Props> = ({
   onFollow,
   onMenuPress,
   isFollowing = false,
-}) => (
-  <TouchableOpacity style={styles.card} onPress={onPostOpen}>
-    {/* Header */}
-    <View style={styles.header}>
-      <Image source={{ uri: post.author.avatar }} style={styles.avatar} />
+}) => {
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.likes_count || 0);
 
-      <View style={{ flex: 1 }}>
-        <Text style={styles.name}>{post.author.name}</Text>
-        <Text style={styles.username}>{post.author.username}</Text>
+  const handleLike = () => {
+    if (isLiked) {
+      setLikeCount(likeCount - 1);
+    } else {
+      setLikeCount(likeCount + 1);
+    }
+    setIsLiked(!isLiked);
+    onLike?.();
+  };
+
+  return (
+    <View style={styles.card}>
+      {/* Post Header */}
+      <View style={styles.header}>
+        <View style={styles.authorSection}>
+          <View style={styles.avatarRing}>
+            <Image source={{ uri: post.author }} style={styles.avatar} />
+          </View>
+          <Text style={styles.username} numberOfLines={1}>
+            {post.author}
+          </Text>
+        </View>
+
+        <View style={styles.headerActions}>
+          {/* Follow Button */}
+          <TouchableOpacity
+            style={[styles.followBtn, isFollowing && styles.following]}
+            onPress={onFollow}
+            activeOpacity={0.8}
+          >
+            <Text style={[styles.followText, isFollowing && styles.followingText]}>
+              {isFollowing ? 'Following' : 'Follow'}
+            </Text>
+          </TouchableOpacity>
+
+          {/* Menu Button */}
+          <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
+            <FontAwesomeIcon icon={faEllipsisVertical} size={16} color={theme.colors.gray700} />
+          </TouchableOpacity>
+        </View>
       </View>
 
-      {/* Follow Button */}
-      <TouchableOpacity
-        style={[styles.followBtn, isFollowing && styles.following]}
-        onPress={onFollow}
-      >
-        <Text style={[styles.followText, isFollowing && styles.followingText]}>
-          {isFollowing ? "Following" : "Follow"}
-        </Text>
-      </TouchableOpacity>
+      {/* Post Content */}
+      {post.content && (
+        <View style={styles.contentContainer}>
+          <Text style={styles.content}>{post.content}</Text>
+        </View>
+      )}
 
-      {/* 3 Dot Menu */}
-      <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
-        <FontAwesomeIcon icon={faEllipsisVertical} size={20} color="#444" />
-      </TouchableOpacity>
+      {/* Post Image */}
+      {post.image_url && (
+        <TouchableOpacity onPress={onPostOpen} activeOpacity={0.95}>
+          <Image source={{ uri: post.image_url }} style={styles.image} />
+        </TouchableOpacity>
+      )}
+
+      {/* Action Buttons */}
+      <View style={styles.actionsRow}>
+        <View style={styles.leftActions}>
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={handleLike}
+            activeOpacity={0.7}
+          >
+            <FontAwesomeIcon
+              icon={isLiked ? faHeartSolid : faHeart}
+              size={24}
+              color={isLiked ? theme.colors.primary : theme.colors.gray700}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.actionButton} onPress={onComment} activeOpacity={0.7}>
+            <FontAwesomeIcon icon={faComment} size={24} color={theme.colors.gray700} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.actionButton} onPress={onSend} activeOpacity={0.7}>
+            <FontAwesomeIcon icon={faPaperPlane} size={22} color={theme.colors.gray700} />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Likes and Comments Count */}
+      <View style={styles.statsContainer}>
+        <Text style={styles.likeCount}>{likeCount.toLocaleString()} likes</Text>
+        {(post.comments_count ?? 0) > 0 && (
+          <TouchableOpacity onPress={onComment}>
+            <Text style={styles.commentsLink}>
+              View all {post.comments_count} comments
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
-
-    {/* Content */}
-    <Text style={styles.content}>{post.content}</Text>
-
-    {post.image && <Image source={{ uri: post.image }} style={styles.image} />}
-
-    <Text style={styles.timestamp}>{post.timestamp}</Text>
-
-    {/* Actions */}
-    <View style={styles.actionsRow}>
-      <TouchableOpacity style={styles.actionButton} onPress={onLike}>
-        <FontAwesomeIcon icon={faHeart} size={18} color="#ef4444" />
-        <Text style={styles.actionLabel}>Like</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.actionButton} onPress={onComment}>
-        <FontAwesomeIcon icon={faComment} size={18} color="#3b82f6" />
-        <Text style={styles.actionLabel}>Comment</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.actionButton} onPress={onShare}>
-        <FontAwesomeIcon icon={faShare} size={18} color="#10b981" />
-        <Text style={styles.actionLabel}>Share</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.actionButton} onPress={onSend}>
-        <FontAwesomeIcon icon={faPaperPlane} size={18} color="#7c3aed" />
-        <Text style={styles.actionLabel}>Send</Text>
-      </TouchableOpacity>
-    </View>
-  </TouchableOpacity>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
-    marginBottom: 8,
-    padding: 12,
+    backgroundColor: theme.colors.white,
     borderBottomWidth: 1,
-    borderColor: "#efefef",
+    borderColor: theme.colors.border,
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  avatar: { width: 40, height: 40, borderRadius: 20, marginRight: 10 },
-  name: { fontWeight: "bold", color: "#000" },
-  username: { color: "#555", fontSize: 12 },
-
-  followBtn: {
-    paddingVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 12,
-    borderRadius: 14,
-    backgroundColor: "#2563eb",
-    marginRight: 8,
+    paddingVertical: 12,
+  },
+  authorSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  avatarRing: {
+    padding: 2,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: `${theme.colors.primary}50`,
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: theme.colors.gray200,
+  },
+  username: {
+    marginLeft: 10,
+    fontSize: 14,
+    fontWeight: '600',
+    color: theme.colors.gray900,
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  followBtn: {
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    backgroundColor: theme.colors.primary,
   },
   followText: {
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: "600",
+    color: theme.colors.white,
+    fontSize: 13,
+    fontWeight: '600',
   },
   following: {
-    backgroundColor: "#e5e7eb",
+    backgroundColor: theme.colors.gray200,
   },
   followingText: {
-    color: "#333",
+    color: theme.colors.gray700,
   },
-
   menuButton: {
+    padding: 8,
+  },
+  contentContainer: {
+    paddingHorizontal: 12,
+    paddingBottom: 10,
+  },
+  content: {
+    fontSize: 14,
+    color: theme.colors.gray900,
+    lineHeight: 20,
+  },
+  image: {
+    width: '100%',
+    aspectRatio: 1,
+    backgroundColor: theme.colors.gray100,
+  },
+  actionsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  leftActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  actionButton: {
     padding: 4,
   },
-
-  content: { color: "#000", marginBottom: 8 },
-  image: { width: "100%", height: 200, borderRadius: 10, marginTop: 4 },
-  timestamp: { color: "#888", fontSize: 12, marginTop: 6 },
-
-  actionsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingTop: 10,
-    borderTopWidth: 1,
-    borderColor: "#eee",
-    marginTop: 10,
+  statsContainer: {
+    paddingHorizontal: 12,
+    paddingBottom: 12,
   },
-  actionButton: { flexDirection: "row", alignItems: "center", gap: 6 },
-  actionLabel: { fontSize: 14, color: "#333", marginLeft: 4 },
+  likeCount: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: theme.colors.gray900,
+  },
+  commentsLink: {
+    fontSize: 14,
+    color: theme.colors.gray500,
+    marginTop: 4,
+  },
 });
-

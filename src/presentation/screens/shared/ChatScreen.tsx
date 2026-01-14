@@ -1,20 +1,83 @@
-// presentation/screens/ChatScreen.tsx
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { ChatScreenProps } from "../../navigation/messages-screen-navigation/MessageScreenStackParamList";
+// presentation/screens/shared/ChatScreen.tsx
+/**
+ * ChatScreen Component (Page)
+ *
+ * Atomic Design: Page - Connects data layer to template
+ * SOLID Principles Applied:
+ * - Single Responsibility: Route handling and hook connection only
+ * - Open/Closed: Extended through useChatScreen hook and ChatScreenTemplate
+ * - Liskov Substitution: Interchangeable message sending (WebSocket vs REST)
+ * - Interface Segregation: Focused props passed to template
+ * - Dependency Inversion: Depends on abstracted hooks and templates
+ */
+import React from 'react';
+import { ChatScreenProps } from '../../navigation/messages-screen-navigation/MessageScreenStackParamList';
+import { useChatScreen } from '../../../ui/hooks/useChatScreen';
+import { ChatScreenTemplate } from '../../templates/ChatScreenTemplate';
 
-export const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
-  const { chatId } = route.params;
+export const ChatScreen: React.FC<ChatScreenProps> = ({
+  route,
+  navigation,
+}) => {
+  const { userId } = route.params;
+
+  const {
+    flatListRef,
+    otherParticipantName,
+    isConversationLoading,
+    messages,
+    isLoadingMessages,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+    isWebSocketConnected,
+    isWebSocketConnecting,
+    wsConnectionError,
+    reconnectAttempts,
+    reconnectWebSocket,
+    messageText,
+    handleTextChange,
+    handleSend,
+    isSending,
+    chatActions,
+  } = useChatScreen({
+    userId,
+    onGoBack: () => navigation.goBack(),
+  });
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Chat ID: {chatId}</Text>
-      <Text style={styles.text}>Welcome to chat window</Text>
-    </View>
+    <ChatScreenTemplate
+      // Header
+      title={otherParticipantName}
+      chatActions={chatActions}
+      onBackPress={() => navigation.goBack()}
+      isWebSocketConnected={isWebSocketConnected}
+      // Banner
+      isWebSocketConnecting={isWebSocketConnecting}
+      wsConnectionError={wsConnectionError}
+      reconnectAttempts={reconnectAttempts}
+      onRetry={reconnectWebSocket}
+      onGoBack={() => navigation.goBack()}
+      // Content
+      messages={messages}
+      isLoading={isLoadingMessages || isConversationLoading}
+      isFetchingNextPage={isFetchingNextPage}
+      hasNextPage={hasNextPage}
+      onEndReached={() => {
+        if (hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      }}
+      onContentSizeChange={() => {
+        if (messages.length > 0) {
+          flatListRef.current?.scrollToEnd({ animated: false });
+        }
+      }}
+      flatListRef={flatListRef}
+      messageText={messageText}
+      onTextChange={handleTextChange}
+      onSend={handleSend}
+      isSending={isSending}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  text: { fontSize: 18 },
-});

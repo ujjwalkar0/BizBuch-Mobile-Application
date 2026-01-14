@@ -4,7 +4,12 @@ import { RootStackParamList } from "../RootStackParamList";
 
 export type FeedNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  "ViewPost"
+  "NewsFeed"
+>;
+
+export type NewsFeedScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "NewsFeed"
 >;
 
 export type ViewPostScreenProps = NativeStackScreenProps<

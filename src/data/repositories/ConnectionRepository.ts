@@ -1,18 +1,21 @@
 import { Connection } from "../../domain/user/entities/Connection";
 import { IConnectionRepository } from "../../domain/user/repositories/IConnectionRepository";
-import { mockConnections } from "../datasources/MockConnectionDataSource";
+import { getAuth, postAuth } from "../../core/http";
 
 export class ConnectionRepository implements IConnectionRepository {
-  private connections: Connection[] = [...mockConnections];
-
-  async getConnections(): Promise<Connection[]> {
-    return Promise.resolve(this.connections);
+  async getProfiles(): Promise<Connection[]> {
+    return getAuth<Connection[]>("profiles/");
   }
 
-  async toggleConnection(id: number): Promise<Connection[]> {
-    this.connections = this.connections.map((conn) =>
-      conn.id === id ? { ...conn, isConnected: !conn.isConnected } : conn
-    );
-    return Promise.resolve(this.connections);
+  async getMyConnections(): Promise<Connection[]> {
+    return getAuth<Connection[]>("profiles/connections");
+  }
+
+  async sendConnectionRequest(userId: number): Promise<void> {
+    return postAuth<void>(`profiles/${userId}/follow/`, {});
+  }
+
+  async removeConnection(userId: number): Promise<void> {
+    return postAuth<void>(`profiles/${userId}/unfollow/`, {});
   }
 }

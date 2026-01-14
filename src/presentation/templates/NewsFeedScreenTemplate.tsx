@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { NewsFeedHeader } from '../components/NewsFeedHeader';
+import { NewsFeedHeader } from '../components/molecules/NewsFeedHeader';
 import { CenteredLoader } from '../components/molecules/CenteredLoader';
 import { CenteredError } from '../components/molecules/CenteredError';
 import { PostList } from '../components/organisms/PostList';

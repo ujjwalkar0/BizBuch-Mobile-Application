@@ -1,10 +1,17 @@
 import { IConnectionRepository } from "../repositories/IConnectionRepository";
-import { Connection } from "../entities/Connection";
 
-export class ToggleConnectionStatus {
+export class SendConnectionRequest {
   constructor(private repo: IConnectionRepository) {}
 
-  async execute(id: number): Promise<Connection[]> {
-    return this.repo.toggleConnection(id);
+  async execute(userId: number): Promise<void> {
+    return this.repo.sendConnectionRequest(userId);
+  }
+}
+
+export class RemoveConnection {
+  constructor(private repo: IConnectionRepository) {}
+
+  async execute(userId: number): Promise<void> {
+    return this.repo.removeConnection(userId);
   }
 }
