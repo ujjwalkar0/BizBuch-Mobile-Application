@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { NewsFeedHeader } from '../NewsFeedHeader';
+import { NewsFeedHeader } from './NewsFeedHeader';
 
 interface NewsFeedListHeaderProps {
   navigation: any;
