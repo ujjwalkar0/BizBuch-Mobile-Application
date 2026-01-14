@@ -1,6 +1,8 @@
-import React from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, ViewStyle } from 'react-native';
 import { theme } from '../../theme';
+
+const { ring: ringConfig } = theme.components.avatar;
 
 interface AvatarRingProps {
   children: React.ReactNode;
@@ -15,36 +17,33 @@ interface AvatarRingProps {
  * AvatarRing Atom
  * Atomic Design: Atom - Circular border ring for avatar
  * Single Responsibility: Display circular border wrapper
+ * SOLID: Open/Closed - Styles from theme
  */
 export const AvatarRing: React.FC<AvatarRingProps> = ({
   children,
   size,
   borderColor = theme.colors.primary,
-  borderWidth = 2,
-  padding = 2,
+  borderWidth = ringConfig.borderWidth,
+  padding = ringConfig.padding,
   style,
 }) => {
+  const ringStyle = useMemo<ViewStyle>(
+    () => ({
+      borderColor,
+      borderWidth,
+      padding,
+      borderRadius: size
+        ? (size + padding * 2 + borderWidth * 2) / 2
+        : ringConfig.defaultBorderRadius,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }),
+    [size, borderColor, borderWidth, padding],
+  );
+
   return (
-    <View
-      style={[
-        styles.ring,
-        {
-          borderColor,
-          borderWidth,
-          padding,
-          borderRadius: size ? (size + padding * 2 + borderWidth * 2) / 2 : 20,
-        },
-        style,
-      ]}
-    >
+    <View style={[ringStyle, style]}>
       {children}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  ring: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

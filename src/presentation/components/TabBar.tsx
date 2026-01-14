@@ -1,7 +1,10 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ViewStyle } from "react-native";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import React, { useMemo } from 'react';
+import { View, ViewStyle } from 'react-native';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { TabButton } from './atoms/TabButton';
+import { theme } from '../theme';
+
+const { tabBar } = theme.components;
 
 interface Tab {
   key: string;
@@ -16,44 +19,38 @@ interface TabBarProps {
   style?: ViewStyle;
 }
 
+/**
+ * TabBar Molecule
+ * Atomic Design: Molecule - Composes TabButton atoms
+ * Single Responsibility: Manage tab navigation display
+ * SOLID: Open/Closed - Extensible via props, styles from theme
+ */
 export const TabBar: React.FC<TabBarProps> = ({
   tabs,
   activeTab,
   onTabChange,
   style,
-}) => (
-  <View style={[styles.tabs, style]}>
-    {tabs.map((tab) => (
-      <TouchableOpacity
-        key={tab.key}
-        style={[styles.tabButton, activeTab === tab.key && styles.activeTab]}
-        onPress={() => onTabChange(tab.key)}
-      >
-        {tab.icon && (
-          <FontAwesomeIcon
-            icon={tab.icon}
-            size={16}
-            color={activeTab === tab.key ? "#2563EB" : "#666"}
-          />
-        )}
-        <Text style={[styles.tabText, activeTab === tab.key && styles.activeTabText]}>
-          {tab.label}
-        </Text>
-      </TouchableOpacity>
-    ))}
-  </View>
-);
+}) => {
+  const containerStyle = useMemo<ViewStyle>(
+    () => ({
+      flexDirection: tabBar.flexDirection,
+      justifyContent: tabBar.justifyContent,
+      ...((style as object) || {}),
+    }),
+    [style],
+  );
 
-const styles = StyleSheet.create({
-  tabs: { flexDirection: "row", justifyContent: "space-around" },
-  tabButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-  },
-  activeTab: { backgroundColor: "#EBF5FF" },
-  tabText: { marginLeft: 6, fontSize: 14, color: "#666" },
-  activeTabText: { color: "#2563EB", fontWeight: "500" },
-});
+  return (
+    <View style={containerStyle}>
+      {tabs.map((tab) => (
+        <TabButton
+          key={tab.key}
+          label={tab.label}
+          icon={tab.icon}
+          isActive={activeTab === tab.key}
+          onPress={() => onTabChange(tab.key)}
+        />
+      ))}
+    </View>
+  );
+};

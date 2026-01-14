@@ -1,0 +1,2233 @@
+openapi: 3.0.3
+info:
+  title: BizBuch API
+  version: 1.0.0
+  description: API Documentation for BizBuch
+paths:
+  /activity/{id}/read/:
+    post:
+      operationId: activity_read_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - activity
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /activity/log/:
+    get:
+      operationId: activity_log_list
+      description: Activity log of the authenticated user (actor-based).
+      tags:
+      - activity
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ActivityLog'
+          description: ''
+  /activity/notifications/:
+    get:
+      operationId: activity_notifications_list
+      tags:
+      - activity
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+          description: ''
+  /activity/read-all/:
+    post:
+      operationId: activity_read_all_create
+      tags:
+      - activity
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /auth/forgot-password/:
+    post:
+      operationId: auth_forgot_password_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPassword'
+          description: ''
+  /auth/login/:
+    post:
+      operationId: auth_login_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+          description: ''
+  /auth/register/:
+    post:
+      operationId: auth_register_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Register'
+          description: ''
+  /auth/resend-otp/:
+    post:
+      operationId: auth_resend_otp_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResendOTPRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResendOTPRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResendOTPRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResendOTP'
+          description: ''
+  /auth/reset-password/:
+    post:
+      operationId: auth_reset_password_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResetPassword'
+          description: ''
+  /auth/validate-token/:
+    post:
+      operationId: auth_validate_token_create
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /auth/verify-otp/:
+    post:
+      operationId: auth_verify_otp_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyOTPRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VerifyOTPRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VerifyOTPRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyOTP'
+          description: ''
+  /chat/conversations/:
+    get:
+      operationId: chat_conversations_list
+      description: Get all conversations for the authenticated user with preview of
+        last message
+      summary: List user's conversations
+      tags:
+      - Chat
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConversationList'
+          description: ''
+  /chat/conversations/{conversation_id}/:
+    get:
+      operationId: chat_conversations_retrieve
+      description: Get detailed view of a conversation with all messages
+      summary: Get conversation details
+      parameters:
+      - in: path
+        name: conversation_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Chat
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+          description: ''
+  /chat/conversations/{conversation_id}/messages/:
+    get:
+      operationId: chat_conversations_messages_list
+      description: Get paginated list of messages in a conversation. Each message
+        includes a 'type' field indicating 'sent' or 'received'.
+      summary: List messages in conversation
+      parameters:
+      - in: path
+        name: conversation_id
+        schema:
+          type: integer
+        required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: Page number
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+        description: 'Number of messages per page (default: 50)'
+      tags:
+      - Chat
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+          description: ''
+  /chat/conversations/{conversation_id}/read/:
+    post:
+      operationId: chat_conversations_read_create
+      description: Mark specific messages or all messages in a conversation as read
+      summary: Mark messages as read
+      parameters:
+      - in: path
+        name: conversation_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message_ids:
+                  type: array
+                  items:
+                    type: integer
+                  description: List of message IDs to mark as read (optional)
+                mark_all:
+                  type: boolean
+                  description: Mark all messages in conversation as read
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Messages marked as read
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                description: Bad request
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                description: Conversation not found
+          description: ''
+  /chat/conversations/start/:
+    post:
+      operationId: chat_conversations_start_create
+      description: Start a new conversation with a user or get the existing one
+      summary: Start or get conversation
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: ID of the user to start conversation with
+              required:
+              - user_id
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+          description: ''
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                description: Bad request
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                description: User not found
+          description: ''
+  /chat/send/:
+    post:
+      operationId: chat_send_create
+      description: Send a message to another user. Creates conversation if it doesn't
+        exist.
+      summary: Send a message
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MessageCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MessageCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                description: Bad request
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                description: User not found
+          description: ''
+  /onboarding/status/:
+    get:
+      operationId: onboarding_status_retrieve
+      tags:
+      - onboarding
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnboardingStatus'
+          description: ''
+  /onboarding/topics/:
+    get:
+      operationId: onboarding_topics_retrieve
+      tags:
+      - onboarding
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topic'
+          description: ''
+  /onboarding/topics/submit/:
+    post:
+      operationId: onboarding_topics_submit_create
+      tags:
+      - onboarding
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicSelectionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TopicSelectionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TopicSelectionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicSelection'
+          description: ''
+  /posts/:
+    get:
+      operationId: posts_list
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostModel'
+          description: ''
+    post:
+      operationId: posts_create
+      tags:
+      - posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostModelRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PostModelRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PostModelRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostModel'
+          description: ''
+  /posts/{id}/:
+    get:
+      operationId: posts_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostModel'
+          description: ''
+    put:
+      operationId: posts_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostModelRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PostModelRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PostModelRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostModel'
+          description: ''
+    patch:
+      operationId: posts_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPostModelRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPostModelRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPostModelRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostModel'
+          description: ''
+    delete:
+      operationId: posts_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /posts/{post_id}/comments/:
+    get:
+      operationId: posts_comments_list
+      parameters:
+      - in: path
+        name: post_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Comments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostComment'
+          description: ''
+    post:
+      operationId: posts_comments_create
+      parameters:
+      - in: path
+        name: post_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Comments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCommentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PostCommentRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PostCommentRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostComment'
+          description: ''
+  /posts/{post_id}/likes/:
+    get:
+      operationId: posts_likes_list
+      parameters:
+      - in: path
+        name: post_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Likes
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostLike'
+          description: ''
+    post:
+      operationId: posts_likes_create
+      parameters:
+      - in: path
+        name: post_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Likes
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostLike'
+          description: ''
+  /posts/{post_id}/report/:
+    post:
+      operationId: posts_report_create
+      parameters:
+      - in: path
+        name: post_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Reports
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostReportRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PostReportRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PostReportRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostReport'
+          description: ''
+  /posts/comments/{id}/:
+    get:
+      operationId: posts_comments_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Comments
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostComment'
+          description: ''
+    put:
+      operationId: posts_comments_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Comments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCommentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PostCommentRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PostCommentRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostComment'
+          description: ''
+    patch:
+      operationId: posts_comments_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Comments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPostCommentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPostCommentRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPostCommentRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostComment'
+          description: ''
+    delete:
+      operationId: posts_comments_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Comments
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /posts/likes/{id}/:
+    delete:
+      operationId: posts_likes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Likes
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /profiles/:
+    get:
+      operationId: profiles_list
+      parameters:
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - profiles
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileCompact'
+          description: ''
+  /profiles/{id}/follow/:
+    post:
+      operationId: profiles_follow_create
+      description: Follow a user profile
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Follows
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FollowResponse'
+          description: ''
+  /profiles/{id}/followers/:
+    get:
+      operationId: profiles_followers_list
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Follows
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileCompact'
+          description: ''
+  /profiles/{id}/following/:
+    get:
+      operationId: profiles_following_list
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Follows
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileCompact'
+          description: ''
+  /profiles/{id}/unfollow/:
+    post:
+      operationId: profiles_unfollow_create
+      description: Unfollow a user profile
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Follows
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FollowResponse'
+          description: ''
+  /profiles/{user_id}/:
+    get:
+      operationId: profiles_retrieve
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - profiles
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+  /profiles/connections/:
+    get:
+      operationId: profiles_connections_list
+      description: |-
+        Get the authenticated user's connections (followers + following).
+
+        Returns a list of profiles that the user is connected with.
+      tags:
+      - profiles
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileCompact'
+          description: ''
+  /profiles/me/:
+    get:
+      operationId: profiles_me_retrieve
+      tags:
+      - profiles
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+    patch:
+      operationId: profiles_me_partial_update
+      tags:
+      - profiles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileUpdateRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileUpdate'
+          description: ''
+  /uploads/presign/:
+    post:
+      operationId: uploads_presign_create
+      tags:
+      - uploads
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PresignUploadRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PresignUploadRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PresignUploadRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresignUploadRequest'
+          description: ''
+components:
+  schemas:
+    AccountTypeEnum:
+      enum:
+      - personal
+      - business
+      - creator
+      type: string
+      description: |-
+        * `personal` - personal
+        * `business` - business
+        * `creator` - creator
+    Activity:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        actor_username:
+          type: string
+          readOnly: true
+        verb:
+          type: string
+          maxLength: 50
+        is_read:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - actor_username
+      - created_at
+      - id
+      - verb
+    ActivityLog:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        verb:
+          type: string
+          maxLength: 50
+        target_type:
+          type: string
+          nullable: true
+          readOnly: true
+        target_id:
+          type: integer
+          nullable: true
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - target_id
+      - target_type
+      - verb
+    BlankEnum:
+      enum:
+      - ''
+    Conversation:
+      type: object
+      description: Detailed serializer for a single conversation.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversationParticipant'
+          readOnly: true
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - messages
+      - participants
+      - updated_at
+    ConversationList:
+      type: object
+      description: Serializer for listing conversations with preview.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        other_participant:
+          type: string
+          readOnly: true
+        last_message:
+          type: string
+          readOnly: true
+        unread_count:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - last_message
+      - other_participant
+      - unread_count
+      - updated_at
+    ConversationParticipant:
+      type: object
+      description: Serializer for conversation participants.
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        headline:
+          type: string
+          nullable: true
+      required:
+      - first_name
+      - headline
+      - id
+      - last_name
+      - username
+    EmploymentTypeEnum:
+      enum:
+      - full-time
+      - part-time
+      - self-employed
+      - freelance
+      - contract
+      - internship
+      - apprenticeship
+      - seasonal
+      type: string
+      description: |-
+        * `full-time` - Full-time
+        * `part-time` - Part-time
+        * `self-employed` - Self-employed
+        * `freelance` - Freelance
+        * `contract` - Contract
+        * `internship` - Internship
+        * `apprenticeship` - Apprenticeship
+        * `seasonal` - Seasonal
+    EndMonthEnum:
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      type: integer
+      description: |-
+        * `1` - 1
+        * `2` - 2
+        * `3` - 3
+        * `4` - 4
+        * `5` - 5
+        * `6` - 6
+        * `7` - 7
+        * `8` - 8
+        * `9` - 9
+        * `10` - 10
+        * `11` - 11
+        * `12` - 12
+    FollowResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    ForgotPassword:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    ForgotPasswordRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+      required:
+      - email
+    LocationTypeEnum:
+      enum:
+      - current
+      - previous
+      - hometown
+      - other
+      type: string
+      description: |-
+        * `current` - Current
+        * `previous` - Previous
+        * `hometown` - Hometown
+        * `other` - Other
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+      required:
+      - username
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - password
+      - username
+    Message:
+      type: object
+      description: Serializer for Message model.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        conversation:
+          type: integer
+        sender_id:
+          type: integer
+          readOnly: true
+        sender_username:
+          type: string
+          readOnly: true
+        sender_first_name:
+          type: string
+          readOnly: true
+        sender_last_name:
+          type: string
+          readOnly: true
+        content:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
+        is_read:
+          type: boolean
+          readOnly: true
+        read_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - content
+      - conversation
+      - id
+      - is_read
+      - read_at
+      - sender_first_name
+      - sender_id
+      - sender_last_name
+      - sender_username
+      - timestamp
+    MessageCreateRequest:
+      type: object
+      description: Serializer for creating a new message.
+      properties:
+        recipient_id:
+          type: integer
+        content:
+          type: string
+          minLength: 1
+          maxLength: 5000
+      required:
+      - content
+      - recipient_id
+    NullEnum:
+      enum:
+      - null
+    OnboardingStatus:
+      type: object
+      properties:
+        completed:
+          type: boolean
+      required:
+      - completed
+    PatchedPostCommentRequest:
+      type: object
+      properties:
+        content:
+          type: string
+          minLength: 1
+    PatchedPostModelRequest:
+      type: object
+      properties:
+        content:
+          type: string
+        poll:
+          nullable: true
+        location:
+          type: string
+          maxLength: 255
+        feeling:
+          type: string
+          maxLength: 100
+        privacy:
+          type: string
+          minLength: 1
+          maxLength: 50
+    PatchedProfileUpdateRequest:
+      type: object
+      description: |-
+        Serializer for updating profile and user information.
+        Separates read and write operations - follows Single Responsibility Principle.
+      properties:
+        display_name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        bio:
+          type: string
+        avatar:
+          type: string
+          nullable: true
+          minLength: 1
+        headline:
+          type: string
+          maxLength: 255
+        current_position:
+          type: string
+          maxLength: 255
+        company:
+          type: string
+          maxLength: 255
+        industry:
+          type: string
+          maxLength: 100
+        company_logo:
+          type: string
+          nullable: true
+          minLength: 1
+        cover_image:
+          type: string
+          nullable: true
+          minLength: 1
+        phone:
+          type: string
+          maxLength: 20
+        website:
+          type: string
+          format: uri
+        linkedin_url:
+          type: string
+          format: uri
+        twitter_url:
+          type: string
+          format: uri
+        account_type:
+          $ref: '#/components/schemas/AccountTypeEnum'
+        open_to_work:
+          type: boolean
+        open_to_hire:
+          type: boolean
+        is_public:
+          type: boolean
+    PostComment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        post:
+          type: integer
+          readOnly: true
+        user:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - content
+      - created_at
+      - id
+      - post
+      - user
+    PostCommentRequest:
+      type: object
+      properties:
+        content:
+          type: string
+          minLength: 1
+      required:
+      - content
+    PostLike:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+        post:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - post
+      - user
+    PostModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        author:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+        image_url:
+          type: string
+          readOnly: true
+        content:
+          type: string
+        poll:
+          nullable: true
+        location:
+          type: string
+          maxLength: 255
+        feeling:
+          type: string
+          maxLength: 100
+        privacy:
+          type: string
+          maxLength: 50
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        likes_count:
+          type: integer
+          readOnly: true
+        comments_count:
+          type: integer
+          readOnly: true
+        shares_count:
+          type: integer
+          readOnly: true
+      required:
+      - author
+      - comments_count
+      - created_at
+      - id
+      - image_url
+      - likes_count
+      - shares_count
+    PostModelRequest:
+      type: object
+      properties:
+        content:
+          type: string
+        poll:
+          nullable: true
+        location:
+          type: string
+          maxLength: 255
+        feeling:
+          type: string
+          maxLength: 100
+        privacy:
+          type: string
+          minLength: 1
+          maxLength: 50
+    PostReport:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        reported_by:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+        post:
+          type: integer
+          readOnly: true
+        reason:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - post
+      - reason
+      - reported_by
+    PostReportRequest:
+      type: object
+      properties:
+        reason:
+          type: string
+          minLength: 1
+      required:
+      - reason
+    PresignUploadRequest:
+      type: object
+      properties:
+        contentType:
+          type: string
+          maxLength: 100
+      required:
+      - contentType
+    PresignUploadRequestRequest:
+      type: object
+      properties:
+        contentType:
+          type: string
+          minLength: 1
+          maxLength: 100
+      required:
+      - contentType
+    Profile:
+      type: object
+      description: |-
+        Main profile response serializer with key fields.
+        Follows Dependency Inversion Principle - depends on ProfileStatsService.
+      properties:
+        id:
+          type: integer
+        display_name:
+          type: string
+        username:
+          type: string
+        bio:
+          type: string
+        avatar:
+          type: string
+          readOnly: true
+        headline:
+          type: string
+          nullable: true
+        current_position:
+          type: string
+          nullable: true
+        company:
+          type: string
+          nullable: true
+        company_logo:
+          type: string
+          readOnly: true
+        industry:
+          type: string
+          nullable: true
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileLocation'
+          readOnly: true
+        phone:
+          type: string
+          nullable: true
+        website:
+          type: string
+          format: uri
+          nullable: true
+        linkedin_url:
+          type: string
+          format: uri
+          nullable: true
+        twitter_url:
+          type: string
+          format: uri
+          nullable: true
+        connections_count:
+          type: string
+          readOnly: true
+        followers_count:
+          type: string
+          readOnly: true
+        following_count:
+          type: string
+          readOnly: true
+        posts_count:
+          type: string
+          readOnly: true
+        is_connected:
+          type: string
+          readOnly: true
+        is_following:
+          type: string
+          readOnly: true
+        mutual_connections_count:
+          type: string
+          readOnly: true
+        is_verified:
+          type: boolean
+        is_premium:
+          type: boolean
+        account_type:
+          type: string
+        cover_image:
+          type: string
+          readOnly: true
+        joined_date:
+          type: string
+          format: date-time
+        skills:
+          type: array
+          items:
+            type: string
+        educations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileEducation'
+          readOnly: true
+        work_experiences:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileWorkExperience'
+          readOnly: true
+        open_to_work:
+          type: boolean
+        open_to_hire:
+          type: boolean
+      required:
+      - account_type
+      - avatar
+      - bio
+      - company
+      - company_logo
+      - connections_count
+      - cover_image
+      - current_position
+      - display_name
+      - educations
+      - followers_count
+      - following_count
+      - headline
+      - id
+      - industry
+      - is_connected
+      - is_following
+      - is_premium
+      - is_verified
+      - joined_date
+      - linkedin_url
+      - locations
+      - mutual_connections_count
+      - open_to_hire
+      - open_to_work
+      - phone
+      - posts_count
+      - skills
+      - twitter_url
+      - username
+      - website
+      - work_experiences
+    ProfileCompact:
+      type: object
+      description: |-
+        Lightweight profile serializer for list views and embeds.
+        Follows Single Responsibility - only essential fields for performance.
+      properties:
+        id:
+          type: integer
+        display_name:
+          type: string
+        username:
+          type: string
+        avatar:
+          type: string
+          readOnly: true
+        headline:
+          type: string
+          nullable: true
+        company:
+          type: string
+          nullable: true
+        is_verified:
+          type: boolean
+        followers_count:
+          type: string
+          readOnly: true
+      required:
+      - avatar
+      - company
+      - display_name
+      - followers_count
+      - headline
+      - id
+      - is_verified
+      - username
+    ProfileEducation:
+      type: object
+      description: Serializer for user profile education
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        degrees: {}
+        duration:
+          type: string
+          nullable: true
+          maxLength: 100
+        start_year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        end_year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        is_current:
+          type: boolean
+        school_logo:
+          type: string
+          readOnly: true
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - name
+      - school_logo
+      - updated_at
+    ProfileLocation:
+      type: object
+      description: Serializer for user profile locations
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        location:
+          type: string
+          maxLength: 255
+        is_primary:
+          type: boolean
+        location_type:
+          $ref: '#/components/schemas/LocationTypeEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - location
+      - updated_at
+    ProfileUpdate:
+      type: object
+      description: |-
+        Serializer for updating profile and user information.
+        Separates read and write operations - follows Single Responsibility Principle.
+      properties:
+        display_name:
+          type: string
+          maxLength: 150
+        bio:
+          type: string
+        avatar:
+          type: string
+          nullable: true
+        headline:
+          type: string
+          maxLength: 255
+        current_position:
+          type: string
+          maxLength: 255
+        company:
+          type: string
+          maxLength: 255
+        industry:
+          type: string
+          maxLength: 100
+        company_logo:
+          type: string
+          nullable: true
+        cover_image:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          maxLength: 20
+        website:
+          type: string
+          format: uri
+        linkedin_url:
+          type: string
+          format: uri
+        twitter_url:
+          type: string
+          format: uri
+        account_type:
+          $ref: '#/components/schemas/AccountTypeEnum'
+        open_to_work:
+          type: boolean
+        open_to_hire:
+          type: boolean
+        is_public:
+          type: boolean
+    ProfileWorkExperience:
+      type: object
+      description: Serializer for user profile work experience
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        company_name:
+          type: string
+          maxLength: 255
+        job_title:
+          type: string
+          maxLength: 255
+        location:
+          type: string
+          nullable: true
+          maxLength: 255
+        employment_type:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/EmploymentTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        start_year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        start_month:
+          nullable: true
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+          oneOf:
+          - $ref: '#/components/schemas/StartMonthEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        end_year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        end_month:
+          nullable: true
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+          oneOf:
+          - $ref: '#/components/schemas/EndMonthEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        is_current:
+          type: boolean
+        company_logo:
+          type: string
+          readOnly: true
+        description:
+          type: string
+        skills: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - company_logo
+      - company_name
+      - created_at
+      - id
+      - job_title
+      - start_year
+      - updated_at
+    Register:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          maxLength: 150
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+      required:
+      - email
+      - username
+    RegisterRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+          description: Use a strong password
+        confirm_password:
+          type: string
+          writeOnly: true
+          minLength: 1
+          description: Retype the password
+        first_name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        last_name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        recaptcha_token:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - confirm_password
+      - email
+      - password
+      - username
+    ResendOTP:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    ResendOTPRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+      required:
+      - email
+    ResetPassword:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        otp:
+          type: string
+          maxLength: 6
+      required:
+      - email
+      - otp
+    ResetPasswordRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        otp:
+          type: string
+          minLength: 1
+          maxLength: 6
+        new_password:
+          type: string
+          writeOnly: true
+          minLength: 1
+        confirm_password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - confirm_password
+      - email
+      - new_password
+      - otp
+    StartMonthEnum:
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      type: integer
+      description: |-
+        * `1` - 1
+        * `2` - 2
+        * `3` - 3
+        * `4` - 4
+        * `5` - 5
+        * `6` - 6
+        * `7` - 7
+        * `8` - 8
+        * `9` - 9
+        * `10` - 10
+        * `11` - 11
+        * `12` - 12
+    Topic:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+      required:
+      - id
+      - name
+    TopicSelection:
+      type: object
+      properties:
+        topic_ids:
+          type: array
+          items:
+            type: integer
+      required:
+      - topic_ids
+    TopicSelectionRequest:
+      type: object
+      properties:
+        topic_ids:
+          type: array
+          items:
+            type: integer
+      required:
+      - topic_ids
+    VerifyOTP:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        otp:
+          type: string
+          maxLength: 6
+      required:
+      - email
+      - otp
+    VerifyOTPRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        otp:
+          type: string
+          minLength: 1
+          maxLength: 6
+      required:
+      - email
+      - otp
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

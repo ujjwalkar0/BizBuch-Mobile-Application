@@ -1,6 +1,8 @@
-import React from 'react';
-import { Text, StyleSheet, TextStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { Text, TextStyle } from 'react-native';
 import { theme } from '../../theme';
+
+const { initialText } = theme.components;
 
 interface InitialTextProps {
   children: string;
@@ -12,21 +14,21 @@ interface InitialTextProps {
  * InitialText Atom
  * Atomic Design: Atom - Pure text element for displaying initials
  * Single Responsibility: Display single letter/character
+ * SOLID: Open/Closed - Styles from theme
  */
 export const InitialText: React.FC<InitialTextProps> = ({
   children,
-  size = 18,
+  size = initialText.defaultSize,
   color = theme.colors.primary,
 }) => {
-  return (
-    <Text style={[styles.text, { fontSize: size, color } as TextStyle]}>
-      {children}
-    </Text>
+  const textStyle = useMemo<TextStyle>(
+    () => ({
+      fontSize: size,
+      color,
+      fontWeight: initialText.fontWeight,
+    }),
+    [size, color],
   );
-};
 
-const styles = StyleSheet.create({
-  text: {
-    fontWeight: '600',
-  },
-});
+  return <Text style={textStyle}>{children}</Text>;
+};

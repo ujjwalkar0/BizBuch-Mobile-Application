@@ -8,7 +8,7 @@ import { theme } from '../theme';
 const Tab = createBottomTabNavigator();
 
 // Screens where the tab bar should be hidden
-const HIDDEN_TAB_BAR_SCREENS = ['ViewProfile', 'EditProfile', 'Chat', 'ViewPost'];
+const HIDDEN_TAB_BAR_SCREENS = ['ViewProfile', 'EditProfile', 'Chat', 'ViewPost', 'ActivityLog'];
 
 const getTabBarStyle = (route: any) => {
   const routeName = getFocusedRouteNameFromRoute(route);

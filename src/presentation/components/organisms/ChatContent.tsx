@@ -5,8 +5,8 @@ import {
   Platform,
   FlatList,
 } from 'react-native';
-import { MessageList } from '../MessageList';
-import { ChatInput } from '../ChatInput';
+import { MessageList } from '../molecules/MessageList';
+import { ChatInput } from '../molecules/ChatInput';
 import { Message } from '../../../domain/chat/entities/Message';
 
 interface ChatContentProps {

@@ -13,7 +13,7 @@
 import React from 'react';
 import { ChatScreenProps } from '../../navigation/messages-screen-navigation/MessageScreenStackParamList';
 import { useChatScreen } from '../../../ui/hooks/useChatScreen';
-import { ChatScreenTemplate } from '../../templates/ChatScreenTemplate';
+import { ChatScreenTemplate } from '../../components/templates/ChatScreenTemplate';
 
 export const ChatScreen: React.FC<ChatScreenProps> = ({
   route,

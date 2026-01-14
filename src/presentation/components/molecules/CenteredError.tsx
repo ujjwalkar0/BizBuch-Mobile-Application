@@ -1,7 +1,9 @@
-import React from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, ViewStyle } from 'react-native';
 import { ErrorText } from '../atoms/ErrorText';
 import { theme } from '../../theme';
+
+const { centeredContainer } = theme.components;
 
 interface CenteredErrorProps {
   message: string;
@@ -12,23 +14,25 @@ interface CenteredErrorProps {
  * CenteredError Molecule
  * Atomic Design: Molecule - Centered error message container
  * Single Responsibility: Display full-screen centered error state
+ * SOLID: Open/Closed - Styles from theme
  */
 export const CenteredError: React.FC<CenteredErrorProps> = ({
   message,
   style,
 }) => {
+  const containerStyle = useMemo<ViewStyle>(
+    () => ({
+      flex: centeredContainer.flex,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: theme.colors.gray50,
+    }),
+    [],
+  );
+
   return (
-    <View style={[styles.centered, style]}>
+    <View style={[containerStyle, style]}>
       <ErrorText>{message}</ErrorText>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  centered: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: theme.colors.gray50,
-  },
-});

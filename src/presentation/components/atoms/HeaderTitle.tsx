@@ -1,6 +1,8 @@
-import React from 'react';
-import { Text, StyleSheet, TextStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { Text, TextStyle } from 'react-native';
 import { theme } from '../../theme';
+
+const { headerTitle } = theme.components;
 
 interface HeaderTitleProps {
   children: string;
@@ -11,23 +13,25 @@ interface HeaderTitleProps {
 /**
  * HeaderTitle Atom
  * Atomic Design: Atom - Basic title text element
+ * SOLID: Open/Closed - Styles from theme
  */
 export const HeaderTitle: React.FC<HeaderTitleProps> = ({
   children,
   numberOfLines = 1,
   style,
 }) => {
+  const titleStyle = useMemo<TextStyle>(
+    () => ({
+      fontSize: headerTitle.fontSize,
+      fontWeight: headerTitle.fontWeight,
+      color: theme.colors.gray900,
+    }),
+    [],
+  );
+
   return (
-    <Text style={[styles.title, style]} numberOfLines={numberOfLines}>
+    <Text style={[titleStyle, style]} numberOfLines={numberOfLines}>
       {children}
     </Text>
   );
 };
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: theme.colors.gray900,
-  },
-});

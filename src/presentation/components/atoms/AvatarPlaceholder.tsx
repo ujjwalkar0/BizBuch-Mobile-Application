@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, ViewStyle } from 'react-native';
 import { theme } from '../../theme';
 import { InitialText } from './InitialText';
 
@@ -9,34 +9,36 @@ interface AvatarPlaceholderProps {
   backgroundColor?: string;
 }
 
+const { avatar } = theme.components;
+
 /**
  * AvatarPlaceholder Atom
  * Atomic Design: Atom - Circular placeholder with initial letter
  * Single Responsibility: Display placeholder when no photo available
+ * SOLID: Open/Closed - Styles from theme
  */
 export const AvatarPlaceholder: React.FC<AvatarPlaceholderProps> = ({
   initial,
-  size = 42,
-  backgroundColor = `${theme.colors.primary}20`,
+  size = avatar.defaultSize,
+  backgroundColor = `${theme.colors.primary}${avatar.placeholder.backgroundOpacity}`,
 }) => {
-  const borderRadius = size / 2;
-  const fontSize = size * 0.42;
+  const containerStyle = useMemo<ViewStyle>(
+    () => ({
+      width: size,
+      height: size,
+      borderRadius: size / 2,
+      backgroundColor,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }),
+    [size, backgroundColor],
+  );
+
+  const fontSize = size * avatar.placeholder.fontSizeRatio;
 
   return (
-    <View
-      style={[
-        styles.placeholder,
-        { width: size, height: size, borderRadius, backgroundColor } as ViewStyle,
-      ]}
-    >
+    <View style={containerStyle}>
       <InitialText size={fontSize}>{initial}</InitialText>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  placeholder: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

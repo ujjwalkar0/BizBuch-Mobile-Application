@@ -33,4 +33,348 @@ export const theme = {
     lg: 16,
     full: 9999,
   },
-}
+  buttonVariants: {
+    primary: {
+      backgroundColor: '#FF9933',
+      textColor: '#FFFFFF',
+      iconColor: '#FFFFFF',
+      borderWidth: 0,
+      borderColor: 'transparent',
+    },
+    secondary: {
+      backgroundColor: 'rgba(255, 153, 51, 0.15)',
+      textColor: '#FF9933',
+      iconColor: '#FF9933',
+      borderWidth: 1,
+      borderColor: 'rgba(255, 153, 51, 0.3)',
+    },
+    outline: {
+      backgroundColor: '#FFFFFF',
+      textColor: '#4b5563',
+      iconColor: '#4b5563',
+      borderWidth: 1,
+      borderColor: '#d1d5db',
+    },
+  },
+  components: {
+    avatar: {
+      container: {
+        position: 'relative' as const,
+        marginRight: 12,
+      },
+      defaultSize: 42,
+      photoBackgroundColor: '#e5e7eb',
+      placeholder: {
+        fontSizeRatio: 0.42,
+        backgroundOpacity: '20',
+      },
+      ring: {
+        borderWidth: 2,
+        padding: 2,
+        defaultBorderRadius: 20,
+      },
+    },
+    bannerButton: {
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      borderRadius: 16,
+      marginLeft: 8,
+      fontSize: 12,
+      fontWeight: '600' as const,
+    },
+    bannerSpinner: {
+      defaultColor: '#fff',
+      marginRight: 8,
+    },
+    pressableContainer: {
+      activeOpacity: 0.7,
+      flexDirection: 'row' as const,
+      alignItems: 'flex-start' as const,
+    },
+    bannerText: {
+      primary: {
+        fontSize: 13,
+        fontWeight: '500' as const,
+      },
+      secondary: {
+        fontSize: 11,
+        fontWeight: '400' as const,
+        marginTop: 2,
+        opacity: 0.8,
+      },
+    },
+    cardTitle: {
+      fontSize: 16,
+      fontWeight: '600' as const,
+      marginBottom: 2,
+    },
+    cardSubtitle: {
+      fontSize: 13,
+      lineHeight: 18,
+    },
+    circleButton: {
+      defaultSize: 44,
+    },
+    errorText: {
+      fontSize: 16,
+    },
+    gradientCircle: {
+      defaultSize: 36,
+    },
+    gradientText: {
+      fontSize: 22,
+      fontWeight: '700' as const,
+    },
+    headerTitle: {
+      fontSize: 17,
+      fontWeight: '600' as const,
+    },
+    headerSubtitle: {
+      fontSize: 13,
+      marginTop: 2,
+      onlineColor: '#22c55e',
+    },
+    iconButton: {
+      defaultSize: 18,
+      defaultPadding: 8,
+    },
+    initialText: {
+      defaultSize: 18,
+      fontWeight: '600' as const,
+    },
+    messageTextInput: {
+      borderRadius: 24,
+      paddingHorizontal: 16,
+      minHeight: 44,
+      maxHeight: 100,
+      fontSize: 15,
+      paddingVertical: 10,
+    },
+    mutualConnectionsBadge: {
+      iconSize: 12,
+      fontSize: 12,
+      marginTop: 6,
+      gap: 4,
+    },
+    onlineIndicator: {
+      size: 12,
+      borderWidth: 2,
+      color: '#22c55e',
+    },
+    // Molecules
+    bannerActions: {
+      gap: 8,
+    },
+    bannerContainer: {
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+    },
+    bannerMessage: {
+      flex: 1,
+    },
+    centeredContainer: {
+      flex: 1,
+    },
+    connectionActions: {
+      gap: 10,
+    },
+    connectionInfo: {
+      avatarSize: 52,
+      avatarMarginRight: 14,
+      ringBorderOpacity: '30',
+    },
+    headerActions: {
+      gap: 4,
+    },
+    headerInfo: {
+      flex: 1,
+    },
+    logoSection: {
+      gap: 8,
+      defaultLogoSize: 36,
+      defaultIconSize: 20,
+    },
+    networkListHeader: {
+      badgeMarginBottom: 12,
+      searchMarginBottom: 12,
+      tabsMarginTop: 4,
+    },
+    newsFeedHeader: {
+      height: 56,
+      paddingHorizontal: 16,
+    },
+    paginationLoader: {
+      paddingVertical: 16,
+    },
+    profileAvatarButton: {
+      defaultSize: 32,
+      padding: 2,
+    },
+    attachmentButton: {
+      defaultSize: 40,
+      defaultIconSize: 20,
+    },
+    sendButton: {
+      defaultSize: 44,
+      defaultIconSize: 18,
+      disabledOpacity: '60',
+    },
+    voiceButton: {
+      defaultSize: 44,
+      defaultIconSize: 20,
+      backgroundOpacity: '15',
+    },
+    emptyMessages: {
+      paddingTop: 100,
+    },
+    chatInput: {
+      paddingHorizontal: 12,
+      paddingVertical: 10,
+      gap: 8,
+    },
+    messageList: {
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+    },
+    connectionCard: {
+      borderRadius: 16,
+      marginBottom: 12,
+      padding: 16,
+      borderWidth: 1,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.05,
+      shadowRadius: 4,
+      elevation: 2,
+    },
+    badge: {
+      gap: 6,
+      iconSize: 14,
+      fontSize: 12,
+      marginLeft: 6,
+      defaultColor: '#555',
+    },
+    unreadBadge: {
+      borderRadius: 12,
+      minWidth: 22,
+      height: 22,
+      paddingHorizontal: 7,
+      fontSize: 11,
+      fontWeight: '700' as const,
+    },
+    timeText: {
+      fontSize: 12,
+      highlightedFontWeight: '600' as const,
+    },
+    messagePreview: {
+      fontSize: 14,
+      marginRight: 8,
+      unreadFontWeight: '500' as const,
+    },
+    conversationInfo: {
+      marginLeft: 14,
+      footerMarginTop: 4,
+    },
+    conversationCard: {
+      paddingVertical: 14,
+      paddingHorizontal: 16,
+      avatarSize: 52,
+      ringPadding: 2,
+      ringBorderWidth: 1.5,
+      ringBorderOpacity: '30',
+    },
+    tabButton: {
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      borderRadius: 20,
+      iconSize: 16,
+      iconMarginRight: 6,
+      fontSize: 14,
+      inactiveColor: '#666666',
+      activeBackgroundColor: '#EBF5FF',
+      activeFontWeight: '500' as const,
+    },
+    tabBar: {
+      flexDirection: 'row' as const,
+      justifyContent: 'space-around' as const,
+    },
+    activityIcon: {
+      containerSize: 40,
+      defaultSize: 18,
+      backgroundOpacity: '20',
+    },
+    activityDescription: {
+      fontSize: 15,
+      color: '#374151',
+      lineHeight: 20,
+    },
+    activityTimestamp: {
+      fontSize: 13,
+      color: '#9ca3af',
+      marginTop: 4,
+    },
+    activityItem: {
+      paddingVertical: 14,
+      paddingHorizontal: 16,
+      contentMarginLeft: 12,
+    },
+    activityList: {
+      backgroundColor: '#f9fafb',
+    },
+    activityLogHeader: {
+      height: 56,
+      paddingHorizontal: 16,
+      backButtonPadding: 8,
+      backButtonMarginRight: 12,
+      titleFontSize: 18,
+      titleFontWeight: '600' as const,
+    },
+    notificationIcon: {
+      containerSize: 44,
+      defaultSize: 18,
+      backgroundOpacity: '20',
+    },
+    unreadDot: {
+      size: 8,
+      marginLeft: 8,
+    },
+    notificationMessage: {
+      fontSize: 15,
+      readColor: '#6b7280',
+      unreadColor: '#111827',
+      unreadFontWeight: '500' as const,
+      lineHeight: 20,
+    },
+    notificationItem: {
+      paddingVertical: 14,
+      paddingHorizontal: 16,
+      contentMarginLeft: 12,
+      unreadBackgroundColor: '#FFF7ED',
+    },
+    notificationHeader: {
+      height: 56,
+      paddingHorizontal: 16,
+      titleFontSize: 20,
+      titleFontWeight: '700' as const,
+      buttonPadding: 8,
+      buttonFontSize: 14,
+      buttonIconSize: 16,
+      buttonIconMargin: 6,
+    },
+    notificationTabs: {
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      tabPaddingVertical: 8,
+      tabPaddingHorizontal: 16,
+      tabMarginRight: 8,
+      tabBorderRadius: 20,
+      fontSize: 14,
+      activeFontWeight: '500' as const,
+      activeBackgroundColor: '#FFF7ED',
+      inactiveColor: '#6b7280',
+    },
+  },
+} as const;
+
+export type ButtonVariant = keyof typeof theme.buttonVariants;

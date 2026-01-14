@@ -1,6 +1,8 @@
-import React from 'react';
-import { Text, StyleSheet, TextStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { Text, TextStyle } from 'react-native';
 import { theme } from '../../theme';
+
+const { errorText } = theme.components;
 
 interface ErrorTextProps {
   children: string;
@@ -11,14 +13,16 @@ interface ErrorTextProps {
  * ErrorText Atom
  * Atomic Design: Atom - Basic error text element
  * Single Responsibility: Display error messages
+ * SOLID: Open/Closed - Styles from theme
  */
 export const ErrorText: React.FC<ErrorTextProps> = ({ children, style }) => {
-  return <Text style={[styles.text, style]}>{children}</Text>;
-};
+  const textStyle = useMemo<TextStyle>(
+    () => ({
+      fontSize: errorText.fontSize,
+      color: theme.colors.gray500,
+    }),
+    [],
+  );
 
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 16,
-    color: theme.colors.gray500,
-  },
-});
+  return <Text style={[textStyle, style]}>{children}</Text>;
+};

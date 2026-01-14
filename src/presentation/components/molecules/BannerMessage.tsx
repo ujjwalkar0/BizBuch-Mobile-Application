@@ -1,6 +1,9 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, ViewStyle } from 'react-native';
 import { BannerText } from '../atoms/BannerText';
+import { theme } from '../../theme';
+
+const { bannerMessage } = theme.components;
 
 interface BannerMessageProps {
   primaryText: string;
@@ -11,14 +14,22 @@ interface BannerMessageProps {
  * BannerMessage Molecule
  * Atomic Design: Molecule - Composed of BannerText atoms
  * Displays primary and optional secondary message
+ * SOLID: Open/Closed - Styles from theme
  * Reuses: BannerText atom
  */
 export const BannerMessage: React.FC<BannerMessageProps> = ({
   primaryText,
   secondaryText,
 }) => {
+  const containerStyle = useMemo<ViewStyle>(
+    () => ({
+      flex: bannerMessage.flex,
+    }),
+    [],
+  );
+
   return (
-    <View style={styles.container}>
+    <View style={containerStyle}>
       <BannerText>{primaryText}</BannerText>
       {secondaryText && (
         <BannerText variant="secondary">{secondaryText}</BannerText>
@@ -26,9 +37,3 @@ export const BannerMessage: React.FC<BannerMessageProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

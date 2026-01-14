@@ -1,6 +1,8 @@
-import React from 'react';
-import { Text, StyleSheet, TextStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { Text, TextStyle } from 'react-native';
 import { theme } from '../../theme';
+
+const { headerSubtitle } = theme.components;
 
 interface HeaderSubtitleProps {
   children: string;
@@ -11,37 +13,30 @@ interface HeaderSubtitleProps {
 /**
  * HeaderSubtitle Atom
  * Atomic Design: Atom - Basic subtitle text element with variants
+ * SOLID: Open/Closed - Styles from theme
  */
 export const HeaderSubtitle: React.FC<HeaderSubtitleProps> = ({
   children,
   variant = 'default',
   style,
 }) => {
-  return (
-    <Text
-      style={[
-        styles.subtitle,
-        variant === 'typing' && styles.typingText,
-        variant === 'online' && styles.onlineText,
-        style,
-      ]}
-    >
-      {children}
-    </Text>
-  );
-};
+  const subtitleStyle = useMemo<TextStyle>(() => {
+    const base: TextStyle = {
+      fontSize: headerSubtitle.fontSize,
+      color: theme.colors.gray500,
+      marginTop: headerSubtitle.marginTop,
+    };
 
-const styles = StyleSheet.create({
-  subtitle: {
-    fontSize: 13,
-    color: theme.colors.gray500,
-    marginTop: 2,
-  },
-  typingText: {
-    color: theme.colors.primary,
-    fontStyle: 'italic',
-  },
-  onlineText: {
-    color: '#22c55e',
-  },
-});
+    if (variant === 'typing') {
+      return { ...base, color: theme.colors.primary, fontStyle: 'italic' };
+    }
+
+    if (variant === 'online') {
+      return { ...base, color: headerSubtitle.onlineColor };
+    }
+
+    return base;
+  }, [variant]);
+
+  return <Text style={[subtitleStyle, style]}>{children}</Text>;
+};

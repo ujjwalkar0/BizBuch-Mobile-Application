@@ -1,19 +1,23 @@
-// data/notification/repositories/NotificationRepository.ts
+import { Activity } from '../../domain/notification/entities/Activity';
+import { INotificationRepository } from '../../domain/notification/repositories/INotificationRepository';
+import { getAuth, postAuth } from '../../core/http';
 
-import { INotificationRepository } from "../../domain/notification/repositories/INotificationRepository";
-import { Notification } from "../../domain/notification/entities/Notification";
-import { mockNotifications } from "../datasources/MockNotificationDataSource";
-
+/**
+ * NotificationRepository Implementation
+ * Data Layer: Implements repository interface
+ * SOLID: Single Responsibility - Data access for notifications
+ * SOLID: Dependency Inversion - Implements domain interface
+ */
 export class NotificationRepository implements INotificationRepository {
+  async getNotifications(): Promise<Activity[]> {
+    return getAuth<Activity[]>('activity/notifications/');
+  }
 
-    private notifications: Notification[] = [...mockNotifications];
+  async markAsRead(id: number): Promise<void> {
+    await postAuth(`activity/${id}/read/`, {});
+  }
 
-    async getAll(): Promise<Notification[]> {
-        return [...this.notifications];
-    }
-
-    async markAllAsRead(): Promise<void> {
-        this.notifications = this.notifications.map(n => ({ ...n, read: true }));
-    }
-
+  async markAllAsRead(): Promise<void> {
+    await postAuth('activity/read-all/', {});
+  }
 }

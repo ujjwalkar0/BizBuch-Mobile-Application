@@ -1,6 +1,8 @@
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { TouchableOpacity, Text, TextStyle, ViewStyle } from 'react-native';
 import { theme } from '../../theme';
+
+const { bannerButton } = theme.components;
 
 interface BannerButtonProps {
   onPress: () => void;
@@ -10,29 +12,35 @@ interface BannerButtonProps {
 /**
  * BannerButton Atom
  * Atomic Design: Atom - Basic button element for banners
+ * SOLID: Open/Closed - Styles from theme
  */
 export const BannerButton: React.FC<BannerButtonProps> = ({
   onPress,
   label,
 }) => {
+  const buttonStyle = useMemo<ViewStyle>(
+    () => ({
+      backgroundColor: bannerButton.backgroundColor,
+      paddingHorizontal: bannerButton.paddingHorizontal,
+      paddingVertical: bannerButton.paddingVertical,
+      borderRadius: bannerButton.borderRadius,
+      marginLeft: bannerButton.marginLeft,
+    }),
+    [],
+  );
+
+  const textStyle = useMemo<TextStyle>(
+    () => ({
+      color: theme.colors.white,
+      fontSize: bannerButton.fontSize,
+      fontWeight: bannerButton.fontWeight,
+    }),
+    [],
+  );
+
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.buttonText}>{label}</Text>
+    <TouchableOpacity style={buttonStyle} onPress={onPress}>
+      <Text style={textStyle}>{label}</Text>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-    marginLeft: 8,
-  },
-  buttonText: {
-    color: theme.colors.white,
-    fontSize: 12,
-    fontWeight: '600',
-  },
-});

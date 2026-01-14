@@ -23,7 +23,3 @@ export const BackButton: React.FC<BackButtonProps> = ({ onPress }) => {
     />
   );
 };
-
-const styles = StyleSheet.create({
-  // Removed - padding now handled by IconButton
-});

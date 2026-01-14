@@ -1,6 +1,8 @@
-import React from 'react';
-import { TextInput, View, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { TextInput, View, ViewStyle, TextStyle } from 'react-native';
 import { theme } from '../../theme';
+
+const { messageTextInput } = theme.components;
 
 interface MessageTextInputProps {
   value: string;
@@ -15,6 +17,7 @@ interface MessageTextInputProps {
  * MessageTextInput Atom
  * Atomic Design: Atom - Text input field for messages
  * Single Responsibility: Handle text input display and interaction
+ * SOLID: Open/Closed - Styles from theme
  */
 export const MessageTextInput: React.FC<MessageTextInputProps> = ({
   value,
@@ -24,10 +27,32 @@ export const MessageTextInput: React.FC<MessageTextInputProps> = ({
   style,
   inputStyle,
 }) => {
+  const wrapperStyle = useMemo<ViewStyle>(
+    () => ({
+      flex: 1,
+      backgroundColor: theme.colors.gray100,
+      borderRadius: messageTextInput.borderRadius,
+      paddingHorizontal: messageTextInput.paddingHorizontal,
+      minHeight: messageTextInput.minHeight,
+      justifyContent: 'center',
+    }),
+    [],
+  );
+
+  const textInputStyle = useMemo<TextStyle>(
+    () => ({
+      maxHeight: messageTextInput.maxHeight,
+      fontSize: messageTextInput.fontSize,
+      color: theme.colors.gray900,
+      paddingVertical: messageTextInput.paddingVertical,
+    }),
+    [],
+  );
+
   return (
-    <View style={[styles.wrapper, style]}>
+    <View style={[wrapperStyle, style]}>
       <TextInput
-        style={[styles.input, inputStyle]}
+        style={[textInputStyle, inputStyle]}
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
@@ -38,20 +63,3 @@ export const MessageTextInput: React.FC<MessageTextInputProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: theme.colors.gray100,
-    borderRadius: 24,
-    paddingHorizontal: 16,
-    minHeight: 44,
-    justifyContent: 'center',
-  },
-  input: {
-    maxHeight: 100,
-    fontSize: 15,
-    color: theme.colors.gray900,
-    paddingVertical: 10,
-  },
-});

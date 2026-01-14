@@ -1,5 +1,8 @@
-import React from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { ActivityIndicator, ViewStyle } from 'react-native';
+import { theme } from '../../theme';
+
+const { bannerSpinner } = theme.components;
 
 interface BannerSpinnerProps {
   color?: string;
@@ -8,17 +11,19 @@ interface BannerSpinnerProps {
 /**
  * BannerSpinner Atom
  * Atomic Design: Atom - Loading indicator for banners
+ * SOLID: Open/Closed - Styles from theme
  */
 export const BannerSpinner: React.FC<BannerSpinnerProps> = ({
-  color = '#fff',
+  color = bannerSpinner.defaultColor,
 }) => {
+  const spinnerStyle = useMemo<ViewStyle>(
+    () => ({
+      marginRight: bannerSpinner.marginRight,
+    }),
+    [],
+  );
+
   return (
-    <ActivityIndicator size="small" color={color} style={styles.spinner} />
+    <ActivityIndicator size="small" color={color} style={spinnerStyle} />
   );
 };
-
-const styles = StyleSheet.create({
-  spinner: {
-    marginRight: 8,
-  },
-});

@@ -1,7 +1,10 @@
-import React from 'react';
-import { TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { TouchableOpacity, ViewStyle } from 'react-native';
 import { AvatarPhoto } from '../atoms/AvatarPhoto';
 import { AvatarRing } from '../atoms/AvatarRing';
+import { theme } from '../../theme';
+
+const { profileAvatarButton } = theme.components;
 
 interface ProfileAvatarButtonProps {
   imageUri: string;
@@ -14,25 +17,27 @@ interface ProfileAvatarButtonProps {
  * ProfileAvatarButton Molecule
  * Atomic Design: Molecule - Tappable avatar with ring border
  * Single Responsibility: Display profile navigation trigger
+ * SOLID: Open/Closed - Styles from theme
  * Reuses: AvatarPhoto atom, AvatarRing atom
  */
 export const ProfileAvatarButton: React.FC<ProfileAvatarButtonProps> = ({
   imageUri,
   onPress,
-  size = 32,
+  size = profileAvatarButton.defaultSize,
   style,
 }) => {
+  const buttonStyle = useMemo<ViewStyle>(
+    () => ({
+      padding: profileAvatarButton.padding,
+    }),
+    [],
+  );
+
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity style={[buttonStyle, style]} onPress={onPress}>
       <AvatarRing size={size}>
         <AvatarPhoto uri={imageUri} size={size} />
       </AvatarRing>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    padding: 2,
-  },
-});

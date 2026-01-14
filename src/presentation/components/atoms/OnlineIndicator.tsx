@@ -1,6 +1,8 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, ViewStyle } from 'react-native';
 import { theme } from '../../theme';
+
+const { onlineIndicator } = theme.components;
 
 interface OnlineIndicatorProps {
   isOnline: boolean;
@@ -9,25 +11,27 @@ interface OnlineIndicatorProps {
 /**
  * OnlineIndicator Atom
  * Atomic Design: Atom - Visual indicator for online status
+ * SOLID: Open/Closed - Styles from theme
  */
 export const OnlineIndicator: React.FC<OnlineIndicatorProps> = ({
   isOnline,
 }) => {
+  const dotStyle = useMemo<ViewStyle>(
+    () => ({
+      position: 'absolute',
+      bottom: 1,
+      right: 1,
+      width: onlineIndicator.size,
+      height: onlineIndicator.size,
+      borderRadius: onlineIndicator.size / 2,
+      backgroundColor: onlineIndicator.color,
+      borderWidth: onlineIndicator.borderWidth,
+      borderColor: theme.colors.white,
+    }),
+    [],
+  );
+
   if (!isOnline) return null;
 
-  return <View style={styles.onlineDot} />;
+  return <View style={dotStyle} />;
 };
-
-const styles = StyleSheet.create({
-  onlineDot: {
-    position: 'absolute',
-    bottom: 1,
-    right: 1,
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#22c55e',
-    borderWidth: 2,
-    borderColor: theme.colors.white,
-  },
-});

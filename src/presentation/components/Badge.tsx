@@ -1,36 +1,56 @@
-import React from "react";
-import { View, Text, StyleSheet, ViewStyle } from "react-native";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import React, { useMemo } from 'react';
+import { View, Text, ViewStyle, TextStyle } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { theme } from '../theme';
+
+const { badge } = theme.components;
 
 interface BadgeProps {
   icon?: IconDefinition;
   text: string;
   iconColor?: string;
+  textColor?: string;
   style?: ViewStyle;
 }
 
+/**
+ * Badge Molecule
+ * Atomic Design: Molecule - Icon + Text combination
+ * SOLID: Single Responsibility - Display badge with optional icon
+ * SOLID: Open/Closed - Styles from theme, extensible via props
+ */
 export const Badge: React.FC<BadgeProps> = ({
   icon,
   text,
-  iconColor = "#555",
+  iconColor = badge.defaultColor,
+  textColor = badge.defaultColor,
   style,
-}) => (
-  <View style={[styles.badge, style]}>
-    {icon && <FontAwesomeIcon icon={icon} size={14} color={iconColor} />}
-    <Text style={styles.badgeText}>{text}</Text>
-  </View>
-);
+}) => {
+  const containerStyle = useMemo<ViewStyle>(
+    () => ({
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: badge.gap,
+    }),
+    [],
+  );
 
-const styles = StyleSheet.create({
-  badge: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  badgeText: {
-    marginLeft: 6,
-    fontSize: 12,
-    color: "#555",
-  },
-});
+  const textStyle = useMemo<TextStyle>(
+    () => ({
+      marginLeft: badge.marginLeft,
+      fontSize: badge.fontSize,
+      color: textColor,
+    }),
+    [textColor],
+  );
+
+  return (
+    <View style={[containerStyle, style]}>
+      {icon && (
+        <FontAwesomeIcon icon={icon} size={badge.iconSize} color={iconColor} />
+      )}
+      <Text style={textStyle}>{text}</Text>
+    </View>
+  );
+};

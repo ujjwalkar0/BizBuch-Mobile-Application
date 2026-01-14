@@ -24,21 +24,32 @@ import {
   faBriefcase,
 } from "@fortawesome/free-solid-svg-icons";
 import LinearGradient from "react-native-linear-gradient";
-import { useProfile } from "../../../ui/hooks/useProfile";
+import { useViewProfile } from "../../../ui/hooks/useViewProfile";
 import { ViewProfileScreenProps } from "../../navigation/network-screen-navigation/NetworkScreenStackParamList";
 import { Profile } from "../../../domain/user/entities/Profile";
 import { theme } from "../../theme";
 
+/**
+ * ViewProfileScreen
+ * SOLID: Single Responsibility - Display profile data
+ * SOLID: Open/Closed - Handles both current user (profiles/me) and other users (profiles/{id})
+ * 
+ * Navigation:
+ * - From Network tab: userId provided → calls profiles/{id}
+ * - From NewsFeed tab profile icon: no userId → calls profiles/me
+ */
 export const ViewProfileScreen: React.FC<ViewProfileScreenProps> = ({
   route,
   navigation,
 }) => {
-  const { userId } = route.params;
+  const { userId } = route.params ?? {};
   
-  console.log("ViewProfileScreen - userId:", userId, "type:", typeof userId);
+  const isCurrentUser = userId === undefined || userId === null;
   
-  // Fetch profile by ID
-  const { data: user, isLoading, isError, error, refetch, isRefetching } = useProfile(userId!);
+  console.log("ViewProfileScreen - userId:", userId, "isCurrentUser:", isCurrentUser);
+  
+  // Fetch profile - uses profiles/me if no userId, otherwise profiles/{id}
+  const { data: user, isLoading, isError, error, refetch, isRefetching } = useViewProfile(userId);
 
   console.log("ViewProfileScreen - isLoading:", isLoading, "isError:", isError, "user:", user, "error:", error);
 
@@ -167,12 +178,31 @@ export const ViewProfileScreen: React.FC<ViewProfileScreenProps> = ({
 
           {/* Action Buttons */}
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.primaryButton}>
-              <Text style={styles.primaryButtonText}>Connect</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.secondaryButton}>
-              <Text style={styles.secondaryButtonText}>Follow</Text>
-            </TouchableOpacity>
+            {isCurrentUser ? (
+              <>
+                <TouchableOpacity 
+                  style={styles.primaryButton}
+                  onPress={() => navigation.navigate('EditProfile')}
+                >
+                  <Text style={styles.primaryButtonText}>Edit Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.secondaryButton}
+                  onPress={() => navigation.navigate('ActivityLog')}
+                >
+                  <Text style={styles.secondaryButtonText}>Activity Log</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <TouchableOpacity style={styles.primaryButton}>
+                  <Text style={styles.primaryButtonText}>Connect</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.secondaryButton}>
+                  <Text style={styles.secondaryButtonText}>Follow</Text>
+                </TouchableOpacity>
+              </>
+            )}
           </View>
         </View>
 

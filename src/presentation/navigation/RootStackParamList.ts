@@ -14,6 +14,7 @@ export type RootStackParamList = {
   Network: undefined;
   ViewProfile: { userId?: number }; // userId is optional - if not provided, shows current user's profile
   EditProfile: undefined;
+  ActivityLog: undefined;
   Messages: undefined;
   Chat: { userId: number };
 };

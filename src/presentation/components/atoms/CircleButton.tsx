@@ -1,5 +1,8 @@
-import React from 'react';
-import { TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { TouchableOpacity, ViewStyle } from 'react-native';
+import { theme } from '../../theme';
+
+const { circleButton } = theme.components;
 
 interface CircleButtonProps {
   onPress?: () => void;
@@ -14,29 +17,31 @@ interface CircleButtonProps {
  * CircleButton Atom
  * Atomic Design: Atom - Reusable circular button container
  * Single Responsibility: Provide circular button with consistent styling
+ * SOLID: Open/Closed - Styles from theme
  */
 export const CircleButton: React.FC<CircleButtonProps> = ({
   onPress,
   disabled = false,
-  size = 44,
+  size = circleButton.defaultSize,
   backgroundColor = 'transparent',
   children,
   style,
 }) => {
-  const borderRadius = size / 2;
+  const buttonStyle = useMemo<ViewStyle>(
+    () => ({
+      width: size,
+      height: size,
+      borderRadius: size / 2,
+      backgroundColor,
+      justifyContent: 'center',
+      alignItems: 'center',
+    }),
+    [size, backgroundColor],
+  );
 
   return (
     <TouchableOpacity
-      style={[
-        styles.button,
-        {
-          width: size,
-          height: size,
-          borderRadius,
-          backgroundColor,
-        },
-        style,
-      ]}
+      style={[buttonStyle, style]}
       onPress={onPress}
       disabled={disabled || !onPress}
     >
@@ -44,10 +49,3 @@ export const CircleButton: React.FC<CircleButtonProps> = ({
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

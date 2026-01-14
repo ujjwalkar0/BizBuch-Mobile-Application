@@ -1,9 +1,12 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, ViewStyle, TextStyle } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFire } from '@fortawesome/free-solid-svg-icons';
 import { GradientCircle } from '../atoms/GradientCircle';
 import { GradientText } from '../atoms/GradientText';
+import { theme } from '../../theme';
+
+const { logoSection } = theme.components;
 
 interface LogoSectionProps {
   title?: string;
@@ -15,31 +18,37 @@ interface LogoSectionProps {
  * LogoSection Molecule
  * Atomic Design: Molecule - App logo with title
  * Single Responsibility: Display branding elements
+ * SOLID: Open/Closed - Styles from theme
  * Reuses: GradientCircle atom, GradientText atom
  */
 export const LogoSection: React.FC<LogoSectionProps> = ({
   title = 'BizBuch',
-  iconSize = 20,
-  logoSize = 36,
+  iconSize = logoSection.defaultIconSize,
+  logoSize = logoSection.defaultLogoSize,
 }) => {
+  const containerStyle = useMemo<ViewStyle>(
+    () => ({
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: logoSection.gap,
+    }),
+    [],
+  );
+
+  const titleStyle = useMemo<TextStyle>(
+    () => ({
+      fontSize: 22,
+      fontWeight: '700',
+    }),
+    [],
+  );
+
   return (
-    <View style={styles.container}>
+    <View style={containerStyle}>
       <GradientCircle size={logoSize}>
         <FontAwesomeIcon icon={faFire} size={iconSize} color="#fff" />
       </GradientCircle>
-      <GradientText style={styles.title}>{title}</GradientText>
+      <GradientText style={titleStyle}>{title}</GradientText>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: '700',
-  },
-});

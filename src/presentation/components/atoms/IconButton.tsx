@@ -1,6 +1,9 @@
-import React from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { TouchableOpacity, ViewStyle } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { theme } from '../../theme';
+
+const { iconButton } = theme.components;
 
 interface IconButtonProps {
   icon: any;
@@ -14,18 +17,28 @@ interface IconButtonProps {
 /**
  * IconButton Atom
  * Atomic Design: Atom - Reusable icon button component
+ * SOLID: Open/Closed - Styles from theme
  */
 export const IconButton: React.FC<IconButtonProps> = ({
   icon,
-  size = 18,
+  size = iconButton.defaultSize,
   color,
   onPress,
-  padding = 8,
+  padding = iconButton.defaultPadding,
   disabled = false,
 }) => {
+  const buttonStyle = useMemo<ViewStyle>(
+    () => ({
+      padding,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }),
+    [padding],
+  );
+
   return (
     <TouchableOpacity
-      style={[styles.button, { padding }]}
+      style={buttonStyle}
       onPress={onPress}
       disabled={disabled || !onPress}
     >
@@ -33,10 +46,3 @@ export const IconButton: React.FC<IconButtonProps> = ({
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

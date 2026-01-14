@@ -4,6 +4,7 @@ import { RootStackParamList } from '../RootStackParamList';
 import NewsFeedScreen from '../../screens/NewsFeed/NewsFeedScreen';
 import { ViewProfileScreen } from '../../screens/Profile/ViewProfileScreen';
 import { EditProfileScreen } from '../../screens/Profile/EditProfileScreen';
+import { ActivityLogScreen } from '../../screens/Profile/ActivityLogScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -13,5 +14,6 @@ export const NewsFeedScreenNavigator: React.FC = () => (
     <Stack.Screen name="ViewPost" component={ViewPostScreen} />
     <Stack.Screen name="ViewProfile" component={ViewProfileScreen} />
     <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+    <Stack.Screen name="ActivityLog" component={ActivityLogScreen} />
   </Stack.Navigator>
 );

@@ -1,5 +1,8 @@
-import React from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, ViewStyle } from 'react-native';
+import { theme } from '../../theme';
+
+const { bannerContainer } = theme.components;
 
 interface BannerContainerProps {
   children: React.ReactNode;
@@ -11,24 +14,23 @@ interface BannerContainerProps {
  * BannerContainer Molecule
  * Atomic Design: Molecule - Layout wrapper for banner content
  * Single Responsibility: Provide consistent banner layout
+ * SOLID: Open/Closed - Styles from theme
  */
 export const BannerContainer: React.FC<BannerContainerProps> = ({
   children,
   backgroundColor,
   style,
 }) => {
-  return (
-    <View style={[styles.container, { backgroundColor }, style]}>
-      {children}
-    </View>
+  const containerStyle = useMemo<ViewStyle>(
+    () => ({
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: bannerContainer.paddingVertical,
+      paddingHorizontal: bannerContainer.paddingHorizontal,
+      backgroundColor,
+    }),
+    [backgroundColor],
   );
-};
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-});
+  return <View style={[containerStyle, style]}>{children}</View>;
+};

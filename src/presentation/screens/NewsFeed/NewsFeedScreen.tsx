@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { NewsFeedScreenProps } from '../../navigation/news-feed-navigation/NewsFeedScreenStackParamList';
-import { NewsFeedScreenTemplate } from '../../templates/NewsFeedScreenTemplate';
+import { NewsFeedScreenTemplate } from '../../components/templates/NewsFeedScreenTemplate';
 import { useNewsFeedScreen } from '../../../ui/hooks/useNewsFeedScreen';
 
 /**
