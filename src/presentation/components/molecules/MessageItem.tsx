@@ -15,7 +15,7 @@ interface MessageItemProps {
  * Single Responsibility: Render individual message with context-aware date separator
  * Dependency Inversion: Uses DateFormatterService for formatting
  */
-export const MessageItem: React.FC<MessageItemProps> = ({
+export const MessageItem: React.FC<MessageItemProps> = React.memo(({
   message,
   messages,
   index,
@@ -42,4 +42,4 @@ export const MessageItem: React.FC<MessageItemProps> = ({
       dateSeparatorText={dateSeparatorText}
     />
   );
-};
+});

@@ -1,28 +1,28 @@
-import { View, Text, StyleSheet } from "react-native";
-import { theme } from "../../theme";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { HeaderTitle } from '../atoms/HeaderTitle';
+import { HeaderSubtitle } from '../atoms/HeaderSubtitle';
 
-export const HeaderInfo: React.FC<{
+interface HeaderInfoProps {
   title: string;
   subtitle: string;
-  isTyping: boolean;
-  isOnline: boolean;
-}> = ({ title, subtitle, isTyping, isOnline }) => {
+  subtitleVariant?: 'default' | 'typing' | 'online';
+}
+
+/**
+ * HeaderInfo Molecule
+ * Atomic Design: Molecule - Composed of HeaderTitle and HeaderSubtitle atoms
+ */
+export const HeaderInfo: React.FC<HeaderInfoProps> = ({
+  title,
+  subtitle,
+  subtitleVariant = 'default',
+}) => {
   return (
     <View style={styles.headerInfo}>
-      <Text style={styles.headerTitle} numberOfLines={1}>
-        {title}
-      </Text>
-
+      <HeaderTitle>{title}</HeaderTitle>
       {!!subtitle && (
-        <Text
-          style={[
-            styles.subtitle,
-            isTyping && styles.typingText,
-            isOnline && !isTyping && styles.onlineText,
-          ]}
-        >
-          {subtitle}
-        </Text>
+        <HeaderSubtitle variant={subtitleVariant}>{subtitle}</HeaderSubtitle>
       )}
     </View>
   );
@@ -32,21 +32,4 @@ const styles = StyleSheet.create({
   headerInfo: {
     flex: 1,
   },
-  headerTitle: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: theme.colors.gray900,
-  },
-  subtitle: {
-    fontSize: 13,
-    color: theme.colors.gray500,
-    marginTop: 2,
-  },
-  typingText: {
-    color: theme.colors.primary,
-    fontStyle: 'italic',
-  },
-  onlineText: {
-    color: '#22c55e',
-  }
 });

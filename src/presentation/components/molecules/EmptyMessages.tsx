@@ -1,23 +1,23 @@
 import React from 'react';
-import { StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import { EmptyState } from '../EmptyState';
 
 interface EmptyMessagesProps {
-  style?: StyleProp<ViewStyle>;
+  style?: ViewStyle;
 }
 
 /**
  * EmptyMessages Molecule
  * Atomic Design: Molecule - Empty state for message list
  * Single Responsibility: Display when no messages exist
- * Reuses: EmptyState component
+ * Open/Closed: Customizable via style prop
  */
 export const EmptyMessages: React.FC<EmptyMessagesProps> = ({ style }) => {
   return (
     <EmptyState
       message="No messages yet"
       subMessage="Send a message to start the conversation"
-      style={styles.container}
+      style={{ ...styles.container, ...style }}
     />
   );
 };
