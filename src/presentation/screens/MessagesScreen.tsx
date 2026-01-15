@@ -5,10 +5,10 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Conversation } from "../../domain/chat/entities/Conversation";
 import { useConversations } from "../../ui/hooks/useChat";
-import { ConversationCard } from "../components/ConversationCard";
-import { EmptyState } from "../components/EmptyState";
-import { ScreenHeader } from "../components/ScreenHeader";
-import { SearchInput } from "../components/SearchInput";
+import { ConversationCard } from "../components/organisms/ConversationCard";
+import { EmptyState } from "../components/molecules/EmptyState";
+import { ScreenHeader } from '../components/molecules/ScreenHeader';
+import { SearchInput } from '../components/molecules/SearchInput';
 import { MessagesNavigationProp } from "../navigation/messages-screen-navigation/MessageScreenStackParamList";
 
 const MessagesScreen: React.FC = () => {

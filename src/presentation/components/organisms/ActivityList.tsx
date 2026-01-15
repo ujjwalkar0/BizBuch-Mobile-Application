@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { FlatList, ViewStyle } from 'react-native';
 import { ActivityItem } from '../molecules/ActivityItem';
 import { ActivityLog } from '../../../domain/activity/entities/ActivityLog';
-import { EmptyState } from '../EmptyState';
+import { EmptyState } from '../molecules/EmptyState';
 import { theme } from '../../theme';
 
 const { activityList } = theme.components;

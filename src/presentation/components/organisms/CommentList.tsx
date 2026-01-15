@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { FlatList, ViewStyle, View, ActivityIndicator } from 'react-native';
 import { CommentItem } from '../molecules/CommentItem';
 import { Comment } from '../../../domain/post/entities/Comment';
-import { EmptyState } from '../EmptyState';
+import { EmptyState } from '../molecules/EmptyState';
 import { theme } from '../../theme';
 
 interface CommentListProps {

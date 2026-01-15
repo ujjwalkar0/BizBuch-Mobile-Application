@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, ViewStyle } from 'react-native';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { TabButton } from './atoms/TabButton';
-import { theme } from '../theme';
+import { TabButton } from '../atoms/TabButton';
+import { theme } from '../../theme';
 
 const { tabBar } = theme.components;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Message } from '../../../domain/chat/entities/Message';
-import { MessageBubble } from '../MessageBubble';
+import { MessageBubble } from './MessageBubble';
 import { DateFormatterService } from '../../../ui/services/DateFormatterService';
 
 interface MessageItemProps {

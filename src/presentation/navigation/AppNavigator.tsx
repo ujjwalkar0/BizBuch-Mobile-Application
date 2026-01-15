@@ -1,12 +1,12 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import BottomNavigationProvider from '../components/BottomNavigationProvider';
+import { BottomNavigationTemplate } from '../components/templates/BottomNavigationTemplate';
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigator: React.FC = () => (
   <Stack.Navigator>
-    <Stack.Screen name="BizBuch" component={BottomNavigationProvider} options={{headerShown: false}}/>
+    <Stack.Screen name="BizBuch" component={BottomNavigationTemplate} options={{headerShown: false}}/>
   </Stack.Navigator>
 );
 

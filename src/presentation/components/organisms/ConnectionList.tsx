@@ -2,7 +2,7 @@ import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { Connection } from '../../../domain/user/entities/Connection';
 import { ConnectionCard } from './ConnectionCard';
-import { EmptyState } from '../EmptyState';
+import { EmptyState } from '../molecules/EmptyState';
 import { NetworkListHeader } from '../molecules/NetworkListHeader';
 
 interface ConnectionListProps {

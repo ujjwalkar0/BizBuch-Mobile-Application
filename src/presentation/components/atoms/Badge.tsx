@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, ViewStyle, TextStyle } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { theme } from '../theme';
+import { theme } from '../../theme';
 
 const { badge } = theme.components;
 
@@ -15,10 +15,10 @@ interface BadgeProps {
 }
 
 /**
- * Badge Molecule
- * Atomic Design: Molecule - Icon + Text combination
- * SOLID: Single Responsibility - Display badge with optional icon
- * SOLID: Open/Closed - Styles from theme, extensible via props
+ * Badge Atom
+ * Atomic Design: Atom - Simple icon + text label display
+ * Single Responsibility: Display badge with optional icon and text
+ * SOLID: Open/Closed - Styles from theme, customizable via props
  */
 export const Badge: React.FC<BadgeProps> = ({
   icon,
@@ -38,7 +38,6 @@ export const Badge: React.FC<BadgeProps> = ({
 
   const textStyle = useMemo<TextStyle>(
     () => ({
-      marginLeft: badge.marginLeft,
       fontSize: badge.fontSize,
       color: textColor,
     }),

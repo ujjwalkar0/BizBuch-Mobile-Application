@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { FlatList, ViewStyle } from 'react-native';
 import { NotificationItem } from '../molecules/NotificationItem';
 import { Activity } from '../../../domain/notification/entities/Activity';
-import { EmptyState } from '../EmptyState';
+import { EmptyState } from '../molecules/EmptyState';
 import { theme } from '../../theme';
 
 interface NotificationListProps {

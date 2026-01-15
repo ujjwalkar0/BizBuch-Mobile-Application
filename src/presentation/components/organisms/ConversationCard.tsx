@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import { View, TouchableOpacity, ViewStyle } from 'react-native';
-import { Conversation } from '../../domain/chat/entities/Conversation';
-import { AvatarPhoto } from './atoms/AvatarPhoto';
-import { AvatarRing } from './atoms/AvatarRing';
-import { ConversationInfo } from './molecules/ConversationInfo';
-import { ConversationTimeFormatter } from '../../ui/services/ConversationTimeFormatter';
-import { theme } from '../theme';
+import { Conversation } from '../../../domain/chat/entities/Conversation';
+import { AvatarPhoto } from '../atoms/AvatarPhoto';
+import { AvatarRing } from '../atoms/AvatarRing';
+import { ConversationInfo } from '../molecules/ConversationInfo';
+import { ConversationTimeFormatter } from '../../../ui/services/ConversationTimeFormatter';
+import { theme } from '../../theme';
 
 const { conversationCard } = theme.components;
 
@@ -17,7 +17,7 @@ interface ConversationCardProps {
 /**
  * ConversationCard Organism
  * Atomic Design: Organism - Composed of AvatarPhoto, AvatarRing atoms + ConversationInfo molecule
- * SOLID: Single Responsibility - Conversation list item layout
+ * Single Responsibility: Conversation list item layout
  * SOLID: Open/Closed - Styles from theme, extensible via composition
  * SOLID: Dependency Inversion - Uses ConversationTimeFormatter service
  * Reuses: AvatarPhoto, AvatarRing atoms, ConversationInfo molecule
@@ -55,8 +55,7 @@ export const ConversationCard: React.FC<ConversationCardProps> = ({
   const timestamp = conversation.last_message
     ? ConversationTimeFormatter.format(conversation.last_message.timestamp)
     : '';
-  const avatarUri =
-    otherParticipant.avatar || 'https://via.placeholder.com/56';
+  const avatarUri = otherParticipant.avatar;
 
   return (
     <TouchableOpacity style={containerStyle} onPress={onPress} activeOpacity={0.7}>

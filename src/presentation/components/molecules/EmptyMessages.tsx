@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { ViewStyle } from 'react-native';
-import { EmptyState } from '../EmptyState';
+import { EmptyState } from './EmptyState';
 import { theme } from '../../theme';
 
 const { emptyMessages } = theme.components;

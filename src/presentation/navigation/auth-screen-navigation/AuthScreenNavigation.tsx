@@ -4,7 +4,7 @@ import Login from '../../screens/LoginScreen';
 import RegisterScreen from '../../screens/RegisterScreen';
 import { OtpValidationScreen } from '../../screens/OtpValidationScreen';
 import { RootStackParamList } from '../RootStackParamList';
-import BottomNavigationProvider from '../../components/BottomNavigationProvider';
+import { BottomNavigationTemplate } from '../../components/templates/BottomNavigationTemplate';
 import WelcomeScreen from '../../screens/WelcomeScreen';
 import SplashScreen from '../../screens/SplashScreen';
 
@@ -18,7 +18,7 @@ const AuthScreenNavigation: React.FC = () => (
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="Register" component={RegisterScreen} />
     <Stack.Screen name="OtpValidation" component={OtpValidationScreen} />
-    <Stack.Screen name="BizBuch" component={BottomNavigationProvider} options={{headerShown: false}}/>
+    <Stack.Screen name="BizBuch" component={BottomNavigationTemplate} options={{headerShown: false}}/>
   </Stack.Navigator>
 
 );

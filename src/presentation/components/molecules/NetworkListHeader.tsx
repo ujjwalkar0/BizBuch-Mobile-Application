@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import { ViewStyle } from 'react-native';
-import { ScreenHeader } from '../ScreenHeader';
-import { Badge } from '../Badge';
-import { SearchInput } from '../SearchInput';
-import { TabBar } from '../TabBar';
+import { ScreenHeader } from './ScreenHeader';
+import { SearchInput } from './SearchInput';
+import { TabBar } from './TabBar';
 import { faUsers, faUserPlus, faUserCheck } from '@fortawesome/free-solid-svg-icons';
 import { theme } from '../../theme';
+import { Badge } from '../atoms/Badge';
 
 const { networkListHeader } = theme.components;
 
