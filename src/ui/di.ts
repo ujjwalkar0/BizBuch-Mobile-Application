@@ -5,6 +5,7 @@ import { ProfileRepository } from "../data/repositories/ProfileRepository";
 import { ChatRepository } from "../data/repositories/ChatRepository";
 import { ActivityLogRepository } from "../data/repositories/ActivityLogRepository";
 import { NotificationRepository } from "../data/repositories/NotificationRepository";
+import { CommentRepository } from "../data/repositories/CommentRepository";
 import { IAuthRepository } from "../domain/auth/repositories/IAuthRepository";
 import { IPostRepository } from "../domain/post/repositories/IPostRepository";
 import { IConnectionRepository } from "../domain/user/repositories/IConnectionRepository";
@@ -12,6 +13,7 @@ import { IProfileRepository } from "../domain/user/repositories/IProfileReposito
 import { IChatRepository } from "../domain/chat/repositories/IChatRepository";
 import { IActivityLogRepository } from "../domain/activity/repositories/IActivityLogRepository";
 import { INotificationRepository } from "../domain/notification/repositories/INotificationRepository";
+import { ICommentRepository } from "../domain/post/repositories/ICommentRepository";
 import { GetNewsFeed } from "../domain/post/usecases/queries/GetNewsFeed";
 import { GetProfileById } from "../domain/user/usecases/GetProfileById";
 import { GetCurrentUserProfile } from "../domain/user/usecases/GetCurrentUserProfile";
@@ -19,6 +21,8 @@ import { GetActivityLog } from "../domain/activity/usecases/GetActivityLog";
 import { GetNotifications } from "../domain/notification/usecases/GetNotifications";
 import { MarkNotificationAsRead } from "../domain/notification/usecases/MarkNotificationAsRead";
 import { MarkAllNotificationsAsRead } from "../domain/notification/usecases/MarkAllNotificationsAsRead";
+import { GetComments } from "../domain/post/usecases/queries/GetComments";
+import { CreateComment } from "../domain/post/usecases/commands/CreateComment";
 
 export const authRepository: IAuthRepository = new AuthRepository();
 export const postRepository: IPostRepository = new PostRepository();
@@ -27,6 +31,7 @@ export const profileRepository: IProfileRepository = new ProfileRepository();
 export const chatRepository: IChatRepository = new ChatRepository();
 export const activityLogRepository: IActivityLogRepository = new ActivityLogRepository();
 export const notificationRepository: INotificationRepository = new NotificationRepository();
+export const commentRepository: ICommentRepository = new CommentRepository();
 
 export const getNewsFeedUseCase = new GetNewsFeed(postRepository);
 export const getProfileByIdUseCase = new GetProfileById(profileRepository);
@@ -35,3 +40,5 @@ export const getActivityLogUseCase = new GetActivityLog(activityLogRepository);
 export const getNotificationsUseCase = new GetNotifications(notificationRepository);
 export const markNotificationAsReadUseCase = new MarkNotificationAsRead(notificationRepository);
 export const markAllNotificationsAsReadUseCase = new MarkAllNotificationsAsRead(notificationRepository);
+export const getCommentsUseCase = new GetComments(commentRepository);
+export const createCommentUseCase = new CreateComment(commentRepository);

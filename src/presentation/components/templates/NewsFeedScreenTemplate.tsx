@@ -16,7 +16,7 @@ interface NewsFeedScreenTemplateProps {
   isError: boolean;
   isRefreshing: boolean;
   onRefresh: () => void;
-  onPostPress: (postId: string) => void;
+  onCommentPress: (postId: string) => void;
 }
 
 /**
@@ -34,7 +34,7 @@ export const NewsFeedScreenTemplate: React.FC<NewsFeedScreenTemplateProps> = ({
   isError,
   isRefreshing,
   onRefresh,
-  onPostPress,
+  onCommentPress,
 }) => {
   // Loading state
   if (isLoading) {
@@ -63,7 +63,7 @@ export const NewsFeedScreenTemplate: React.FC<NewsFeedScreenTemplateProps> = ({
         posts={posts}
         isRefreshing={isRefreshing}
         onRefresh={onRefresh}
-        onPostPress={onPostPress}
+        onCommentPress={onCommentPress}
         ListHeaderComponent={<NewsFeedListHeader navigation={navigation} />}
       />
     </SafeAreaView>

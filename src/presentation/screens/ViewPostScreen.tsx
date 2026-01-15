@@ -8,12 +8,10 @@ import {
   faShare,
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
-
-import { PostRepository } from "../../../data/repositories/PostRepository";
-import { GetPostById } from "../../../domain/post/usecases/queries/GetPostById";
-import { ViewPostScreenProps } from "../../navigation/news-feed-navigation/NewsFeedScreenStackParamList";
-import { PostResponseBody } from "../../../domain/post/entities/Post";
-
+import { PostRepository } from "../../data/repositories/PostRepository";
+import { PostResponseBody } from "../../domain/post/entities/Post";
+import { GetPostById } from "../../domain/post/usecases/queries/GetPostById";
+import { ViewPostScreenProps } from "../navigation/news-feed-navigation/NewsFeedScreenStackParamList";
 
 
 export const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route, navigation }) => {
@@ -42,17 +40,17 @@ export const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route, navigatio
 
       {/* User Row */}
       <View style={styles.userRow}>
-        <Image source={{ uri: post.author.avatar }} style={styles.avatar} />
+        <Image source={{ uri: post.author }} style={styles.avatar} />
         <View style={{ flex: 1 }}>
-          <Text style={styles.name}>{post.author.name}</Text>
-          <Text style={styles.username}>{post.author.username}</Text>
+          <Text style={styles.name}>{post.author}</Text>
+          <Text style={styles.username}>{post.author}</Text>
         </View>
       </View>
 
       {/* Content */}
       <Text style={styles.content}>{post.content}</Text>
 
-      {post.image && <Image source={{ uri: post.image }} style={styles.postImage} />}
+      {post.image_url && <Image source={{ uri: post.image_url }} style={styles.postImage} />}
 
       <Text style={styles.timestamp}>{post.timestamp}</Text>
 

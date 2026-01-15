@@ -1,9 +1,9 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ViewProfileScreen } from '../../screens/Profile/ViewProfileScreen';
-import { EditProfileScreen } from '../../screens/Profile/EditProfileScreen';
+import { ViewProfileScreen } from '../../screens/ViewProfileScreen';
+import { EditProfileScreen } from '../../screens/EditProfileScreen';
 import { RootStackParamList } from '../RootStackParamList';
-import { ChatScreen } from '../../screens/shared/ChatScreen';
-import { NetworkScreen } from '../../screens/Network/NetworkScreen';
+import { ChatScreen } from '../../screens/ChatScreen';
+import { NetworkScreen } from '../../screens/NetworkScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

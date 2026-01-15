@@ -2,20 +2,18 @@ import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm } from 'react-hook-form';
-
-import { CreatePostHeader } from '../../components/CreatePostHeader';
-import { UserSection } from '../../components/UserSection';
-import { PostInput } from '../../components/PostInput';
-import { SelectedImagePreview } from '../../components/SelectedImagePreview';
-import { AddPostOptions } from '../../components/AddPostOptions';
-import { PhotoOptionsModal } from '../../components/PhotoOptionsModal';
-import { PollCreator } from '../../components/PollCreator';
-import { FeelingPicker } from '../../components/FeelingPicker';
-
-import { useCreatePostMutation } from '../../../ui/hooks/useCreatePostMutation';
-import { CreatePostFormValues } from '../../../ui/form-types/CreatePostForm.types';
-import { PostRequestBody } from '../../../domain/post/entities/Post';
-import { createPostResolver } from '../../../ui/resolvers/createPostResolver';
+import { PostRequestBody } from '../../domain/post/entities/Post';
+import { CreatePostFormValues } from '../../ui/form-types/CreatePostForm.types';
+import { useCreatePostMutation } from '../../ui/hooks/useCreatePostMutation';
+import { createPostResolver } from '../../ui/resolvers/createPostResolver';
+import { AddPostOptions } from '../components/AddPostOptions';
+import { CreatePostHeader } from '../components/CreatePostHeader';
+import { FeelingPicker } from '../components/FeelingPicker';
+import { PhotoOptionsModal } from '../components/PhotoOptionsModal';
+import { PollCreator } from '../components/PollCreator';
+import { PostInput } from '../components/PostInput';
+import { SelectedImagePreview } from '../components/SelectedImagePreview';
+import { UserSection } from '../components/UserSection';
 
 export const CreatePostScreen: React.FC = () => {
   const [audience] = useState<'Public' | 'Friends' | 'Only Me'>('Public');

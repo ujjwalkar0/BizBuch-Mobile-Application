@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/RootStackParamList';
-import { ActivityLogScreenTemplate } from '../../components/templates/ActivityLogScreenTemplate';
-import { useActivityLog } from '../../../ui/hooks/useActivityLog';
+import { RootStackParamList } from '../navigation/RootStackParamList';
+import { ActivityLogScreenTemplate } from '../components/templates/ActivityLogScreenTemplate';
+import { useActivityLog } from '../../ui/hooks/useActivityLog';
 
 type ActivityLogScreenProps = NativeStackScreenProps<RootStackParamList, 'ActivityLog'>;
 

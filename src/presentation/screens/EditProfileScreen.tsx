@@ -14,14 +14,14 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/RootStackParamList';
-import { useCurrentUserProfile } from '../../../ui/hooks/useCurrentUserProfile';
-import { useEditProfileForm } from '../../../ui/form-hooks/useEditProfileForm';
-import { useUpdateProfileMutation } from '../../../ui/hooks/useUpdateProfileMutation';
+import { RootStackParamList } from '../navigation/RootStackParamList';
+import { useCurrentUserProfile } from '../../ui/hooks/useCurrentUserProfile';
+import { useEditProfileForm } from '../../ui/form-hooks/useEditProfileForm';
+import { useUpdateProfileMutation } from '../../ui/hooks/useUpdateProfileMutation';
 import { Controller } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCamera, faTimes, faImage } from '@fortawesome/free-solid-svg-icons';
-import { pickFromCamera, pickFromGallery } from '../../utils/imagePicker';
+import { pickFromCamera, pickFromGallery } from '../utils/imagePicker';
 
 type EditProfileScreenProps = NativeStackScreenProps<
   RootStackParamList,

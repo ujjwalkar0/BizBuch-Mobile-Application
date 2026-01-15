@@ -24,10 +24,10 @@ import {
   faBriefcase,
 } from "@fortawesome/free-solid-svg-icons";
 import LinearGradient from "react-native-linear-gradient";
-import { useViewProfile } from "../../../ui/hooks/useViewProfile";
-import { ViewProfileScreenProps } from "../../navigation/network-screen-navigation/NetworkScreenStackParamList";
-import { Profile } from "../../../domain/user/entities/Profile";
-import { theme } from "../../theme";
+import { useViewProfile } from "../../ui/hooks/useViewProfile";
+import { ViewProfileScreenProps } from "../navigation/network-screen-navigation/NetworkScreenStackParamList";
+import { Profile } from "../../domain/user/entities/Profile";
+import { theme } from "../theme";
 
 /**
  * ViewProfileScreen

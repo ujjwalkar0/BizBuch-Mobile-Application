@@ -9,9 +9,9 @@
  * - Dependency Inversion: Depends on abstracted hooks and templates
  */
 import React from 'react';
-import { NetworkScreenProps } from '../../navigation/network-screen-navigation/NetworkScreenStackParamList';
-import { useNetworkScreen } from '../../../ui/hooks/useNetworkScreen';
-import { NetworkScreenTemplate } from '../../components/templates/NetworkScreenTemplate';
+import { NetworkScreenProps } from '../navigation/network-screen-navigation/NetworkScreenStackParamList';
+import { useNetworkScreen } from '../../ui/hooks/useNetworkScreen';
+import { NetworkScreenTemplate } from '../components/templates/NetworkScreenTemplate';
 
 export const NetworkScreen: React.FC<NetworkScreenProps> = ({ navigation }) => {
   const {

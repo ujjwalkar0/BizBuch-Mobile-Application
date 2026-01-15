@@ -1,14 +1,14 @@
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
-import { PostCard } from '../PostCard';
 import { PostResponseBody } from '../../../domain/post/entities/Post';
 import { theme } from '../../theme';
+import { PostCard } from './PostCard';
 
 interface PostListProps {
   posts: PostResponseBody[];
   isRefreshing: boolean;
   onRefresh: () => void;
-  onPostPress: (postId: string) => void;
+  onCommentPress: (postId: string) => void;
   ListHeaderComponent?: React.ReactElement;
 }
 
@@ -24,13 +24,16 @@ export const PostList: React.FC<PostListProps> = ({
   posts,
   isRefreshing,
   onRefresh,
-  onPostPress,
+  onCommentPress,
   ListHeaderComponent,
 }) => {
   const keyExtractor = (item: PostResponseBody) => item.id;
 
   const renderItem = ({ item }: { item: PostResponseBody }) => (
-    <PostCard post={item} onPostOpen={() => onPostPress(item.id)} />
+    <PostCard
+      post={item}
+      onComment={() => onCommentPress(item.id)}
+    />
   );
 
   return (

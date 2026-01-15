@@ -103,6 +103,27 @@ export async function patchAuth<T>(
   return data as T;
 }
 
+export async function deleteAuth(
+  endpoint: string,
+  headers: Record<string, string> = {}
+): Promise<void> {
+  const token = await AsyncStorage.getItem('authToken');
+
+  const response = await fetch(`${Config.API_BASE_URL}${endpoint}`, {
+    method: 'DELETE',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      ...headers,
+    },
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data?.message || 'Request failed');
+  }
+}
+
 // Chat API functions (port 8001)
 export async function getChatAuth<T>(
   endpoint: string,
