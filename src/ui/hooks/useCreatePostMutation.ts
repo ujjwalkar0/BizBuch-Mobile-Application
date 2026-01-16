@@ -16,11 +16,6 @@ export const useCreatePostMutation = () => {
       if (input.imageUrl) {
         const { uploadUrl, publicUrl } = await mediaApi.getPresignedUrl();
         await uploadToAWS(uploadUrl, input.imageUrl);
-        // .then((a) => {
-        //   if (a){
-        //     input.imageUrl = publicUrl;
-        //   }
-        // });
         input.imageUrl = publicUrl;
       }
 

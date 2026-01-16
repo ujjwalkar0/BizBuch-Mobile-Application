@@ -14,11 +14,6 @@ const WelcomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       {/* Logo / Illustration */}
-      {/* <Image
-        source={require('../../assets/images/welcome.png')} // replace with your image
-        style={styles.image}
-        resizeMode="contain"
-      /> */}
       <View style={{ flex: 0.5 }}>
         <Logo width={width * 0.6} height={width * 0.6} viewBox="0 0 500 500" />
       </View>

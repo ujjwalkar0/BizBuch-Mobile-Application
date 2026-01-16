@@ -1,15 +1,19 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ViewProfileScreen } from '../../screens/Profile/ViewProfileScreen';
+import { ViewProfileScreen } from '../../screens/ViewProfileScreen';
+import { EditProfileScreen } from '../../screens/EditProfileScreen';
 import { RootStackParamList } from '../RootStackParamList';
-import { ChatScreen } from '../../screens/shared/ChatScreen';
-import { NetworkScreen } from '../../screens/Network/NetworkScreen';
+import { ChatScreen } from '../../screens/ChatScreen';
+import { NetworkScreen } from '../../screens/NetworkScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const NetworkScreenNavigator: React.FC = () => (
   <Stack.Navigator screenOptions={{headerShown: false}}>
-    <Stack.Screen name="Network" component={NetworkScreen} />
+    <Stack.Screen name="Network">
+      {(props) => <NetworkScreen {...props} />}
+    </Stack.Screen>
     <Stack.Screen name="ViewProfile" component={ViewProfileScreen} />
+    <Stack.Screen name="EditProfile" component={EditProfileScreen} />
     <Stack.Screen name="Chat" component={ChatScreen} />
   </Stack.Navigator>
 );

@@ -2,9 +2,9 @@ import { Author } from './Author';
 
 export interface PostResponseBody {
   id: string;
-  author: Author;
+  author: string;
   content: string;
-  image?: string;
+  image_url?: string;
   timestamp: string;
   likes: number;
   comments: number;

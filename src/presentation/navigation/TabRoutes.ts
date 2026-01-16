@@ -1,9 +1,9 @@
 import { faHome, faUser, faPlus, faBell, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { CreatePostScreen } from '../screens/CreatePost/CreatePostScreen';
 import { NotificationsScreen } from '../screens/NotificationsScreen';
 import { MessageScreenNavigator } from './messages-screen-navigation/MessageScreenNavigator';
 import { NewsFeedScreenNavigator } from './news-feed-navigation/NewsFeedScreenNavigator';
 import { NetworkScreenNavigator } from './network-screen-navigation/NetworkScreenNavigator';
+import { CreatePostScreen } from '../screens/CreatePostScreen';
 
 
 export const TAB_ROUTES = [
