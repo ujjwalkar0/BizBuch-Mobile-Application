@@ -31,6 +31,32 @@
 
 ---
 
+## 🚀 About
+
+**BizBuch** is an open-source social networking application originally built to connect entrepreneurs.  
+It has now evolved into a broader mission: **ending the monopoly of centralized social networking** by enabling anyone to host their own social network.
+
+Unlike traditional social platforms where a single company owns the servers, data, rules, and reach — BizBuch can be deployed by **anyone** on a dedicated server (**on-prem** or **cloud**) to create independent community networks.
+
+---
+
+## ✨ Key Idea
+
+Centralized social networks often mean:
+
+- one company controls the infrastructure  
+- one platform owns user data  
+- one authority decides moderation policies  
+- users are locked into the same network
+
+BizBuch flips that model.
+
+✅ **Self-host your own server**  
+✅ **Communities control rules and identity**  
+✅ **Users can choose which server to join**
+
+---
+
 ## 🌍 Community Servers (Niche Networks)
 
 BizBuch enables servers to be created around a niche or purpose, such as:
