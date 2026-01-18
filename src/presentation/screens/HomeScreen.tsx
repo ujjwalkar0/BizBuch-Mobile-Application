@@ -1,40 +1,20 @@
 // src/presentation/screens/HomeScreen.tsx
 import React from 'react';
-import { Provider, BottomNavigation } from 'react-native-paper';
-import { TabIcon } from '../components/TabIcon';
-import { TAB_ROUTES } from '../navigation/TabRoutes';
+import { BottomNavigationTemplate } from '../components/templates/BottomNavigationTemplate';
 
+/**
+ * HomeScreen Page
+ * Atomic Design: Page - Wrapper for BottomNavigationTemplate
+ * SOLID Principles:
+ * - Single Responsibility: Renders the main navigation template
+ * - Open/Closed: Extended through BottomNavigationTemplate
+ * - Dependency Inversion: Depends on BottomNavigationTemplate abstraction
+ *
+ * Note: This screen delegates to BottomNavigationTemplate which handles
+ * all tab navigation logic, styling (from theme), and TabIcon atom usage.
+ */
 const HomeScreen: React.FC = () => {
-  const [index, setIndex] = React.useState(0);
-
-  const routes = TAB_ROUTES.map(({ key, title, icon }) => ({ key, title, icon }));
-
-  const renderScene = BottomNavigation.SceneMap(
-    Object.fromEntries(
-      TAB_ROUTES.map((r) => [
-        r.key,
-        () => <r.component />,
-      ])
-    )
-  );
-
-  return (
-    <Provider>
-      <BottomNavigation
-        navigationState={{ index, routes }}
-        onIndexChange={setIndex}
-        renderScene={renderScene}
-        shifting
-        labeled
-        barStyle={{ backgroundColor: '#fff' }}
-        activeColor="tomato"
-        inactiveColor="gray"
-        renderIcon={({ route, focused, color }) => (
-          <TabIcon icon={route.icon} color={color} size={focused ? 28 : 22} />
-        )}
-      />
-    </Provider>
-  );
+  return <BottomNavigationTemplate />;
 };
 
 export default HomeScreen;
