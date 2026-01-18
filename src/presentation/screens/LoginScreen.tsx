@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  Image,
-  TouchableOpacity,
-  View,
 } from 'react-native';
 import { TextInput, Button, Text, HelperText } from 'react-native-paper';
 import { Controller } from 'react-hook-form';

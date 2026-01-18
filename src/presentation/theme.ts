@@ -696,6 +696,88 @@ export const theme = {
       addButtonIconSize: 12,
       usernameFontSize: 12,
     },
+    // CreatePostScreenTemplate template styles
+    createPostScreenTemplate: {
+      flex: 1,
+    },
+    // FormInput atom styles
+    formInput: {
+      borderWidth: 1,
+      borderRadius: 8,
+      paddingHorizontal: 12,
+      paddingVertical: 12,
+      fontSize: 15,
+      labelFontSize: 14,
+      labelFontWeight: '600' as const,
+      labelMarginBottom: 8,
+      errorFontSize: 12,
+      errorMarginTop: 4,
+    },
+    // FormSection molecule styles
+    formSection: {
+      marginBottom: 20,
+      titleFontSize: 16,
+      titleFontWeight: '700' as const,
+      titleMarginBottom: 16,
+      titleMarginTop: 8,
+      separatorHeight: 1,
+      separatorMarginVertical: 20,
+    },
+    // ProfileImageSection molecule styles
+    profileImageSection: {
+      marginBottom: 12,
+      coverImageHeight: 150,
+      coverButtonSize: 40,
+      coverButtonBorderRadius: 20,
+      coverButtonBottom: 12,
+      coverButtonRight: 12,
+      coverIconSize: 20,
+      avatarSize: 100,
+      avatarBorderRadius: 50,
+      avatarBorderWidth: 4,
+      avatarMarginTop: -50,
+      avatarMarginBottom: 16,
+      avatarButtonSize: 32,
+      avatarButtonBorderRadius: 16,
+      avatarButtonBorderWidth: 3,
+      avatarIconSize: 18,
+    },
+    // EditProfileHeader molecule styles
+    editProfileHeader: {
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      titleFontSize: 18,
+      titleFontWeight: '600' as const,
+      saveButtonFontSize: 16,
+      saveButtonFontWeight: '600' as const,
+      closeIconSize: 24,
+    },
+    // ImagePickerModal organism styles (reuses photoOptionsModal pattern)
+    imagePickerModal: {
+      overlayOpacity: 0.5,
+      sheetBorderRadius: 20,
+      sheetPaddingTop: 20,
+      sheetPaddingBottom: 40,
+      sheetPaddingHorizontal: 16,
+      optionPaddingVertical: 16,
+      optionPaddingHorizontal: 16,
+      optionBorderBottomWidth: 1,
+      optionIconSize: 18,
+      optionTextFontSize: 16,
+      optionTextMarginLeft: 16,
+      optionTextFontWeight: '500' as const,
+      cancelPaddingVertical: 16,
+      cancelFontSize: 16,
+      cancelFontWeight: '600' as const,
+      cancelMarginTop: 8,
+    },
+    // EditProfileScreenTemplate template styles
+    editProfileScreenTemplate: {
+      flex: 1,
+      formPaddingHorizontal: 16,
+      formPaddingVertical: 20,
+    },
   },
 } as const;
 
