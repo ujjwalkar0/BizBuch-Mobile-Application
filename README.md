@@ -41,7 +41,7 @@ Unlike traditional social platforms where a single company owns the servers, dat
 ---
 
 
-| <img src="src/assets/screenshots/Screenshot_1.png" width="250"/> | <img src="src/assets/screenshots/Screenshot_2.png" width="250"/> | <img src="src/assets/screenshots/Screenshot_3.png" width="250"/> |
+<img src="src/assets/screenshots/Screenshot_1.png" width="200"/> <img src="src/assets/screenshots/Screenshot_2.png" width="200"/> <img src="src/assets/screenshots/Screenshot_3.png" width="200"/> 
 
 
 ## ✨ Key Idea
