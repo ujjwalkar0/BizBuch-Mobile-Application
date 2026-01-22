@@ -5,7 +5,7 @@ export class CreatePostHandler {
   constructor(private readonly postRepository: IPostRepository) {}
 
   async handle(post: PostRequestBody): Promise<boolean> {
-    await this.postRepository.create(post);
+    const response = await this.postRepository.create(post);
     return true;
   }
 }

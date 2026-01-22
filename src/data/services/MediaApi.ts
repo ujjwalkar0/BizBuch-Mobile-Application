@@ -7,7 +7,7 @@ export interface PresignedUpload {
 
 export class MediaApi {
   async getPresignedUrl(): Promise<PresignedUpload> {
-    const res = await postAuth<PresignedUpload>('/uploads/presign/', {
+    const res = await postAuth<PresignedUpload>('uploads/presign/', {
       contentType: 'image/jpeg',
     });
 
