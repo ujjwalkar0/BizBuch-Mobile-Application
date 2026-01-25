@@ -37,6 +37,9 @@ export const CreatePostScreen: React.FC = () => {
     onOpenFeelingPicker,
     onCloseFeelingPicker,
     onSelectFeeling,
+
+    // User
+    avatarUri
   } = useCreatePostScreen();
 
   return (
@@ -63,6 +66,9 @@ export const CreatePostScreen: React.FC = () => {
       onOpenFeelingPicker={onOpenFeelingPicker}
       onCloseFeelingPicker={onCloseFeelingPicker}
       onSelectFeeling={onSelectFeeling}
+
+      // User
+      avatarUri={avatarUri}
     />
   );
 };

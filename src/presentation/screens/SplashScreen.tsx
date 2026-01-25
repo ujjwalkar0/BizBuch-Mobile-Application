@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useVerifyToken } from '../../ui/hooks/useVerifyToken';
 import { WelcomeNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
 import Logo from '../../assets/images/splash.svg';
+import { configManager } from '../../core/config';
 
 const { width } = Dimensions.get('window');
 const AnimatedLogo = Animated.createAnimatedComponent(Logo);
@@ -28,6 +29,9 @@ const SplashScreen: React.FC = () => {
 
   useEffect(() => {
     const verifyToken = async () => {
+      // Initialize config manager to load saved IP settings
+      await configManager.initialize();
+      
       const token = await AsyncStorage.getItem('authToken');
 
       if (token) {
@@ -35,7 +39,11 @@ const SplashScreen: React.FC = () => {
           await mutateAsync(
             { token },
             {
-              onSuccess: () => {
+              onSuccess: async (response) => {
+                // Cache user profile photo for header avatar
+                if (response.user?.profile_photo) {
+                  await AsyncStorage.setItem('userProfilePhoto', response.user.profile_photo);
+                }
                 navigation.replace('BizBuch');
               },
               onError: () => {

@@ -16,6 +16,7 @@ interface ChatScreenTemplateProps {
   isWebSocketConnected: boolean;
 
   // Banner props
+  conversationId: number | null;
   isWebSocketConnecting: boolean;
   wsConnectionError: WebSocketConnectionError | null;
   reconnectAttempts: number;
@@ -50,6 +51,7 @@ export const ChatScreenTemplate: React.FC<ChatScreenTemplateProps> = ({
   isWebSocketConnected,
 
   // Banner
+  conversationId,
   isWebSocketConnecting,
   wsConnectionError,
   reconnectAttempts,
@@ -81,6 +83,7 @@ export const ChatScreenTemplate: React.FC<ChatScreenTemplateProps> = ({
       />
 
       <ConnectionBanner
+        conversationId={conversationId}
         isConnecting={isWebSocketConnecting}
         isConnected={isWebSocketConnected}
         connectionError={wsConnectionError}

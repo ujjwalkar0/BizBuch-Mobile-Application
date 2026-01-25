@@ -4,12 +4,13 @@ import { postAuth, getAuth } from '../../core/http';
 
 export class PostRepository implements IPostRepository {
   async getAllPosts(): Promise<PostResponseBody[]> {
-    return await getAuth('posts');
+    const allPosts = await getAuth<PostResponseBody[]>('posts');
+    return allPosts;
   }
   async getPostById(id: string): Promise<PostResponseBody | null> {
-    return await getAuth(`posts/${id}`);
+    return await getAuth<PostResponseBody | null>(`posts/${id}`);
   }
   async create(postBody: PostRequestBody): Promise<void> {
-    await postAuth('posts/', postBody);
+    return await postAuth('posts/', postBody);
   }
 }

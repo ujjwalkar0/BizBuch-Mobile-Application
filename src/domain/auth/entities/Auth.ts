@@ -19,6 +19,7 @@ export interface AuthUser {
   email: string;
   first_name: string;
   last_name: string;
+  profile_photo?: string;
 }
 
 export type AuthResponse = {

@@ -37,9 +37,13 @@ const LoginScreen: React.FC = () => {
   }) => {
     try {
       await mutateAsync(data, {
-        onSuccess: data => {
-          AsyncStorage.setItem('authToken', data.access);
-          AsyncStorage.setItem('refreshToken', data.refresh);
+        onSuccess: async (response) => {
+          await AsyncStorage.setItem('authToken', response.access);
+          await AsyncStorage.setItem('refreshToken', response.refresh);
+          // Cache user profile photo for header avatar
+          if (response.user.profile_photo) {
+            await AsyncStorage.setItem('userProfilePhoto', response.user.profile_photo);
+          }
           navigation.replace('BizBuch');
         },
       });

@@ -206,7 +206,6 @@ export const useChatWebSocket = ({
 
       // Construct WebSocket URL: ws://host/ws/chat/<conversation_id>/?token=<jwt>
       const wsUrl = `${Config.CHAT_WS_URL}ws/chat/${currentConversationId}/?token=${token}`;
-      console.log('Connecting to WebSocket:', wsUrl.replace(token, '***'));
 
       const ws = new WebSocket(wsUrl);
       wsRef.current = ws;

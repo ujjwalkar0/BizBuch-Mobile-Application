@@ -4,6 +4,7 @@ import { FeedNavigationProp } from '../../navigation/news-feed-navigation/NewsFe
 import { LogoSection } from './LogoSection';
 import { ProfileAvatarButton } from './ProfileAvatarButton';
 import { useNewsFeedHeader } from '../../../ui/hooks/useNewsFeedHeader';
+import { useUserAvatar } from '../../../ui/hooks/useUserAvatar';
 import { theme } from '../../theme';
 
 const { newsFeedHeader } = theme.components;
@@ -21,6 +22,7 @@ interface NewsFeedHeaderProps {
  */
 export const NewsFeedHeader: React.FC<NewsFeedHeaderProps> = ({ navigation }) => {
   const { handleProfilePress } = useNewsFeedHeader({ navigation });
+  const { avatarUri } = useUserAvatar();
 
   const headerStyle = useMemo<ViewStyle>(
     () => ({
@@ -40,7 +42,7 @@ export const NewsFeedHeader: React.FC<NewsFeedHeaderProps> = ({ navigation }) =>
     <View style={headerStyle}>
       <LogoSection />
       <ProfileAvatarButton
-        imageUri="https://images.unsplash.com/photo-1649433658557-54cf58577c68?w=100"
+        imageUri={avatarUri}
         onPress={handleProfilePress}
       />
     </View>

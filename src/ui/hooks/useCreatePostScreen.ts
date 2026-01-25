@@ -4,6 +4,7 @@ import { PostRequestBody } from '../../domain/post/entities/Post';
 import { CreatePostFormValues } from '../form-types/CreatePostForm.types';
 import { useCreatePostMutation } from './useCreatePostMutation';
 import { createPostResolver } from '../resolvers/createPostResolver';
+import { useUserAvatar } from './useUserAvatar';
 
 /**
  * Feeling type definition
@@ -33,6 +34,7 @@ export const useCreatePostScreen = () => {
   const [showPhotoOptions, setShowPhotoOptions] = useState(false);
   const [showPoll, setShowPoll] = useState(false);
   const [showFeelingPicker, setShowFeelingPicker] = useState(false);
+  const { avatarUri } = useUserAvatar();
 
   // Form setup
   const { control, watch, setValue, handleSubmit, reset } = useForm<
@@ -158,5 +160,8 @@ export const useCreatePostScreen = () => {
     onOpenFeelingPicker: handleOpenFeelingPicker,
     onCloseFeelingPicker: handleCloseFeelingPicker,
     onSelectFeeling: handleSelectFeeling,
+
+    // User Avatar
+    avatarUri,
   };
 };

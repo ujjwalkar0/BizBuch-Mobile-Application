@@ -3,6 +3,7 @@ import { Author } from './Author';
 export interface PostResponseBody {
   id: string;
   author: string;
+  author_avatar: string;
   content: string;
   image_url?: string;
   timestamp: string;

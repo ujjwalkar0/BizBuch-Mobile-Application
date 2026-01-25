@@ -70,7 +70,7 @@ export const PostCard: React.FC<PostCardProps> = ({
     <View style={containerStyle}>
       <PostHeader
         authorName={post.author}
-        authorAvatar={post.author}
+        authorAvatar={post.author_avatar}
         isFollowing={isFollowing}
         onFollow={onFollow}
         onMenuPress={onMenuPress}
