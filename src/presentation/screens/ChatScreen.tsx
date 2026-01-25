@@ -23,6 +23,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
 
   const {
     flatListRef,
+    conversationId,
     otherParticipantName,
     isConversationLoading,
     messages,
@@ -53,6 +54,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
       onBackPress={() => navigation.goBack()}
       isWebSocketConnected={isWebSocketConnected}
       // Banner
+      conversationId={conversationId}
       isWebSocketConnecting={isWebSocketConnecting}
       wsConnectionError={wsConnectionError}
       reconnectAttempts={reconnectAttempts}

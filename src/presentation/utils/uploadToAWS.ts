@@ -4,16 +4,12 @@ import Config from '../../core/config';
 
 // ✅ CORRECT - Sends raw binary data
 export const uploadToAWS = async (presignedUrl: string, imageUri: string) => {
-  try {
-    // Replace internal 'minio' hostname with Android emulator's host address
-    // TODO: Remove this workaround once backend generates correct presigned URLs
-    const resolvedUrl = presignedUrl.replace('://minio:', `://${Config.IP}:`);
-    
+  try {    
     const filePath = imageUri.replace('file://', '');
 
     const response = await ReactNativeBlobUtil.fetch(
       'PUT', 
-      resolvedUrl,
+      presignedUrl,
       {
         'Content-Type': 'image/jpeg',
       },

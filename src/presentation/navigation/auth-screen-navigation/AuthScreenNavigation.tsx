@@ -7,6 +7,7 @@ import { RootStackParamList } from '../RootStackParamList';
 import { BottomNavigationTemplate } from '../../components/templates/BottomNavigationTemplate';
 import WelcomeScreen from '../../screens/WelcomeScreen';
 import SplashScreen from '../../screens/SplashScreen';
+import { AdvancedSettingsScreen } from '../../screens/AdvancedSettingsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -19,6 +20,7 @@ const AuthScreenNavigation: React.FC = () => (
     <Stack.Screen name="Register" component={RegisterScreen} />
     <Stack.Screen name="OtpValidation" component={OtpValidationScreen} />
     <Stack.Screen name="BizBuch" component={BottomNavigationTemplate} options={{headerShown: false}}/>
+    <Stack.Screen name="AdvancedSettings" component={AdvancedSettingsScreen} />
   </Stack.Navigator>
 
 );

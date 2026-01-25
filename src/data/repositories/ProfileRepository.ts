@@ -1,6 +1,6 @@
 import { Profile } from "../../domain/user/entities/Profile";
-import { IProfileRepository, UpdateProfileData } from "../../domain/user/repositories/IProfileRepository";
-import { getAuth, patchAuth } from "../../core/http";
+import { IProfileRepository, UpdateProfileData, AddWorkExperienceData, AddEducationData } from "../../domain/user/repositories/IProfileRepository";
+import { getAuth, patchAuth, postAuth } from "../../core/http";
 
 export class ProfileRepository implements IProfileRepository {
   async getCurrentUserProfile(): Promise<Profile> {
@@ -18,5 +18,17 @@ export class ProfileRepository implements IProfileRepository {
   async updateProfile(data: UpdateProfileData): Promise<Profile> {
     console.log("Updating profile with data:", data);
     return patchAuth<Profile>("profiles/me/", data);
+  }
+
+  async addWorkExperience(data: AddWorkExperienceData): Promise<void> {
+    await postAuth<void>("profiles/me/work-experiences/", data);
+  }
+
+  async addEducation(data: AddEducationData): Promise<void> {
+    await postAuth<void>("profiles/me/education/", data);
+  }
+
+  async followUser(userId: number): Promise<void> {
+    await postAuth<void>(`profiles/${userId}/follow/`, {});
   }
 }

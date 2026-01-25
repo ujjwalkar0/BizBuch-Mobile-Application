@@ -55,6 +55,9 @@ interface CreatePostScreenTemplateProps {
   onOpenFeelingPicker: () => void;
   onCloseFeelingPicker: () => void;
   onSelectFeeling: (feeling: Feeling) => void;
+
+  // User
+  avatarUri: string;
 }
 
 /**
@@ -91,6 +94,9 @@ export const CreatePostScreenTemplate: React.FC<CreatePostScreenTemplateProps> =
   onOpenFeelingPicker,
   onCloseFeelingPicker,
   onSelectFeeling,
+
+  // User
+  avatarUri
 }) => {
   const containerStyle = useMemo<ViewStyle>(
     () => ({
@@ -111,7 +117,7 @@ export const CreatePostScreenTemplate: React.FC<CreatePostScreenTemplateProps> =
       <ScrollView style={styles.scrollView}>
         <UserSection
           userName="Ujjwal Kar"
-          userAvatar=""
+          userAvatar={avatarUri}
           audience={audience}
           feeling={feeling}
         />

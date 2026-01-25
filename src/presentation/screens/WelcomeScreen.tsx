@@ -47,7 +47,7 @@ const WelcomeScreen: React.FC = () => {
 
         <Button
           mode="text"
-          // onPress={() => navigation.navigate('AdvancedSettings')}
+          onPress={() => navigation.navigate('AdvancedSettings')}
           style={styles.advancedButton}
           labelStyle={styles.advancedText}
         >

@@ -17,4 +17,11 @@ export type RootStackParamList = {
   ActivityLog: undefined;
   Messages: undefined;
   Chat: { userId: number };
+
+  // Profile Management Screens
+  AddWorkExperience: undefined;
+  AddEducation: undefined;
+
+  // Settings Screens
+  AdvancedSettings: undefined;
 };

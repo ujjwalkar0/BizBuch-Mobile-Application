@@ -6,6 +6,7 @@ import { ErrorBanner } from './ErrorBanner';
 import { WarningBanner } from './WarningBanner';
 
 interface ConnectionBannerProps {
+  conversationId: number | null;
   isConnecting: boolean;
   isConnected: boolean;
   connectionError: WebSocketConnectionError | null;
@@ -22,6 +23,7 @@ interface ConnectionBannerProps {
  * SOLID: Dependency Inversion - Depends on BannerStateResolverService
  */
 export const ConnectionBanner: React.FC<ConnectionBannerProps> = ({
+  conversationId,
   isConnecting,
   isConnected,
   connectionError,
@@ -29,6 +31,11 @@ export const ConnectionBanner: React.FC<ConnectionBannerProps> = ({
   onRetry,
   onGoBack,
 }) => {
+  // Don't show any banner if we haven't attempted to connect yet
+  if (!conversationId) {
+    return null;
+  }
+
   const bannerState = BannerStateResolverService.resolve({
     isConnecting,
     isConnected,
