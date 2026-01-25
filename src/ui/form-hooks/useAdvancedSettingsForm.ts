@@ -8,18 +8,31 @@ import { AdvancedSettingsFormValues } from '../form-types/AdvancedSettingsForm.t
  */
 export const advancedSettingsValidationRules = {
   ip: {
-    required: 'IP address is required',
-    pattern: {
-      value: /^(\d{1,3}\.){3}\d{1,3}$/,
-      message: 'Please enter a valid IP address (e.g., 192.168.0.5)',
-    },
+    required: 'IP address or URL is required',
     validate: (value: string) => {
-      const parts = value.split('.');
-      const isValid = parts.every(part => {
-        const num = parseInt(part, 10);
-        return num >= 0 && num <= 255;
-      });
-      return isValid || 'Each IP segment must be between 0 and 255';
+      // Check if it's a valid IP address
+      const ipPattern = /^(\d{1,3}\.){3}\d{1,3}$/;
+      if (ipPattern.test(value)) {
+        const parts = value.split('.');
+        const isValidIp = parts.every(part => {
+          const num = parseInt(part, 10);
+          return num >= 0 && num <= 255;
+        });
+        if (!isValidIp) {
+          return 'Each IP segment must be between 0 and 255';
+        }
+        return true;
+      }
+
+      // Check if it's a valid URL/hostname
+      const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})?(:\d+)?(\/.*)?$/;
+      const localhostPattern = /^(https?:\/\/)?localhost(:\d+)?(\/.*)?$/;
+      
+      if (urlPattern.test(value) || localhostPattern.test(value)) {
+        return true;
+      }
+
+      return 'Please enter a valid IP address (e.g., 192.168.0.5) or URL (e.g., example.com)';
     },
   },
   port: {
