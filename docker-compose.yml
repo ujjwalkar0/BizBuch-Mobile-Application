@@ -13,7 +13,9 @@ services:
       - "8000:8000"   # ✅ only required exposed port
     environment:
       - DEBUG=True
-      - OTP_VERIFICATION_ENABLED=False
+      - OTP_VERIFICATION_ENABLED=False # Set to True to enable OTP verification
+      - EMAIL_HOST_USER=your_email@example.com # Your email here
+      - EMAIL_HOST_PASSWORD=your_email_password_here # Create app password from here https://myaccount.google.com/apppasswords
 
       # Postgres
       - DB_HOST=db
