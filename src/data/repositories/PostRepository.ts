@@ -1,6 +1,6 @@
 import { IPostRepository } from '../../domain/post/repositories/IPostRepository';
 import { PostRequestBody, PostResponseBody } from '../../domain/post/entities/Post';
-import { postAuth, getAuth } from '../../core/http';
+import { postAuth, getAuth, deleteAuth } from '../../core/http';
 
 export class PostRepository implements IPostRepository {
   async getAllPosts(): Promise<PostResponseBody[]> {
@@ -12,5 +12,11 @@ export class PostRepository implements IPostRepository {
   }
   async create(postBody: PostRequestBody): Promise<void> {
     return await postAuth('posts/', postBody);
+  }
+  async likePost(postId: string): Promise<void> {
+    return await postAuth(`posts/${postId}/likes/`, {});
+  }
+  async unlikePost(postId: string): Promise<void> {
+    return await deleteAuth(`posts/${postId}/likes/`);
   }
 }

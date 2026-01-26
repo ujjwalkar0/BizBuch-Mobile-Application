@@ -11,7 +11,7 @@ import { FormInput } from '../atoms/FormInput';
 // Molecules
 import { CenteredLoader } from '../molecules/CenteredLoader';
 import { CenteredError } from '../molecules/CenteredError';
-import { EditProfileHeader } from '../molecules/EditProfileHeader';
+import { PageHeader } from '../molecules/PageHeader';
 import { ProfileImageSection } from '../molecules/ProfileImageSection';
 import { FormSection } from '../molecules/FormSection';
 
@@ -114,11 +114,10 @@ export const EditProfileScreenTemplate: React.FC<EditProfileScreenTemplateProps>
 
   return (
     <SafeAreaView edges={['top']} style={containerStyle}>
-      <EditProfileHeader
+      <PageHeader
         title="Edit Profile"
-        onBack={onBack}
-        onSave={onSave}
-        isSaving={isSaving}
+        leftAction={{ type: 'close', onPress: onBack }}
+        rightAction={{ type: 'text', label: 'Save', onPress: onSave, loading: isSaving }}
       />
 
       <ScrollView style={{ flex: 1 }}>

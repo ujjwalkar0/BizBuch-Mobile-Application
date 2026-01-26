@@ -10,6 +10,7 @@ interface NotificationIconProps {
   icon: IconDefinition;
   color?: string;
   size?: number;
+  containerSize?: number;
 }
 
 /**
@@ -22,17 +23,20 @@ export const NotificationIcon: React.FC<NotificationIconProps> = ({
   icon,
   color = theme.colors.primary,
   size = notificationIcon.defaultSize,
+  containerSize: customContainerSize,
 }) => {
+  const actualContainerSize = customContainerSize ?? notificationIcon.containerSize;
+  
   const containerStyle = useMemo<ViewStyle>(
     () => ({
-      width: notificationIcon.containerSize,
-      height: notificationIcon.containerSize,
-      borderRadius: notificationIcon.containerSize / 2,
+      width: actualContainerSize,
+      height: actualContainerSize,
+      borderRadius: actualContainerSize / 2,
       backgroundColor: `${color}${notificationIcon.backgroundOpacity}`,
       alignItems: 'center',
       justifyContent: 'center',
     }),
-    [color],
+    [color, actualContainerSize],
   );
 
   return (

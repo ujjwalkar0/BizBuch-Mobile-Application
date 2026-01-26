@@ -649,6 +649,19 @@ export const theme = {
       paddingVertical: 8,
       textAlignVertical: 'top' as const,
     },
+    // PageHeader molecule styles (unified header for all screens)
+    pageHeader: {
+      height: 56,
+      paddingHorizontal: 16,
+      borderBottomWidth: 1,
+      titleFontSize: 18,
+      titleFontWeight: '600' as const,
+      iconSize: 20,
+      actionMinWidth: 60,
+      actionPadding: 8,
+      actionFontSize: 16,
+      actionFontWeight: '600' as const,
+    },
     // ScreenHeader molecule styles
     screenHeader: {
       padding: 16,

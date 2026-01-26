@@ -5,6 +5,7 @@ import { Connection } from '../../../domain/user/entities/Connection';
 import { CenteredLoader } from '../molecules/CenteredLoader';
 import { CenteredError } from '../molecules/CenteredError';
 import { ConnectionList } from '../organisms/ConnectionList';
+import { theme } from '../../theme';
 
 interface NetworkScreenTemplateProps {
   // Loading states
@@ -95,6 +96,6 @@ export const NetworkScreenTemplate: React.FC<NetworkScreenTemplateProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: theme.colors.background,
   },
 });

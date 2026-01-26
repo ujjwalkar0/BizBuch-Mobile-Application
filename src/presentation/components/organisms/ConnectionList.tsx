@@ -78,5 +78,5 @@ export const ConnectionList: React.FC<ConnectionListProps> = ({
 };
 
 const styles = StyleSheet.create({
-  list: { padding: 16 },
+  list: { paddingHorizontal: 16, paddingBottom: 16 },
 });

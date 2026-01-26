@@ -11,7 +11,6 @@ import {
 import { Controller, Control, FieldErrors } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
-  faArrowLeft,
   faServer,
   faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
@@ -19,6 +18,7 @@ import { theme } from '../../theme';
 import { AdvancedSettingsFormValues } from '../../../ui/form-types/AdvancedSettingsForm.types';
 import { AdvancedSettingsValidationRules } from '../../../ui/form-hooks/useAdvancedSettingsForm';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { PageHeader } from '../molecules/PageHeader';
 
 /**
  * AdvancedSettingsScreenTemplate Props
@@ -74,17 +74,7 @@ export const AdvancedSettingsScreenTemplate: React.FC<
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={onGoBack} style={styles.backButton}>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            size={20}
-            color={theme.colors.gray900}
-          />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Advanced Settings</Text>
-        <View style={styles.headerRight} />
-      </View>
+      <PageHeader title="Advanced Settings" leftAction={{ type: 'back', onPress: onGoBack }} />
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Server Configuration Section */}
@@ -206,27 +196,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: theme.colors.background,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
-    backgroundColor: '#fff',
-  },
-  backButton: {
-    padding: 8,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: theme.colors.gray900,
-  },
-  headerRight: {
-    width: 36,
   },
   content: {
     flex: 1,

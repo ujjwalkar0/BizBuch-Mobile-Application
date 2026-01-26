@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { NotificationHeader } from '../molecules/NotificationHeader';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCheckDouble } from '@fortawesome/free-solid-svg-icons';
+import { PageHeader } from '../molecules/PageHeader';
 import { NotificationTabs } from '../molecules/NotificationTabs';
 import { NotificationList } from '../organisms/NotificationList';
 import { CenteredLoader } from '../molecules/CenteredLoader';
@@ -44,11 +46,24 @@ export const NotificationsScreenTemplate: React.FC<NotificationsScreenTemplatePr
   onRefresh,
   onNotificationPress,
 }) => {
+  const renderMarkAllReadAction = () => (
+    <TouchableOpacity
+      style={[styles.markAllButton, isMarkingAll && styles.markAllButtonDisabled]}
+      onPress={onMarkAllAsRead}
+      disabled={isMarkingAll}
+    >
+      <FontAwesomeIcon icon={faCheckDouble} size={20} color={theme.colors.primary} />
+    </TouchableOpacity>
+  );
+
   // Loading state
   if (isLoading) {
     return (
       <SafeAreaView style={styles.container}>
-        <NotificationHeader onMarkAllAsRead={onMarkAllAsRead} />
+        <PageHeader
+          title="Notifications"
+          rightAction={{ type: 'custom', render: renderMarkAllReadAction }}
+        />
         <NotificationTabs
           activeTab={activeTab}
           onTabChange={onTabChange}
@@ -63,7 +78,10 @@ export const NotificationsScreenTemplate: React.FC<NotificationsScreenTemplatePr
   if (isError) {
     return (
       <SafeAreaView style={styles.container}>
-        <NotificationHeader onMarkAllAsRead={onMarkAllAsRead} />
+        <PageHeader
+          title="Notifications"
+          rightAction={{ type: 'custom', render: renderMarkAllReadAction }}
+        />
         <NotificationTabs
           activeTab={activeTab}
           onTabChange={onTabChange}
@@ -77,9 +95,9 @@ export const NotificationsScreenTemplate: React.FC<NotificationsScreenTemplatePr
   // Success state
   return (
     <SafeAreaView style={styles.container}>
-      <NotificationHeader
-        onMarkAllAsRead={onMarkAllAsRead}
-        isMarkingAll={isMarkingAll}
+      <PageHeader
+        title="Notifications"
+        rightAction={{ type: 'custom', render: renderMarkAllReadAction }}
       />
       <NotificationTabs
         activeTab={activeTab}
@@ -100,5 +118,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
+  },
+  markAllButton: {
+    padding: 8,
+  },
+  markAllButtonDisabled: {
+    opacity: 0.5,
   },
 });
