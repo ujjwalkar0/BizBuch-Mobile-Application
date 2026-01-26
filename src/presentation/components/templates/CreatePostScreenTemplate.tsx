@@ -8,7 +8,7 @@ import { theme } from '../../theme';
 
 // Molecules
 import { AddPostOptions } from '../molecules/AddPostOptions';
-import { CreatePostHeader } from '../molecules/CreatePostHeader';
+import { PageHeader } from '../molecules/PageHeader';
 import { PostInput } from '../molecules/PostInput';
 import { SelectedImagePreview } from '../molecules/SelectedImagePreview';
 import { UserSection } from '../molecules/UserSection';
@@ -108,10 +108,9 @@ export const CreatePostScreenTemplate: React.FC<CreatePostScreenTemplateProps> =
 
   return (
     <SafeAreaView style={containerStyle} edges={['top']}>
-      <CreatePostHeader
-        type="add"
-        disabled={isPostDisabled}
-        onPost={onSubmit}
+      <PageHeader
+        title="Create Post"
+        rightAction={{ type: 'text', label: 'Post', onPress: onSubmit, disabled: isPostDisabled }}
       />
 
       <ScrollView style={styles.scrollView}>

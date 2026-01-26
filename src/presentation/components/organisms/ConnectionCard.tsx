@@ -50,9 +50,6 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = ({
   );
 
   const subtitle = ConnectionSubtitleService.getSubtitle(item);
-  const mutualCount = item.mutual_connections_count
-    ? Number(item.mutual_connections_count)
-    : 0;
 
   return (
     <View style={cardStyle}>
@@ -60,7 +57,6 @@ export const ConnectionCard: React.FC<ConnectionCardProps> = ({
         avatarUri={item.avatar}
         displayName={item.display_name}
         subtitle={subtitle}
-        mutualConnectionsCount={mutualCount}
         onPress={() => onClickViewProfile(item)}
       />
 

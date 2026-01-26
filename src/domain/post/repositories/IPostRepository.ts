@@ -4,4 +4,6 @@ export interface IPostRepository {
   getAllPosts(): Promise<PostResponseBody[]>;
   getPostById(id: string): Promise<PostResponseBody | null>;
   create(postBody: PostRequestBody): Promise<void>;
+  likePost(postId: string): Promise<void>;
+  unlikePost(postId: string): Promise<void>;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { ActivityLogHeader } from '../molecules/ActivityLogHeader';
+import { PageHeader } from '../molecules/PageHeader';
 import { ActivityList } from '../organisms/ActivityList';
 import { CenteredLoader } from '../molecules/CenteredLoader';
 import { CenteredError } from '../molecules/CenteredError';
@@ -37,7 +37,7 @@ export const ActivityLogScreenTemplate: React.FC<ActivityLogScreenTemplateProps>
   if (isLoading) {
     return (
       <SafeAreaView style={styles.container}>
-        <ActivityLogHeader onBack={onBack} />
+        <PageHeader title="Activity Log" leftAction={{ type: 'back', onPress: onBack }} />
         <CenteredLoader />
       </SafeAreaView>
     );
@@ -47,7 +47,7 @@ export const ActivityLogScreenTemplate: React.FC<ActivityLogScreenTemplateProps>
   if (isError) {
     return (
       <SafeAreaView style={styles.container}>
-        <ActivityLogHeader onBack={onBack} />
+        <PageHeader title="Activity Log" leftAction={{ type: 'back', onPress: onBack }} />
         <CenteredError message="Failed to load activity log" />
       </SafeAreaView>
     );
@@ -56,7 +56,7 @@ export const ActivityLogScreenTemplate: React.FC<ActivityLogScreenTemplateProps>
   // Success state
   return (
     <SafeAreaView style={styles.container}>
-      <ActivityLogHeader onBack={onBack} />
+      <PageHeader title="Activity Log" leftAction={{ type: 'back', onPress: onBack }} />
       <ActivityList
         activities={activities}
         isRefreshing={isRefreshing}

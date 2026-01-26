@@ -11,16 +11,17 @@ export class ConnectionSubtitleService {
       return connection.headline;
     }
 
-    if (connection.current_position && connection.company) {
-      return `${connection.current_position} at ${connection.company}`;
+    const { current_work } = connection;
+    if (current_work?.job_title && current_work?.company_name) {
+      return `${current_work.job_title} at ${current_work.company_name}`;
     }
 
-    if (connection.current_position) {
-      return connection.current_position;
+    if (current_work?.job_title) {
+      return current_work.job_title;
     }
 
-    if (connection.company) {
-      return connection.company;
+    if (current_work?.company_name) {
+      return current_work.company_name;
     }
 
     return '';

@@ -3,6 +3,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import { PostResponseBody } from '../../../domain/post/entities/Post';
 import { theme } from '../../theme';
 import { PostCard } from './PostCard';
+import { useToggleLike } from '../../../ui/hooks/useToggleLike';
 
 interface PostListProps {
   posts: PostResponseBody[];
@@ -27,12 +28,14 @@ export const PostList: React.FC<PostListProps> = ({
   onCommentPress,
   ListHeaderComponent,
 }) => {
+  const { toggleLike } = useToggleLike();
   const keyExtractor = (item: PostResponseBody) => item.id;
 
   const renderItem = ({ item }: { item: PostResponseBody }) => (
     <PostCard
       post={item}
       onComment={() => onCommentPress(item.id)}
+      onLike={(isLiked: boolean) => toggleLike(item.id, isLiked)}
     />
   );
 

@@ -4,6 +4,7 @@ import { NotificationIcon } from '../atoms/NotificationIcon';
 import { NotificationMessage } from '../atoms/NotificationMessage';
 import { ActivityTimestamp } from '../atoms/ActivityTimestamp';
 import { UnreadDot } from '../atoms/UnreadDot';
+import { AvatarImage } from '../atoms/AvatarImage';
 import { Activity } from '../../../domain/notification/entities/Activity';
 import { NotificationFormatter } from '../../../data/services/NotificationFormatter';
 import { theme } from '../../theme';
@@ -66,9 +67,35 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
     [],
   );
 
+  const avatarContainerStyle = useMemo<ViewStyle>(
+    () => ({
+      position: 'relative',
+    }),
+    [],
+  );
+
+  const iconOverlayStyle = useMemo<ViewStyle>(
+    () => ({
+      position: 'absolute',
+      bottom: -2,
+      right: -2,
+      backgroundColor: theme.colors.white,
+      borderRadius: 10,
+      padding: 2,
+    }),
+    [],
+  );
+
+  const actorInitial = notification.actor_username?.[0]?.toUpperCase() ?? '?';
+
   return (
     <TouchableOpacity style={containerStyle} onPress={onPress} activeOpacity={0.7}>
-      <NotificationIcon icon={displayInfo.icon} color={displayInfo.color} />
+      <View style={avatarContainerStyle}>
+        <AvatarImage uri={notification.actor_avatar_url} initial={actorInitial} size={44} />
+        <View style={iconOverlayStyle}>
+          <NotificationIcon icon={displayInfo.icon} color={displayInfo.color} size={10} containerSize={20} />
+        </View>
+      </View>
       <View style={contentStyle}>
         <NotificationMessage text={displayInfo.message} isRead={notification.is_read} />
         <View style={rowStyle}>

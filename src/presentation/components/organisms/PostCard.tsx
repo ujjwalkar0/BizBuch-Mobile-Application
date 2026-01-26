@@ -13,7 +13,7 @@ const { postCard } = theme.components;
 interface PostCardProps {
   post: PostResponseBody;
   onPostOpen?: () => void;
-  onLike?: () => void;
+  onLike?: (isLiked: boolean) => void;
   onComment?: () => void;
   onShare?: () => void;
   onSend?: () => void;
@@ -44,12 +44,13 @@ export const PostCard: React.FC<PostCardProps> = ({
   const [likeCount, setLikeCount] = useState(post.likes || 0);
 
   const handleLike = useCallback(() => {
+    const currentLikedState = isLiked;
     setIsLiked(prev => {
       setLikeCount((count: number) => prev ? count - 1 : count + 1);
       return !prev;
     });
-    onLike?.();
-  }, [onLike]);
+    onLike?.(currentLikedState);
+  }, [isLiked, onLike]);
 
   const handleComment = useCallback(() => {
     onComment?.();

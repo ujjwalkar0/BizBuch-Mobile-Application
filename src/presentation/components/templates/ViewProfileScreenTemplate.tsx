@@ -18,6 +18,7 @@ import { EducationCard } from '../molecules/EducationCard';
 import { SkillsList } from '../molecules/SkillsList';
 import { ContactInfoSection } from '../molecules/ContactInfoSection';
 import { LogoutButton } from '../molecules/LogoutButton';
+import { PageHeader } from '../molecules/PageHeader';
 
 interface ViewProfileScreenTemplateProps {
   // Loading/Error states
@@ -145,7 +146,7 @@ export const ViewProfileScreenTemplate: React.FC<
         }
       >
         {/* Header */}
-        <ViewProfileHeader onBack={onBack} />
+        <PageHeader title="Profile" leftAction={{ type: 'back', onPress: onBack }} />
 
         {/* Cover Image */}
         <ProfileCoverSection coverImageUri={user.cover_image} />
