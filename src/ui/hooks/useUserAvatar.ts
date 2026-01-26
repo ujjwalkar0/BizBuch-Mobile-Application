@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 
 const AVATAR_FILENAME = 'user_avatar.jpg';
+const AVATAR_DOWNLOADED_URL_KEY = 'userAvatarDownloadedUrl';
 
 /**
  * useUserAvatar Hook
@@ -22,16 +23,24 @@ export const useUserAvatar = () => {
       try {
         const localPath = getLocalAvatarPath();
         const exists = await ReactNativeBlobUtil.fs.exists(localPath);
+        const currentProfileUrl = await AsyncStorage.getItem('userProfilePhoto');
+        const downloadedUrl = await AsyncStorage.getItem(AVATAR_DOWNLOADED_URL_KEY);
         
-        if (exists) {
-          // Use locally stored avatar
+        // Check if cached file exists and was downloaded from the current URL
+        if (exists && currentProfileUrl && currentProfileUrl === downloadedUrl) {
+          // Use locally stored avatar (URL hasn't changed)
           setAvatarUri(`file://${localPath}`);
-        } else {
-          // Check if we have a URL to download from
-          const cachedUrl = await AsyncStorage.getItem('userProfilePhoto');
-          if (cachedUrl) {
-            await downloadAndCacheAvatar(cachedUrl);
+        } else if (currentProfileUrl) {
+          // URL changed or no cached file - delete old and download new
+          if (exists) {
+            await ReactNativeBlobUtil.fs.unlink(localPath);
           }
+          await downloadAndCacheAvatar(currentProfileUrl);
+        } else if (exists) {
+          // No current URL but file exists - clear stale cache
+          await ReactNativeBlobUtil.fs.unlink(localPath);
+          await AsyncStorage.removeItem(AVATAR_DOWNLOADED_URL_KEY);
+          setAvatarUri('');
         }
       } catch (error) {
         console.error('Error loading user avatar:', error);
@@ -59,6 +68,8 @@ export const useUserAvatar = () => {
       if (res.info().status === 200) {
         // Save the original URL for reference
         await AsyncStorage.setItem('userProfilePhoto', url);
+        // Track which URL was actually downloaded to the local file
+        await AsyncStorage.setItem(AVATAR_DOWNLOADED_URL_KEY, url);
         setAvatarUri(`file://${localPath}`);
         return true;
       }
@@ -71,9 +82,11 @@ export const useUserAvatar = () => {
 
   /**
    * Updates avatar with a new URL - downloads and caches locally
+   * Use this when user uploads a new profile photo
    */
   const updateAvatar = async (newUrl: string) => {
     setIsLoading(true);
+    setAvatarUri(''); // Clear current avatar to trigger UI refresh
     try {
       // Delete old cached image
       const localPath = getLocalAvatarPath();
@@ -81,6 +94,8 @@ export const useUserAvatar = () => {
       if (exists) {
         await ReactNativeBlobUtil.fs.unlink(localPath);
       }
+      // Clear old downloaded URL tracking
+      await AsyncStorage.removeItem(AVATAR_DOWNLOADED_URL_KEY);
       
       // Download and cache new avatar
       await downloadAndCacheAvatar(newUrl);
@@ -116,6 +131,7 @@ export const useUserAvatar = () => {
         await ReactNativeBlobUtil.fs.unlink(localPath);
       }
       await AsyncStorage.removeItem('userProfilePhoto');
+      await AsyncStorage.removeItem(AVATAR_DOWNLOADED_URL_KEY);
       setAvatarUri('');
     } catch (error) {
       console.error('Error clearing avatar:', error);
