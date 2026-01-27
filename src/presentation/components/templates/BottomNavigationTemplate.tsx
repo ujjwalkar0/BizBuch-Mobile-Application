@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute, RouteProp } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TabIcon } from '../atoms/TabIcon';
 import { TAB_ROUTES } from '../../navigation/TabRoutes';
 import { theme } from '../../theme';
@@ -25,18 +26,26 @@ const HIDDEN_TAB_BAR_SCREENS = [
  * Tab bar style configuration
  * Single Responsibility: Compute tab bar visibility and styling
  */
-const getTabBarStyle = (route: RouteProp<Record<string, object | undefined>>) => {
+const getTabBarStyle = (
+  route: RouteProp<Record<string, object | undefined>>,
+  bottomInset: number
+) => {
   const routeName = getFocusedRouteNameFromRoute(route);
 
   if (routeName && HIDDEN_TAB_BAR_SCREENS.includes(routeName as typeof HIDDEN_TAB_BAR_SCREENS[number])) {
     return { display: 'none' as const };
   }
 
+  // Use safe area bottom inset to ensure tab bar is visible above home indicator
+  // Minimum padding ensures proper spacing even on devices without notches
+  const safeBottomPadding = Math.max(bottomInset, bottomNavigation.paddingBottom);
+
   return {
     backgroundColor: theme.colors.white,
     borderTopColor: theme.colors.border,
     paddingTop: bottomNavigation.paddingTop,
-    paddingBottom: bottomNavigation.paddingBottom,
+    paddingBottom: safeBottomPadding,
+    height: 56 + safeBottomPadding, // Fixed height for consistency
   };
 };
 
@@ -48,6 +57,8 @@ const getTabBarStyle = (route: RouteProp<Record<string, object | undefined>>) =>
  * SOLID: Dependency Inversion - Uses TabIcon atom abstraction
  */
 export const BottomNavigationTemplate: React.FC = () => {
+  const insets = useSafeAreaInsets();
+
   const getTabBarIcon = useCallback(
     (tabKey: string) =>
       ({ focused, color }: { focused: boolean; color: string }) => {
@@ -67,14 +78,14 @@ export const BottomNavigationTemplate: React.FC = () => {
         headerShown: false,
         tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.gray600,
-        tabBarStyle: getTabBarStyle(route),
+        tabBarStyle: getTabBarStyle(route, insets.bottom),
         tabBarLabelStyle: {
           fontSize: bottomNavigation.labelFontSize,
           fontWeight: bottomNavigation.labelFontWeight,
         },
         tabBarIcon: getTabBarIcon(route.name),
       }),
-    [getTabBarIcon],
+    [getTabBarIcon, insets.bottom],
   );
 
   return (

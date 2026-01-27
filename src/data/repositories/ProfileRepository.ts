@@ -21,7 +21,7 @@ export class ProfileRepository implements IProfileRepository {
   }
 
   async addWorkExperience(data: AddWorkExperienceData): Promise<void> {
-    await postAuth<void>("profiles/me/work-experiences/", data);
+    await postAuth<void>("profiles/me/work-experience/", data);
   }
 
   async addEducation(data: AddEducationData): Promise<void> {
