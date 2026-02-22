@@ -3,7 +3,7 @@ import { View, ViewStyle } from 'react-native';
 import { Connection } from '../../../domain/user/entities/Connection';
 import { ConnectionInfo } from '../molecules/ConnectionInfo';
 import { ConnectionActions } from '../molecules/ConnectionActions';
-import { ConnectionSubtitleService } from '../../../ui/services/ConnectionSubtitleService';
+import { ConnectionSubtitleService } from '../../../services/ConnectionSubtitleService';
 import { theme } from '../../theme';
 
 const { connectionCard } = theme.components;

@@ -1,15 +1,8 @@
 import React from 'react';
 import { AddWorkExperienceScreenTemplate } from '../components/templates/AddWorkExperienceScreenTemplate';
-import { useAddWorkExperienceScreen } from '../../ui/hooks/useAddWorkExperienceScreen';
+import { useAddWorkExperienceScreen } from './hooks/useAddWorkExperienceScreen';
 
-/**
- * AddWorkExperienceScreen Page
- * Atomic Design: Page - Final screen with real data
- * SOLID Principles:
- * - Single Responsibility: Connect data to template
- * - Open/Closed: Extended through hook and template
- * - Dependency Inversion: Depends on abstractions
- */
+
 export const AddWorkExperienceScreen: React.FC = () => {
   const {
     // Form

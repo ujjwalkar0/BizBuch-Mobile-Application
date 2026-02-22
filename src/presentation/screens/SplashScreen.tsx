@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { useVerifyToken } from '../../ui/hooks/useVerifyToken';
 import { WelcomeNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
 import Logo from '../../assets/images/splash.svg';
 import { configManager } from '../../core/config';
+import { useVerifyToken } from '../../application/command/useVerifyToken';
 
 const { width } = Dimensions.get('window');
 const AnimatedLogo = Animated.createAnimatedComponent(Logo);
@@ -39,8 +39,7 @@ const SplashScreen: React.FC = () => {
           await mutateAsync(
             { token },
             {
-              onSuccess: async (response) => {
-                // Cache user profile photo for header avatar
+              onSuccess: async (response: any) => {
                 if (response.user?.profile_photo) {
                   await AsyncStorage.setItem('userProfilePhoto', response.user.profile_photo);
                 }

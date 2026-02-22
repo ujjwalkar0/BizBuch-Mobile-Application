@@ -15,8 +15,8 @@ import {
   faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { theme } from '../../theme';
-import { AdvancedSettingsFormValues } from '../../../ui/form-types/AdvancedSettingsForm.types';
-import { AdvancedSettingsValidationRules } from '../../../ui/form-hooks/useAdvancedSettingsForm';
+import { AdvancedSettingsFormValues } from '../../../forms/types/AdvancedSettingsForm.types';
+import { AdvancedSettingsValidationRules } from '../../../forms/useAdvancedSettingsForm';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PageHeader } from '../molecules/PageHeader';
 

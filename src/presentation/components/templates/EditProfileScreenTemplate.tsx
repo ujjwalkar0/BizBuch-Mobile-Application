@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { ScrollView, View, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Control, FieldErrors, Controller } from 'react-hook-form';
-import { EditProfileFormValues } from '../../../ui/form-types/EditProfileForm.types';
+import { EditProfileFormValues } from '../../../forms/types/EditProfileForm.types';
 import { theme } from '../../theme';
 
 // Atoms

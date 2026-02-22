@@ -16,7 +16,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Control, FieldErrors, Controller } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft, faChevronDown, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { AddWorkExperienceFormValues, EmploymentType } from '../../../ui/form-types/AddWorkExperienceForm.types';
+import { AddWorkExperienceFormValues, EmploymentType } from '../../../forms/types/AddWorkExperienceForm.types';
 import { theme } from '../../theme';
 
 // Atoms

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, ViewStyle, TextStyle } from 'react-native';
 import { Comment } from '../../../domain/post/entities/Comment';
-import { CommentFormatter } from '../../../data/services/CommentFormatter';
+import { CommentFormatter } from '../../../infrastructure/services/CommentFormatter';
 import { theme } from '../../theme';
 
 const { commentItem } = theme.components;

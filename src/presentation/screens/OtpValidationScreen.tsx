@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import { useVerifyOtp } from '../../ui/hooks/useVerifyOtp';
 import { useNavigation } from '@react-navigation/native';
 import { OtpValidationNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
+import { useVerifyOtp } from '../../application/command/useVerifyOtp';
 
 const OTP_LENGTH = 6;
 

@@ -1,15 +1,8 @@
 import React from 'react';
 import { AddEducationScreenTemplate } from '../components/templates/AddEducationScreenTemplate';
-import { useAddEducationScreen } from '../../ui/hooks/useAddEducationScreen';
+import { useAddEducationScreen } from './hooks/useAddEducationScreen';
 
-/**
- * AddEducationScreen Page
- * Atomic Design: Page - Final screen with real data
- * SOLID Principles:
- * - Single Responsibility: Connect data to template
- * - Open/Closed: Extended through hook and template
- * - Dependency Inversion: Depends on abstractions
- */
+
 export const AddEducationScreen: React.FC = () => {
   const {
     // Form

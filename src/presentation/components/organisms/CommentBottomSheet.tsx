@@ -12,8 +12,9 @@ import {
 import { CommentSheetHeader } from '../molecules/CommentSheetHeader';
 import { CommentList } from './CommentList';
 import { CommentInput } from '../molecules/CommentInput';
-import { useComments, useCreateComment } from '../../../ui/hooks/useComments';
 import { theme } from '../../theme';
+import { useComments } from '../../../application/query/useComments';
+import { useCreateComment } from '../../../application/command/useCreateComment';
 
 interface CommentBottomSheetProps {
   visible: boolean;
@@ -21,14 +22,6 @@ interface CommentBottomSheetProps {
   onClose: () => void;
 }
 
-/**
- * CommentBottomSheet Organism
- * Atomic Design: Organism - Complete comment section with header, list, and input
- * SOLID Principles:
- * - Single Responsibility: Comment sheet UI orchestration
- * - Open/Closed: Extended through molecule composition
- * - Dependency Inversion: Uses hooks for data access
- */
 export const CommentBottomSheet: React.FC<CommentBottomSheetProps> = ({
   visible,
   postId,

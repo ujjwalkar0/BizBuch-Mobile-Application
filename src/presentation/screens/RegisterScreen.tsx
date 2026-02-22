@@ -3,14 +3,12 @@ import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button, Text, HelperText } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
-import { RegisterPayload } from '../../domain/auth/entities/Auth';
-import { useRegister } from '../../ui/hooks/useRegister';
-import { RegisterNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
-import { useRegisterForm } from '../../ui/form-hooks/useRegisterForm';
+import { RegisterPayload } from '../../domain/auth/entities/Auth';import { RegisterNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
+import { useRegisterForm } from '../../forms/useRegisterForm';
 import { theme } from '../theme';
-import { usePasswordVisibility } from '../../ui/hooks/usePasswordVisibility';
-import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { usePasswordVisibility } from '../../application/usePasswordVisibility';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useRegister } from '../../application/command/useRegister';
 
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation<RegisterNavigationProp>();

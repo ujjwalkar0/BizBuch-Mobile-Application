@@ -1,7 +1,7 @@
 import React, { StrictMode } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import RootNavigator from './src/presentation/navigation/RootNavigator';
-import { queryClient } from './src/ui/queryClient';
+import { queryClient } from './src/queryClient';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 

@@ -1,8 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReactNativeBlobUtil from 'react-native-blob-util';
-import Config from '../../core/config';
 
-// ✅ CORRECT - Sends raw binary data
 export const uploadToAWS = async (presignedUrl: string, imageUri: string) => {
   try {    
     const filePath = imageUri.replace('file://', '');

@@ -1,17 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { NewsFeedScreenProps } from '../navigation/news-feed-navigation/NewsFeedScreenStackParamList';
 import { NewsFeedScreenTemplate } from '../components/templates/NewsFeedScreenTemplate';
-import { useNewsFeedScreen } from '../../ui/hooks/useNewsFeedScreen';
 import { CommentBottomSheet } from '../components/organisms/CommentBottomSheet';
+import { useNewsFeedScreen } from './hooks/useNewsFeedScreen';
 
-/**
- * NewsFeedScreen Page
- * Atomic Design: Page - Final screen with real data
- * SOLID Principles:
- * - Single Responsibility: Connect data to template
- * - Open/Closed: Extended through hooks and template
- * - Dependency Inversion: Depends on abstractions (hook, template)
- */
 const NewsFeedScreen: React.FC<NewsFeedScreenProps> = ({ navigation }) => {
   const {
     posts,
@@ -31,7 +23,6 @@ const NewsFeedScreen: React.FC<NewsFeedScreenProps> = ({ navigation }) => {
 
   const handleCloseComments = useCallback(() => {
     setIsCommentSheetVisible(false);
-    // Delay clearing postId to allow modal animation to complete
     setTimeout(() => setSelectedPostId(null), 300);
   }, []);
 

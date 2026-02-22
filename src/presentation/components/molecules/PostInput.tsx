@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { TextInput, TextStyle } from 'react-native';
 import { Controller, Control } from 'react-hook-form';
 import { theme } from '../../theme';
-import { CreatePostFormValues } from '../../../ui/form-types/CreatePostForm.types';
+import { CreatePostFormValues } from '../../../forms/types/CreatePostForm.types';
 import { PostRequestBody } from '../../../domain/post/entities/Post';
 
 const { postInput } = theme.components;

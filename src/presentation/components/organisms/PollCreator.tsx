@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, ViewStyle, TextStyle } from 'r
 import { Controller, Control, useFieldArray } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { CreatePostFormValues } from '../../../ui/form-types/CreatePostForm.types';
+import { CreatePostFormValues } from '../../../forms/types/CreatePostForm.types';
 import { PostRequestBody } from '../../../domain/post/entities/Post';
 import { theme } from '../../theme';
 

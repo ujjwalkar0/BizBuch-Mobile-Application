@@ -3,8 +3,8 @@ import { View, ViewStyle } from 'react-native';
 import { FeedNavigationProp } from '../../navigation/news-feed-navigation/NewsFeedScreenStackParamList';
 import { LogoSection } from './LogoSection';
 import { ProfileAvatarButton } from './ProfileAvatarButton';
-import { useNewsFeedHeader } from '../../../ui/hooks/useNewsFeedHeader';
-import { useUserAvatar } from '../../../ui/hooks/useUserAvatar';
+import { useNewsFeedHeader } from '../../../application/useNewsFeedHeader';
+import { useUserAvatar } from '../../../application/useUserAvatar';
 import { theme } from '../../theme';
 
 const { newsFeedHeader } = theme.components;

@@ -1,19 +1,7 @@
-// presentation/screens/shared/ChatScreen.tsx
-/**
- * ChatScreen Component (Page)
- *
- * Atomic Design: Page - Connects data layer to template
- * SOLID Principles Applied:
- * - Single Responsibility: Route handling and hook connection only
- * - Open/Closed: Extended through useChatScreen hook and ChatScreenTemplate
- * - Liskov Substitution: Interchangeable message sending (WebSocket vs REST)
- * - Interface Segregation: Focused props passed to template
- * - Dependency Inversion: Depends on abstracted hooks and templates
- */
 import React from 'react';
 import { ChatScreenProps } from '../navigation/messages-screen-navigation/MessageScreenStackParamList';
-import { useChatScreen } from '../../ui/hooks/useChatScreen';
 import { ChatScreenTemplate } from '../components/templates/ChatScreenTemplate';
+import { useChatScreen } from './hooks/useChatScreen';
 
 export const ChatScreen: React.FC<ChatScreenProps> = ({
   route,
