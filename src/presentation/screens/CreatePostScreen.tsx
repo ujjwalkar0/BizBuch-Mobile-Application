@@ -1,15 +1,8 @@
 import React from 'react';
 import { CreatePostScreenTemplate } from '../components/templates/CreatePostScreenTemplate';
-import { useCreatePostScreen } from '../../ui/hooks/useCreatePostScreen';
+import { useCreatePostScreen } from './hooks/useCreatePostScreen';
 
-/**
- * CreatePostScreen Page
- * Atomic Design: Page - Final screen with real data
- * SOLID Principles:
- * - Single Responsibility: Connect data to template
- * - Open/Closed: Extended through hook and template
- * - Dependency Inversion: Depends on abstractions (useCreatePostScreen, CreatePostScreenTemplate)
- */
+
 export const CreatePostScreen: React.FC = () => {
   const {
     // Form

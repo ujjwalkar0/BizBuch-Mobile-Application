@@ -1,17 +1,7 @@
-// src/presentation/screens/Network/NetworkScreen.tsx
-/**
- * NetworkScreen Component (Page)
- *
- * Atomic Design: Page - Connects data layer to template
- * SOLID Principles Applied:
- * - Single Responsibility: Route handling and hook connection only
- * - Open/Closed: Extended through useNetworkScreen hook and NetworkScreenTemplate
- * - Dependency Inversion: Depends on abstracted hooks and templates
- */
 import React from 'react';
 import { NetworkScreenProps } from '../navigation/network-screen-navigation/NetworkScreenStackParamList';
-import { useNetworkScreen } from '../../ui/hooks/useNetworkScreen';
 import { NetworkScreenTemplate } from '../components/templates/NetworkScreenTemplate';
+import { useNetworkScreen } from './hooks/useNetworkScreen';
 
 export const NetworkScreen: React.FC<NetworkScreenProps> = ({ navigation }) => {
   const {

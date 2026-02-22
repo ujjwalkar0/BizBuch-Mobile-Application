@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Control } from 'react-hook-form';
-import { CreatePostFormValues } from '../../../ui/form-types/CreatePostForm.types';
+import { CreatePostFormValues } from '../../../forms/types/CreatePostForm.types';
 import { PostRequestBody } from '../../../domain/post/entities/Post';
 import { theme } from '../../theme';
 

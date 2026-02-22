@@ -8,10 +8,9 @@ import {
   faShare,
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
-import { PostRepository } from "../../data/repositories/PostRepository";
 import { PostResponseBody } from "../../domain/post/entities/Post";
-import { GetPostById } from "../../domain/post/usecases/queries/GetPostById";
 import { ViewPostScreenProps } from "../navigation/news-feed-navigation/NewsFeedScreenStackParamList";
+import { postRepository } from "../../di";
 
 
 export const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route, navigation }) => {
@@ -19,10 +18,9 @@ export const ViewPostScreen: React.FC<ViewPostScreenProps> = ({ route, navigatio
 
   const [post, setPost] = useState<PostResponseBody | null>(null);
 
-  const useCase = new GetPostById(new PostRepository());
 
   useEffect(() => {
-    useCase.execute(postId).then(setPost);
+    postRepository.getPostById(postId).then(setPost); // todo: missing usequery
   }, []);
 
   if (!post) return <Text style={{ padding: 20 }}>Loading...</Text>;

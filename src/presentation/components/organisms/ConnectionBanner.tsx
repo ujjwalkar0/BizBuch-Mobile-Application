@@ -1,6 +1,6 @@
 import React from 'react';
-import { WebSocketConnectionError } from '../../../ui/hooks/useChatWebSocket';
-import { BannerStateResolverService } from '../../../ui/services/BannerStateResolverService';
+import { WebSocketConnectionError } from '../../../application/useChatWebSocket';
+import { BannerStateResolverService } from '../../../services/BannerStateResolverService';
 import { ConnectingBanner } from './ConnectingBanner';
 import { ErrorBanner } from './ErrorBanner';
 import { WarningBanner } from './WarningBanner';

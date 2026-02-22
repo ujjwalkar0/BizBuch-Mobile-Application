@@ -3,7 +3,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import { PostResponseBody } from '../../../domain/post/entities/Post';
 import { theme } from '../../theme';
 import { PostCard } from './PostCard';
-import { useToggleLike } from '../../../ui/hooks/useToggleLike';
+import { useToggleLike } from '../../../application/command/useToggleLike';
 
 interface PostListProps {
   posts: PostResponseBody[];
@@ -13,14 +13,6 @@ interface PostListProps {
   ListHeaderComponent?: React.ReactElement;
 }
 
-/**
- * PostList Organism
- * Atomic Design: Organism - Complex list of posts
- * SOLID Principles:
- * - Single Responsibility: Render scrollable post list
- * - Open/Closed: Extended via ListHeaderComponent
- * - Interface Segregation: Focused props interface
- */
 export const PostList: React.FC<PostListProps> = ({
   posts,
   isRefreshing,

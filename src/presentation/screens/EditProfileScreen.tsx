@@ -2,21 +2,14 @@ import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootStackParamList';
 import { EditProfileScreenTemplate } from '../components/templates/EditProfileScreenTemplate';
-import { useEditProfileScreen } from '../../ui/hooks/useEditProfileScreen';
+import { useEditProfileScreen } from './hooks/useEditProfileScreen';
 
 type EditProfileScreenProps = NativeStackScreenProps<
   RootStackParamList,
   'EditProfile'
 >;
 
-/**
- * EditProfileScreen Page
- * Atomic Design: Page - Final screen with real data
- * SOLID Principles:
- * - Single Responsibility: Connect data to template
- * - Open/Closed: Extended through hook and template
- * - Dependency Inversion: Depends on abstractions (useEditProfileScreen, EditProfileScreenTemplate)
- */
+
 export const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
   navigation,
 }) => {

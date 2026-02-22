@@ -10,13 +10,12 @@ import { useNavigation } from '@react-navigation/native';
 // import Icon from 'react-native-vector-icons/Ionicons';
 
 import { LoginNavigationProp } from '../navigation/auth-screen-navigation/AuthScreenStackParamList';
-import { useLoginForm } from '../../ui/form-hooks/useLoginForm';
-import { useLogin } from '../../ui/hooks/useLogin';
+import { useLoginForm } from '../../forms/useLoginForm';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from '../theme';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { usePasswordVisibility } from '../../ui/hooks/usePasswordVisibility';
+import { usePasswordVisibility } from '../../application/usePasswordVisibility';
+import { useLogin } from '../../application/command/useLogin';
 
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation<LoginNavigationProp>();

@@ -1,20 +1,9 @@
 import React from 'react';
 import { ViewProfileScreenProps } from '../navigation/network-screen-navigation/NetworkScreenStackParamList';
 import { ViewProfileScreenTemplate } from '../components/templates/ViewProfileScreenTemplate';
-import { useViewProfileScreen } from '../../ui/hooks/useViewProfileScreen';
+import { useViewProfileScreen } from './hooks/useViewProfileScreen';
 
-/**
- * ViewProfileScreen Page
- * Atomic Design: Page - Final screen with real data
- * SOLID Principles:
- * - Single Responsibility: Connect data to template
- * - Open/Closed: Extended through hook and template
- * - Dependency Inversion: Depends on abstractions (useViewProfileScreen, ViewProfileScreenTemplate)
- *
- * Navigation:
- * - From Network tab: userId provided → calls profiles/{id}
- * - From NewsFeed tab profile icon: no userId → calls profiles/me
- */
+
 export const ViewProfileScreen: React.FC<ViewProfileScreenProps> = ({
   route,
 }) => {

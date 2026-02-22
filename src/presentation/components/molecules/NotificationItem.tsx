@@ -6,7 +6,7 @@ import { ActivityTimestamp } from '../atoms/ActivityTimestamp';
 import { UnreadDot } from '../atoms/UnreadDot';
 import { AvatarImage } from '../atoms/AvatarImage';
 import { Activity } from '../../../domain/notification/entities/Activity';
-import { NotificationFormatter } from '../../../data/services/NotificationFormatter';
+import { NotificationFormatter } from '../../../infrastructure/services/NotificationFormatter';
 import { theme } from '../../theme';
 
 const { notificationItem } = theme.components;

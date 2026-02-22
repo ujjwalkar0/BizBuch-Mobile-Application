@@ -4,7 +4,7 @@ import { ActivityIcon } from '../atoms/ActivityIcon';
 import { ActivityDescription } from '../atoms/ActivityDescription';
 import { ActivityTimestamp } from '../atoms/ActivityTimestamp';
 import { ActivityLog } from '../../../domain/activity/entities/ActivityLog';
-import { ActivityLogFormatter } from '../../../data/services/ActivityLogFormatter';
+import { ActivityLogFormatter } from '../../../infrastructure/services/ActivityLogFormatter';
 import { theme } from '../../theme';
 
 const { activityItem } = theme.components;

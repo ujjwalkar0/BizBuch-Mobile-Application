@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { theme } from '../../theme';
-import { useSubtitleText } from '../../../ui/hooks/useSubtitleText';
+import { useSubtitleText } from '../../../application/useSubtitleText';
 import { BackButton } from '../atoms/BackButton';
 import { Avatar } from '../atoms/Avatar';
 import { HeaderInfo } from '../molecules/HeaderInfo';

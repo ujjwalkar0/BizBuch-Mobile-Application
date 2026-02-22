@@ -1,17 +1,11 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { NotificationsScreenTemplate } from '../components/templates/NotificationsScreenTemplate';
-import { useNotifications, useMarkNotificationAsRead, useMarkAllNotificationsAsRead } from '../../ui/hooks/useNotifications';
 import { Activity, NotificationTabType } from '../../domain/notification/entities/Activity';
-import { NotificationFormatter } from '../../data/services/NotificationFormatter';
+import { NotificationFormatter } from '../../infrastructure/services/NotificationFormatter';
+import { useNotifications } from '../../application/query/useNotifications';
+import { useMarkAllNotificationsAsRead } from '../../application/command/useMarkAllNotificationsAsRead';
+import { useMarkNotificationAsRead } from '../../application/command/useMarkNotificationAsRead';
 
-/**
- * NotificationsScreen Page
- * Atomic Design: Page - Final screen with real data
- * SOLID Principles:
- * - Single Responsibility: Connect data to template
- * - Open/Closed: Extended through hooks and template
- * - Dependency Inversion: Depends on abstractions (hook, template)
- */
 export const NotificationsScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState<NotificationTabType>('all');
   
@@ -25,16 +19,16 @@ export const NotificationsScreen: React.FC = () => {
   const filteredNotifications = useMemo(() => {
     switch (activeTab) {
       case 'unread':
-        return notifications.filter((n) => !n.is_read);
+        return notifications.filter((n: any) => !n.is_read);
       case 'mentions':
-        return notifications.filter((n) => NotificationFormatter.isMention(n));
+        return notifications.filter((n: any) => NotificationFormatter.isMention(n));
       default:
         return notifications;
     }
   }, [notifications, activeTab]);
 
   const unreadCount = useMemo(
-    () => notifications.filter((n) => !n.is_read).length,
+    () => notifications.filter((n: any) => !n.is_read).length,
     [notifications],
   );
 

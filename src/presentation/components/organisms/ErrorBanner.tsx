@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { BannerContainer } from '../molecules/BannerContainer';
 import { BannerText } from '../atoms/BannerText';
 import { BannerActions } from '../molecules/BannerActions';
-import { BannerAction } from '../../../ui/services/BannerStateResolverService';
+import { BannerAction } from '../../../services/BannerStateResolverService';
 import { theme } from '../../theme';
 
 interface ErrorBannerProps {

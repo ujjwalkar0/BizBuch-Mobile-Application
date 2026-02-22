@@ -5,7 +5,7 @@ import { ChatHeader, HeaderAction } from '../organisms/ChatHeader';
 import { ConnectionBanner } from '../organisms/ConnectionBanner';
 import { ChatContent } from '../organisms/ChatContent';
 import { Message } from '../../../domain/chat/entities/Message';
-import { WebSocketConnectionError } from '../../../ui/hooks/useChatWebSocket';
+import { WebSocketConnectionError } from '../../../application/useChatWebSocket';
 import { theme } from '../../theme';
 
 interface ChatScreenTemplateProps {

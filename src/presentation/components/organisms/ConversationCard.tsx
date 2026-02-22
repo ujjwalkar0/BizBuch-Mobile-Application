@@ -4,7 +4,7 @@ import { Conversation } from '../../../domain/chat/entities/Conversation';
 import { AvatarPhoto } from '../atoms/AvatarPhoto';
 import { AvatarRing } from '../atoms/AvatarRing';
 import { ConversationInfo } from '../molecules/ConversationInfo';
-import { ConversationTimeFormatter } from '../../../ui/services/ConversationTimeFormatter';
+import { ConversationTimeFormatter } from '../../../services/ConversationTimeFormatter';
 import { theme } from '../../theme';
 
 const { conversationCard } = theme.components;
